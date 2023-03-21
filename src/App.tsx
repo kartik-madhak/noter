@@ -17,7 +17,7 @@ const App = () => {
         </Box>
         <Button onClick={toggleColorMode}>Toggle darkness!</Button>
       </Center>
-      This is an app with dark theme toggle
+      This is an app with dark theme toggle, Cool Right?
     </Container>
   );
 };

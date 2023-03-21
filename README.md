@@ -1,7 +1,7 @@
-# Tauri + React + Typescript
+# Noter
 
-This template should help get you started developing with Tauri, React and Typescript in Vite.
+Tired of trying and testing many notes taking app so decided to make my own... 
 
-## Recommended IDE Setup
+Uses Tauri with Vite-React-Chakra frontend
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+Hopefully, writing this Readme will help me commit to this repo. *(If you don't see this repo after a while, that means I gave up!)*

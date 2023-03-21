@@ -6,10 +6,6 @@
     "distDir": "../dist",
     "withGlobalTauri": false
   },
-  "package": {
-    "productName": "noter",
-    "version": "0.0.0"
-  },
   "tauri": {
     "allowlist": {
       "all": false,

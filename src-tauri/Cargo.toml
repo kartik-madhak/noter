@@ -1,8 +1,8 @@
 [package]
 name = "noter"
-version = "0.0.0"
-description = "A Tauri App"
-authors = ["you"]
+version = "0.0.2"
+description = "Note taking app"
+authors = ["Kartik Madhak"]
 license = ""
 repository = ""
 edition = "2021"

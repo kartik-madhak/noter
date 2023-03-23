@@ -10,19 +10,10 @@ import {
 import FileMenu from "./FileMenu";
 
 export default () => {
-  const { colorMode, toggleColorMode } = useColorMode();
+  const { toggleColorMode } = useColorMode();
 
   return (
-    <chakra.header
-      bg="blue"
-      shadow="xl"
-      position="fixed"
-      zIndex="99"
-      top="0"
-      left="0"
-      width="100vw"
-      m="0"
-    >
+    <chakra.header bg="blackAlpha.400" shadow="lg" zIndex="99" m="0">
       <Box position="relative">
         <Flex px="6" py="2" align="center">
           <HStack as="nav" spacing="5" width="100vw">

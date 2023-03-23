@@ -1,12 +1,14 @@
-import { Container } from "@chakra-ui/react";
+import { Container, Flex } from "@chakra-ui/react";
 import Editor from "./components/Editor/Editor";
 import Navbar from "./components/Navbar/Navbar";
 
 const App = () => {
   return (
-    <Container maxW="container.xlg" h="100vh">
-      <Navbar />
-      <Editor />
+    <Container px={0} maxW="container.xlg" h="100vh">
+      <Flex h="100%" direction="column">
+        <Navbar />
+        <Editor />
+      </Flex>
     </Container>
   );
 };

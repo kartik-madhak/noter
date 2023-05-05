@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: ./frontend-setup
+      - uses: .github/workflows/frontend-setup
 
       - name: Lint check frontend
         run: pnpm run lint-check

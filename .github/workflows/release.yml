@@ -17,7 +17,7 @@ jobs:
 
     runs-on: ${{ matrix.platform }}
     steps:
-      - uses: .github/workflows/frontend-setup
+      - uses: ./.github/workflows/frontend-setup
 
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable

@@ -8,7 +8,6 @@ on:
 jobs:
   publish-tauri:
     needs: lint-and-test
-    if: ${{ needs.lint-and-test.result == 'success' }}
     permissions:
       contents: write
     strategy:

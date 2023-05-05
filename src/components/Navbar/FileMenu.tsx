@@ -1,7 +1,7 @@
-import { ChevronDownIcon } from "@chakra-ui/icons";
-import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { ChevronDownIcon } from '@chakra-ui/icons'
+import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
 
-export default () => {
+const FileMenu = (): JSX.Element => {
   return (
     <Menu>
       <MenuButton
@@ -10,9 +10,9 @@ export default () => {
         transition="all 0.2s"
         borderRadius="md"
         borderWidth="1px"
-        _hover={{ bg: "gray.400" }}
-        _expanded={{ bg: "blue.400" }}
-        _focus={{ boxShadow: "outline" }}
+        _hover={{ bg: 'gray.400' }}
+        _expanded={{ bg: 'blue.400' }}
+        _focus={{ boxShadow: 'outline' }}
       >
         File <ChevronDownIcon />
       </MenuButton>
@@ -23,5 +23,7 @@ export default () => {
         <MenuItem>Exit</MenuItem>
       </MenuList>
     </Menu>
-  );
-};
+  )
+}
+
+export default FileMenu

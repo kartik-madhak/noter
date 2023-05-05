@@ -6,11 +6,11 @@ import {
   HStack,
   Spacer,
   useColorMode,
-} from "@chakra-ui/react";
-import FileMenu from "./FileMenu";
+} from '@chakra-ui/react'
+import FileMenu from './FileMenu'
 
-export default () => {
-  const { toggleColorMode } = useColorMode();
+const Navbar = (): JSX.Element => {
+  const { toggleColorMode } = useColorMode()
 
   return (
     <chakra.header bg="blackAlpha.400" shadow="lg" zIndex="99" m="0">
@@ -26,5 +26,7 @@ export default () => {
         </Flex>
       </Box>
     </chakra.header>
-  );
-};
+  )
+}
+
+export default Navbar

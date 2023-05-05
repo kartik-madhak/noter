@@ -1,3 +1,5 @@
-export default () => {
-  return <div>Hello Sidebar</div>
+const Sidebar = (): JSX.Element => {
+  return <div>Sidebar</div>
 }
+
+export default Sidebar

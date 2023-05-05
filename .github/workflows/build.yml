@@ -10,7 +10,7 @@ jobs:
 
     runs-on: ${{ matrix.platform }}
     steps:
-      - uses: ./common/frontend-setup.yml
+      - uses: ./frontend-setup
 
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable

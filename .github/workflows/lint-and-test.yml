@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: ./common/frontend-setup.yml
+      - uses: ./frontend-setup
 
       - name: Lint check frontend
         run: pnpm run lint-check

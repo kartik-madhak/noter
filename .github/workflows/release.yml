@@ -7,6 +7,8 @@ on:
 
 jobs:
   publish-tauri:
+    needs: lint-and-test
+    if: ${{ needs.lint-and-test.result == 'success' }}
     permissions:
       contents: write
     strategy:
@@ -17,7 +19,7 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:

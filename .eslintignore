@@ -1,0 +1,3 @@
+src-tauri/target/**
+src/vite-env.d.ts
+vite.config.ts

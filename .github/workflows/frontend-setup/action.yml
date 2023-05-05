@@ -5,8 +5,6 @@ description: 'Install all frontend dependencies'
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v3
-
     - name: Install Node.js
       uses: actions/setup-node@v3
       with:

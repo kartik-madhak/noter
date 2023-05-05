@@ -4,7 +4,6 @@ on: [push]
 
 jobs:
   publish-tauri:
-    needs: lint-and-test
     permissions:
       contents: write
     strategy:

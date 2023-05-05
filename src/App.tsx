@@ -1,25 +1,16 @@
-import {
-  Box,
-  Button,
-  Center,
-  Container,
-  Text,
-  useColorMode,
-} from "@chakra-ui/react";
-const App = () => {
-  const { toggleColorMode } = useColorMode();
+import { Container, Flex } from '@chakra-ui/react'
+import EditorLayout from './components/EditorLayout/EditorLayout'
+import Navbar from './components/Navbar/Navbar'
 
+const App = (): JSX.Element => {
   return (
-    <Container maxW="container.xl" h="100vh">
-      <Center p="10px">
-        <Box me="20px">
-          <Text fontSize="30px">Navbar</Text>
-        </Box>
-        <Button onClick={toggleColorMode}>Toggle darkness!</Button>
-      </Center>
-      This is an app with dark theme toggle, Cool Right?
+    <Container px={0} maxW="container.xlg" h="100vh">
+      <Flex h="100%" direction="column">
+        <Navbar />
+        <EditorLayout />
+      </Flex>
     </Container>
-  );
-};
+  )
+}
 
-export default App;
+export default App

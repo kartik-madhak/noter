@@ -1,0 +1,10 @@
+.react-resizable-handle {
+    position: absolute;
+    width: 1px;
+    padding: 0 3px;
+    margin-right: -3px;
+    background: none;
+    height: 100%;
+    cursor: col-resize;
+    z-index: 1;
+}

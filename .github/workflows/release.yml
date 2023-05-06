@@ -1,15 +1,19 @@
 name: 'Release'
 
-on: [push]
+on:
+  workflow_run:
+    workflows: ["Lint and Test"]
+    types: [ completed ]
 
 jobs:
   publish-tauri:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     permissions:
       contents: write
     strategy:
       fail-fast: false
       matrix:
-        platform: [macos-latest, ubuntu-20.04, windows-latest]
+        platform: [ macos-latest, ubuntu-20.04, windows-latest ]
 
     runs-on: ${{ matrix.platform }}
     steps:

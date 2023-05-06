@@ -1,49 +1,33 @@
-name: 'Release'
+name: "Release"
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Lint and Test"]
+    types: [ completed ]
+  branch:
+    - main # This is redundant because the workflow_run event only triggers on the main branch
 
 jobs:
   publish-tauri:
-    needs: lint-and-test
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     permissions:
       contents: write
     strategy:
       fail-fast: false
       matrix:
-        platform: [macos-latest, ubuntu-20.04, windows-latest]
+        platform: [ macos-latest, ubuntu-20.04, windows-latest ]
 
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
+      - uses: ./.github/workflows/frontend-setup
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        id: pnpm-install
-        with:
-          version: 7
-          run_install: false
+      - name: Lint check frontend
+        run: pnpm run lint-check
 
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+      - name: Test frontend
+        run: pnpm run test
 
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
@@ -53,9 +37,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf
-
-      - name: install frontend dependencies
-        run: pnpm install
 
       - uses: tauri-apps/tauri-action@v0
         env:

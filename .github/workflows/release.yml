@@ -4,8 +4,7 @@ on:
   workflow_run:
     workflows: ["Lint and Test"]
     types: [ completed ]
-  branch:
-    - main # This is redundant because the workflow_run event only triggers on the main branch
+    branches: [ main ] #This is redundant because the workflow_run event only triggers on the main branch
 
 jobs:
   publish-tauri:

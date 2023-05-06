@@ -1,6 +1,6 @@
-name: 'Hello World'
+name: "Frontend Setup"
 
-description: 'Install all frontend dependencies'
+description: "Install all frontend dependencies"
 
 runs:
   using: "composite"

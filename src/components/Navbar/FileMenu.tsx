@@ -10,8 +10,6 @@ const FileMenu = (): JSX.Element => {
         transition="all 0.2s"
         borderRadius="md"
         borderWidth="1px"
-        _hover={{ bg: 'gray.400' }}
-        _expanded={{ bg: 'blue.400' }}
         _focus={{ boxShadow: 'outline' }}
       >
         File <ChevronDownIcon />

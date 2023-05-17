@@ -30,6 +30,7 @@ specifiers:
   react-dom: ^18.2.0
   react-resizable: ^3.0.5
   typescript: '*'
+  use-local-storage-state: ^18.3.2
   vite: ^4.0.0
   vitest: ^0.31.0
 
@@ -44,6 +45,7 @@ dependencies:
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-resizable: 3.0.5_biqbaboplfbrettd7655fr4n2y
+  use-local-storage-state: 18.3.2_biqbaboplfbrettd7655fr4n2y
 
 devDependencies:
   '@tauri-apps/cli': 1.2.3
@@ -4836,6 +4838,17 @@ packages:
       '@types/react': 18.0.28
       react: 18.2.0
       tslib: 2.5.0
+    dev: false
+
+  /use-local-storage-state/18.3.2_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-JiTuQsJmmKvc0mH0hiSjaTkKFlwtwXTeOlJ+cdg7rRJzZWwv+s/Rr2S2r2NR68O0W5ogwwt1MX1y+P2wQ1lY4w==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      react: '>=18'
+      react-dom: '>=18'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /use-sidecar/1.1.2_pmekkgnqduwlme35zpnqhenc34:

@@ -1,12 +1,12 @@
 import { Box, chakra, Flex, HStack, Spacer } from '@chakra-ui/react'
 import FileMenu from './FileMenu'
-import { useColors } from '~/hooks/useColors/useColors'
+import { useCustomTheme } from '~/hooks/useCustomTheme/useCustomTheme'
 import ThemeChanger from '~/components/Navbar/ThemeChanger'
 
 const Navbar = (): JSX.Element => {
   const {
     theme: { navbarColor },
-  } = useColors()
+  } = useCustomTheme()
 
   return (
     <chakra.header shadow="sm" zIndex="99" m="0" background={navbarColor}>

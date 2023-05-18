@@ -7,7 +7,7 @@ import { useColorMode } from '@chakra-ui/react'
 import useLocalStorageState from 'use-local-storage-state'
 import { useEffect } from 'react'
 
-export const useColors = (): {
+export const useCustomTheme = (): {
   theme: THEME
   setThemeName: (themeName: THEME_NAME) => void
 } => {

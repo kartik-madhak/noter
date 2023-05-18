@@ -1,13 +1,13 @@
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
 import { ChevronDownIcon } from '@chakra-ui/icons'
 import { THEME_NAME } from '~/config/allThemes'
-import { useColors } from '~/hooks/useColors/useColors'
+import { useCustomTheme } from '~/hooks/useCustomTheme/useCustomTheme'
 
 const ThemeChanger = (): JSX.Element => {
   const {
     theme: { name: themeName },
     setThemeName,
-  } = useColors()
+  } = useCustomTheme()
 
   return (
     <Menu>

@@ -1,10 +1,10 @@
 import { Box } from '@chakra-ui/react'
-import { useColors } from '~/hooks/useColors/useColors'
+import { useCustomTheme } from '~/hooks/useCustomTheme/useCustomTheme'
 
 const Sidebar = (): JSX.Element => {
   const {
     theme: { sidebarColor },
-  } = useColors()
+  } = useCustomTheme()
 
   return (
     <Box w="100%" h="100%" background={sidebarColor}>

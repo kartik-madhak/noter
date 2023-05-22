@@ -38,7 +38,7 @@ const ThemeChanger = (): JSX.Element => {
       />
       <Menu
         options={options2}
-        buttonText={colorScheme}
+        buttonText={colorScheme[0].toUpperCase() + colorScheme.slice(1)}
         defaultSelectedId={colorScheme}
       />
     </>

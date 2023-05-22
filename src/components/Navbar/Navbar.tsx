@@ -1,27 +1,21 @@
-import {
-  Box,
-  Button,
-  chakra,
-  Flex,
-  HStack,
-  Spacer,
-  useColorMode,
-} from '@chakra-ui/react'
+import { Box, chakra, Flex, HStack, Spacer } from '@chakra-ui/react'
 import FileMenu from './FileMenu'
+import { useCustomTheme } from '~/hooks/useCustomTheme/useCustomTheme'
+import ThemeChanger from '~/components/Navbar/ThemeChanger'
 
 const Navbar = (): JSX.Element => {
-  const { toggleColorMode } = useColorMode()
+  const {
+    theme: { navbarColor },
+  } = useCustomTheme()
 
   return (
-    <chakra.header bg="blackAlpha.400" shadow="lg" zIndex="99" m="0">
-      <Box position="relative">
+    <chakra.header shadow="sm" zIndex="99" m="0" background={navbarColor}>
+      <Box position="relative" backdropFilter="auto" backdropBlur="100px">
         <Flex px="6" py="2" align="center">
           <HStack as="nav" spacing="5" width="100vw">
             <FileMenu />
             <Spacer />
-            <Button onClick={toggleColorMode} size="sm">
-              🌓 Toggle dark mode
-            </Button>
+            <ThemeChanger />
           </HStack>
         </Flex>
       </Box>

@@ -1,10 +1,23 @@
-import { extendTheme, type ThemeConfig } from '@chakra-ui/react'
+import { extendTheme, withDefaultColorScheme } from '@chakra-ui/react'
 
-const config: ThemeConfig = {
-  initialColorMode: 'light',
-  useSystemColorMode: false,
+export enum PrimarySwatch {
+  Red = 'red',
+  Pink = 'pink',
+  Purple = 'purple',
+  Blue = 'blue',
+  Cyan = 'cyan',
+  Teal = 'teal',
+  Green = 'green',
+  Yellow = 'yellow',
+  Orange = 'orange',
 }
 
-const theme = extendTheme({ config })
+const themes: Record<any, any> = {}
 
-export default theme
+for (const primarySwatch of Object.values(PrimarySwatch)) {
+  themes[primarySwatch] = extendTheme(
+    withDefaultColorScheme({ colorScheme: primarySwatch })
+  )
+}
+
+export { themes }

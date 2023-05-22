@@ -28,7 +28,7 @@ const EditorLayout = (): JSX.Element => {
         >
           <Sidebar />
         </ResizableBox>
-        <Box w={window.innerWidth - restrainedSidebarWidth} bg="blackAlpha.200">
+        <Box w={window.innerWidth - restrainedSidebarWidth}>
           <Editor />
         </Box>
       </Flex>

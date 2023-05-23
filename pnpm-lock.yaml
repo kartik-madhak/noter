@@ -26,6 +26,7 @@ specifiers:
   framer-motion: ^10.8.3
   husky: '>=7'
   lint-staged: '>=10'
+  markdown-to-jsx: ^7.2.0
   prettier: ^2.8.8
   react: ^18.2.0
   react-dom: ^18.2.0
@@ -44,6 +45,7 @@ dependencies:
   '@tauri-apps/api': 1.2.0
   '@types/react-resizable': 3.0.4
   framer-motion: 10.8.3_biqbaboplfbrettd7655fr4n2y
+  markdown-to-jsx: 7.2.0_react@18.2.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-resizable: 3.0.5_biqbaboplfbrettd7655fr4n2y
@@ -3903,6 +3905,15 @@ packages:
     dependencies:
       semver: 6.3.0
     dev: true
+
+  /markdown-to-jsx/7.2.0_react@18.2.0:
+    resolution: {integrity: sha512-3l4/Bigjm4bEqjCR6Xr+d4DtM1X6vvtGsMGSjJYyep8RjjIvcWtrXBS8Wbfe1/P+atKNMccpsraESIaWVplzVg==}
+    engines: {node: '>= 10'}
+    peerDependencies:
+      react: '>= 0.14.0'
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /md5-hex/3.0.1:
     resolution: {integrity: sha512-BUiRtTtV39LIJwinWBjqVsU9xhdnz7/i889V859IBFpuqGAj6LuOvHv5XLbgZ2R7ptJoJaEcxkv88/h25T7Ciw==}

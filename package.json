@@ -23,6 +23,7 @@
     "@tauri-apps/api": "^1.2.0",
     "@types/react-resizable": "^3.0.4",
     "framer-motion": "^10.8.3",
+    "markdown-to-jsx": "^7.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-resizable": "^3.0.5",

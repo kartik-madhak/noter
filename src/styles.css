@@ -1,7 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600;700;800&display=swap');
-
 :root {
-  font-family: 'Sora', sans-serif;
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
@@ -14,4 +11,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: 'Inter', sans-serif !important;
 }

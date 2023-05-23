@@ -19,6 +19,7 @@
     "@chakra-ui/react": "^2.5.2",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@fontsource/inter": "^5.0.1",
     "@tauri-apps/api": "^1.2.0",
     "@types/react-resizable": "^3.0.4",
     "framer-motion": "^10.8.3",

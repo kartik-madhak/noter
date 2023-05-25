@@ -6,7 +6,22 @@ on:
       - release
 
 jobs:
+  check-release-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Check Cargo.toml Version
+        run: |
+          if git diff HEAD^ HEAD -- src-tauri/Cargo.toml | grep -qE '^[-+]{1}version = "[0-9.]+"'; then
+            echo "Cargo.toml version has been updated."
+          else
+            echo "Cargo.toml version has not been updated. Please update the version number in Cargo.toml."
+            exit 1
+          fi
+
   publish-tauri:
+    needs: check-release-version
     permissions:
       contents: write
     strategy:

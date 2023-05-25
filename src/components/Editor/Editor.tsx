@@ -17,9 +17,9 @@ const code = `
 ## Heading level 2
 ### Heading level 3
 
-This _is_ **working!**
+Just ~~some~~ _**random**_ **_text_** here.
 
-Just some random text here.
+Normal test here for testing. Lorem Ipsum 
 
 - [ ] Task 1
 - [x] Task 2

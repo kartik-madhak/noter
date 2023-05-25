@@ -40,3 +40,10 @@ export const toggleItalic = (text: string): string => {
   }
   return `_${text}_`
 }
+
+export const toggleStrikeThrough = (text: string): string => {
+  if (text.startsWith('~~') && text.endsWith('~~')) {
+    return text.slice(2, -2)
+  }
+  return `~~${text}~~`
+}

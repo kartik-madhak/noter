@@ -3,7 +3,7 @@ name: "Release"
 on:
   push:
     branches:
-      - release
+      - main
 
 jobs:
   publish-tauri:
@@ -39,8 +39,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: noter-v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version
-          releaseName: 'Noter v__VERSION__'
+          tagName: noter-draft-${{ github.run_number }}
+          releaseName: 'Noter draft ${{ github.run_number }}'
           releaseBody: 'See the assets to download this version and install.'
-          releaseDraft: false
+          releaseDraft: true
           prerelease: false

@@ -3,19 +3,19 @@ import CodeMirror from '@uiw/react-codemirror'
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown'
 import { languages } from '@codemirror/language-data'
 
-import {
-  defaultHighlightStyle,
-  HighlightStyle,
-  syntaxHighlighting,
-} from '@codemirror/language'
-import { tags } from '@lezer/highlight'
+import { defaultHighlightStyle, syntaxHighlighting } from '@codemirror/language'
 import React from 'react'
 import customKeymap from '~/components/Editor/customKeymap'
+import customStyling from '~/components/Editor/customStyling'
 
 const code = `
 # Heading level 1
 ## Heading level 2
 ### Heading level 3
+#### Heading level 4
+##### Heading level 5
+###### Heading level 6
+
 
 Just ~~some~~ _**random**_ **_text_** here.
 
@@ -37,13 +37,7 @@ const Editor = (): JSX.Element => {
             codeLanguages: languages,
           }),
           syntaxHighlighting(defaultHighlightStyle),
-          syntaxHighlighting(
-            HighlightStyle.define([
-              { tag: tags.heading1, fontSize: '150%' },
-              { tag: tags.heading2, fontSize: '140%' },
-              { tag: tags.heading3, fontSize: '130%' },
-            ])
-          ),
+          customStyling,
           customKeymap,
         ]}
       />

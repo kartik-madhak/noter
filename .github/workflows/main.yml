@@ -3,25 +3,10 @@ name: "Release"
 on:
   push:
     branches:
-      - release
+      - main
 
 jobs:
-  check-release-version:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Check Cargo.toml Version
-        run: |
-          if git diff HEAD^ HEAD -- src-tauri/Cargo.toml | grep -qE '^[-+]{1}version = "[0-9.]+"'; then
-            echo "Cargo.toml version has been updated."
-          else
-            echo "Cargo.toml version has not been updated. Please update the version number in Cargo.toml."
-            exit 1
-          fi
-
   publish-tauri:
-    needs: check-release-version
     permissions:
       contents: write
     strategy:
@@ -54,8 +39,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: noter-v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version
-          releaseName: 'Noter v__VERSION__'
+          tagName: noter-draft-${{ github.run_number }}
+          releaseName: 'Noter draft ${{ github.run_number }}'
           releaseBody: 'See the assets to download this version and install.'
-          releaseDraft: false
+          releaseDraft: true
           prerelease: false

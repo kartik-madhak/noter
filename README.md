@@ -1,4 +1,4 @@
-# Noter
+# Noter: Under Development (Nothing is usable yet 😢)
 
 Tired of trying and testing many notes taking app so decided to make my own... 
 

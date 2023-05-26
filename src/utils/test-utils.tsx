@@ -1,5 +1,5 @@
 import { cleanup, render, type RenderResult } from '@testing-library/react'
-import { afterEach } from 'vitest'
+import { afterEach, type ExpectStatic } from 'vitest'
 
 afterEach(() => {
   cleanup()
@@ -17,3 +17,10 @@ export * from '@testing-library/react'
 export { default as userEvent } from '@testing-library/user-event'
 // eslint-disable-next-line import/export
 export { customRender as render }
+
+declare module 'vitest' {
+  export interface TestContext {
+    component: RenderResult
+    expect: ExpectStatic
+  }
+}

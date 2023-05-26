@@ -9,7 +9,13 @@ const Navbar = (): JSX.Element => {
   } = useCustomTheme()
 
   return (
-    <chakra.header shadow="sm" zIndex="99" m="0" background={navbarColor}>
+    <chakra.header
+      data-testid="navbar"
+      shadow="sm"
+      zIndex="99"
+      m="0"
+      background={navbarColor}
+    >
       <Box position="relative" backdropFilter="auto" backdropBlur="100px">
         <Flex px="6" py="2" align="center">
           <HStack as="nav" spacing="5" width="100vw">

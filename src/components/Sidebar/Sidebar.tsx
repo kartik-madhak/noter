@@ -7,7 +7,7 @@ const Sidebar = (): JSX.Element => {
   } = useCustomTheme()
 
   return (
-    <Box w="100%" h="100%" background={sidebarColor}>
+    <Box data-testid="sidebar" w="100%" h="100%" background={sidebarColor}>
       Sidebar
     </Box>
   )

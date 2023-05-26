@@ -56,6 +56,6 @@ jobs:
         with:
           tagName: noter-v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version
           releaseName: 'Noter v__VERSION__'
-          releaseBody: 'See the assets to download this version and install.'
+          releaseBody: 'See the assets to download and install this version.'
           releaseDraft: false
           prerelease: false

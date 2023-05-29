@@ -41,6 +41,6 @@ jobs:
         with:
           tagName: noter-draft-${{ github.run_number }}
           releaseName: 'Noter draft ${{ github.run_number }}'
-          releaseBody: 'See the assets to download this version and install.'
+          releaseBody: 'Based on commit ${{ github.sha }} - ${{ github.event.head_commit.message }}'
           releaseDraft: true
           prerelease: false

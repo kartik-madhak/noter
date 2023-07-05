@@ -1,12 +1,14 @@
 import { Box } from '@chakra-ui/react'
-import CodeMirror from '@uiw/react-codemirror'
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown'
 import { languages } from '@codemirror/language-data'
 
 import { defaultHighlightStyle, syntaxHighlighting } from '@codemirror/language'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import customKeymap from '~/components/Editor/customKeymap'
 import customStyling from '~/components/Editor/customStyling'
+
+import { EditorView, basicSetup } from 'codemirror'
+import { EditorState } from '@codemirror/state'
 
 const code = `
 # Heading level 1
@@ -26,12 +28,14 @@ Normal test here for testing. Lorem Ipsum
 `
 
 const Editor = (): JSX.Element => {
-  return (
-    <Box w="100%" h="100%">
-      <CodeMirror
-        height="100vh"
-        value={code}
-        extensions={[
+  const editorRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const view = new EditorView({
+      state: EditorState.create({
+        doc: code,
+        extensions: [
+          basicSetup,
           markdown({
             base: markdownLanguage,
             codeLanguages: languages,
@@ -39,10 +43,21 @@ const Editor = (): JSX.Element => {
           syntaxHighlighting(defaultHighlightStyle),
           customStyling,
           customKeymap,
-        ]}
-      />
-    </Box>
-  )
+          EditorView.theme({
+            '&': {
+              height: '100%',
+            },
+          }),
+        ],
+      }),
+      parent: editorRef.current as HTMLDivElement,
+    })
+    return () => {
+      view.destroy()
+    }
+  }, [])
+
+  return <Box w="100%" h="100%" ref={editorRef}></Box>
 }
 
 export default Editor

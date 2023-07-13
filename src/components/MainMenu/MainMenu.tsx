@@ -1,9 +1,8 @@
 import Menu from '~/design-system/components/Menu/Menu'
+import { MainMenuOption } from '~/components/MainMenu/options'
 
-const FileMenu = (): JSX.Element => {
-  const optionsNames = ['New File', 'Open', 'Save File', 'Exit']
-
-  const options = optionsNames.map((optionName) => ({
+const MainMenu = (): JSX.Element => {
+  const options = Object.entries(MainMenuOption).map(([, optionName]) => ({
     id: optionName,
     content: optionName,
     onClick: () => {
@@ -14,4 +13,4 @@ const FileMenu = (): JSX.Element => {
   return <Menu options={options} buttonText="Menu" />
 }
 
-export default FileMenu
+export default MainMenu

@@ -7,11 +7,19 @@ import React, { useEffect, useRef } from 'react'
 import customKeymap from '~/components/Editor/customKeymap'
 import customStyling from '~/components/Editor/customStyling'
 
-import { EditorView, basicSetup } from 'codemirror'
+import { basicSetup, EditorView } from 'codemirror'
 import { EditorState } from '@codemirror/state'
 import { sampleNote } from '~/components/Editor/sampleNote'
 
-const Editor = (): JSX.Element => {
+interface EditorProps {
+  _onInit?: (_: EditorView) => void
+  _onUpdate?: () => void
+}
+
+const Editor = ({
+  _onInit = (_: EditorView) => {},
+  _onUpdate = () => {},
+}: EditorProps): JSX.Element => {
   const editorRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -36,6 +44,9 @@ const Editor = (): JSX.Element => {
       }),
       parent: editorRef.current as HTMLDivElement,
     })
+    if (editorRef.current !== null) {
+      _onInit(view)
+    }
     return () => {
       view.destroy()
     }

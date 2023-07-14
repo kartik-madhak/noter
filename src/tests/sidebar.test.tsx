@@ -7,7 +7,7 @@ describe('Test the Sidebar', () => {
     render(<Sidebar />)
   })
 
-  it.skip('should have a sidebar', ({ expect }) => {
+  it('should have a sidebar', ({ expect }) => {
     expect(screen.getByText('Sidebar')).toBeTruthy()
   })
 })

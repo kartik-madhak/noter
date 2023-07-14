@@ -17,10 +17,10 @@ describe('Test the Navbar', () => {
     render(<Navbar />)
   })
 
-  it('should have three menus', async ({ expect }) => {
-    expect(await screen.findByText('Menu')).toBeDefined()
-    expect(await screen.findByText('any_theme')).toBeDefined()
-    expect(await screen.findByText('Green')).toBeDefined()
+  it('should have three menus', ({ expect }) => {
+    expect(screen.getByText('Menu')).toBeDefined()
+    expect(screen.getByText('any_theme')).toBeDefined()
+    expect(screen.getByText('Green')).toBeDefined()
   })
 
   it('should have the contents of the Main menu dropdown', ({ expect }) => {

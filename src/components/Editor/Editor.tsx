@@ -9,23 +9,7 @@ import customStyling from '~/components/Editor/customStyling'
 
 import { EditorView, basicSetup } from 'codemirror'
 import { EditorState } from '@codemirror/state'
-
-const code = `
-# Heading level 1
-## Heading level 2
-### Heading level 3
-#### Heading level 4
-##### Heading level 5
-###### Heading level 6
-
-
-Just ~~some~~ _**random**_ **_text_** here.
-
-Normal test here for testing. Lorem Ipsum 
-
-- [ ] Task 1
-- [x] Task 2
-`
+import { sampleNote } from '~/components/Editor/sampleNote'
 
 const Editor = (): JSX.Element => {
   const editorRef = useRef<HTMLDivElement>(null)
@@ -33,7 +17,7 @@ const Editor = (): JSX.Element => {
   useEffect(() => {
     const view = new EditorView({
       state: EditorState.create({
-        doc: code,
+        doc: sampleNote,
         extensions: [
           basicSetup,
           markdown({
@@ -57,7 +41,7 @@ const Editor = (): JSX.Element => {
     }
   }, [])
 
-  return <Box w="100%" h="100%" ref={editorRef}></Box>
+  return <Box w="100%" h="100%" ref={editorRef} data-testid="editor"></Box>
 }
 
 export default Editor

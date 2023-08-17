@@ -2,7 +2,7 @@ name: "Testing the Build"
 on: [pull_request]
 
 jobs:
-  test-tauri:
+  build_and_e2e:
     strategy:
       fail-fast: false
       matrix:
@@ -26,3 +26,6 @@ jobs:
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run e2e
+        run: pnpm run e2e

@@ -18,6 +18,3 @@ jobs:
 
       - name: Test frontend
         run: pnpm run test
-
-      - name: Test e2e
-        run: pnpm e2e

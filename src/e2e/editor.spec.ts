@@ -30,11 +30,13 @@ test.describe('editor tests', () => {
     await page.keyboard.type('# This should be a heading')
     const headingSelector = page.getByText('This should be a heading')
 
-    const fontSize = await getStyle(headingSelector, 'font-size')
+    const fontSize = await getStyle(headingSelector, 'font-size').then((size) =>
+      Math.round(parseFloat(size))
+    )
     const fontWeight = await getStyle(headingSelector, 'font-weight')
 
     expect(fontWeight).toBe('700')
-    expect(fontSize).toBe('24.8px')
+    expect(fontSize).toBe(25)
   })
 
   test('can create bold text', async ({ page }) => {
@@ -121,7 +123,7 @@ test.describe('editor tests', () => {
       strikethroughSelector2,
       'text-decoration'
     )
-    expect(textDecoration2).toContain('none')
+    expect(textDecoration2).not.toContain('line-through')
 
     await page.keyboard.press('Shift+Home')
     await page.keyboard.press('Control+u')

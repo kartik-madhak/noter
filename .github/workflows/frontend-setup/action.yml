@@ -10,10 +10,6 @@ runs:
       with:
         node-version: 16
 
-    - name: Install playwright
-      shell: bash
-      run: npx playwright install --with-deps
-
     - name: Install pnpm
       uses: pnpm/action-setup@v2
       id: pnpm-install
@@ -38,3 +34,7 @@ runs:
     - name: Install frontend dependencies
       shell: bash
       run: pnpm install
+
+    - name: Install playwright
+      shell: bash
+      run: npx playwright install --with-deps

@@ -52,7 +52,7 @@ const Editor = ({
     }
   }, [])
 
-  return <Box w="100%" h="100%" ref={editorRef} data-testid="editor"></Box>
+  return <Box w="100%" h="100%" ref={editorRef}></Box>
 }
 
 export default Editor

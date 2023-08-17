@@ -25,19 +25,19 @@ describe('Test the Navbar', () => {
 
   it('should have the contents of the Main menu dropdown', ({ expect }) => {
     expect(screen.queryByText('New File')).toBeNull()
-    fireEvent.click(screen.getByTestId('menu-button-Menu'))
+    fireEvent.click(screen.getByRole('button', { name: /menu/i }))
     expect(screen.queryByText('New File')).not.toBeNull()
   })
 
   it('should have the contents of the Theme menu dropdown', ({ expect }) => {
     expect(screen.queryByText('Default')).toBeNull()
-    fireEvent.click(screen.getByTestId('menu-button-any_theme'))
+    fireEvent.click(screen.getByRole('button', { name: /any_theme/i }))
     expect(screen.queryByText('Default')).not.toBeNull()
   })
 
   it('should have the contents of the Color menu dropdown', ({ expect }) => {
     expect(screen.queryByText('Red')).toBeNull()
-    fireEvent.click(screen.getByTestId('menu-button-Green'))
+    fireEvent.click(screen.getByRole('button', { name: /Green/i }))
     expect(screen.queryByText('Red')).not.toBeNull()
   })
 })

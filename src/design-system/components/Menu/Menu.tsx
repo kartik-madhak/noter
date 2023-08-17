@@ -28,11 +28,7 @@ const Menu = ({
 }: MenuProps): JSX.Element => {
   return (
     <ChakraMenu closeOnSelect={false} isLazy={true}>
-      <MenuButton
-        as={Button}
-        size="sm"
-        data-testid={`menu-button-${buttonText}`}
-      >
+      <MenuButton as={Button} size="sm">
         {buttonText} <ChevronDownIcon />
       </MenuButton>
       <MenuList>

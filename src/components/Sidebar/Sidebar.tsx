@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react'
-import { useCustomTheme } from '~/hooks/useCustomTheme/useCustomTheme'
 import { type ReactElement } from 'react'
+import { useCustomTheme } from '~/hooks/useCustomTheme/useCustomTheme'
 
 const Sidebar = (): ReactElement => {
   const {

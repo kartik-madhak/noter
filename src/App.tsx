@@ -1,6 +1,6 @@
-import { Container, Flex } from '@chakra-ui/react'
 import EditorLayout from './components/EditorLayout/EditorLayout'
 import Navbar from './components/Navbar/Navbar'
+import { Container, Flex } from '@chakra-ui/react'
 import { type ReactElement } from 'react'
 
 const App = (): ReactElement => {

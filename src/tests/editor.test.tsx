@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from 'vitest'
+import { type EditorView } from 'codemirror'
 import { render } from '~/utils/test-utils'
 import Editor from '~/components/Editor/Editor'
-import { type EditorView } from 'codemirror'
 import { sampleNote } from '~/components/Editor/sampleNote'
 
 describe('Test the Editor', () => {

@@ -1,6 +1,6 @@
 import { beforeEach, describe, it, vi } from 'vitest'
-import { render, screen } from '~/utils/test-utils'
 import { fireEvent } from '@testing-library/react'
+import { render, screen } from '~/utils/test-utils'
 import Navbar from '~/components/Navbar/Navbar'
 
 vi.mock('~/hooks/useCustomTheme/useCustomTheme', () => ({

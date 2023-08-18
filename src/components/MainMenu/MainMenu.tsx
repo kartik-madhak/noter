@@ -1,6 +1,6 @@
+import { type ReactElement } from 'react'
 import Menu from '~/design-system/components/Menu/Menu'
 import { MainMenuOption } from '~/components/MainMenu/options'
-import { type ReactElement } from 'react'
 
 const MainMenu = (): ReactElement => {
   const options = Object.entries(MainMenuOption).map(([, optionName]) => ({

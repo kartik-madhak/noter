@@ -4,11 +4,11 @@ import { languages } from '@codemirror/language-data'
 
 import { defaultHighlightStyle, syntaxHighlighting } from '@codemirror/language'
 import React, { type ReactElement, useEffect, useRef } from 'react'
+import { basicSetup, EditorView } from 'codemirror'
+import { EditorState } from '@codemirror/state'
 import customKeymap from '~/components/Editor/customKeymap'
 import customStyling from '~/components/Editor/customStyling'
 
-import { basicSetup, EditorView } from 'codemirror'
-import { EditorState } from '@codemirror/state'
 import { sampleNote } from '~/components/Editor/sampleNote'
 
 interface EditorProps {

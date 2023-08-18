@@ -1,8 +1,8 @@
 import { Box, chakra, Flex, HStack, Spacer } from '@chakra-ui/react'
+import { type ReactElement } from 'react'
 import { useCustomTheme } from '~/hooks/useCustomTheme/useCustomTheme'
 import ThemeChanger from '~/components/Navbar/ThemeChanger'
 import MainMenu from '~/components/MainMenu/MainMenu'
-import { type ReactElement } from 'react'
 
 const Navbar = (): ReactElement => {
   const {

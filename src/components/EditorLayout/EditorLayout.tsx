@@ -1,10 +1,10 @@
+import Sidebar from '../Sidebar/Sidebar'
+import Editor from '../Editor/Editor'
 import { Box, Container, Flex } from '@chakra-ui/react'
 import { ResizableBox } from 'react-resizable'
 import 'react-resizable/css/styles.css'
 import { type ReactElement, useState } from 'react'
 import './index.css'
-import Sidebar from '../Sidebar/Sidebar'
-import Editor from '../Editor/Editor'
 
 const EditorLayout = (): ReactElement => {
   const [sidebarWidth, setSidebarWidth] = useState(200)

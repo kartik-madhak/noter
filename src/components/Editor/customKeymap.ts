@@ -14,6 +14,7 @@ export default Prec.highest(
   keymap.of([
     {
       key: 'Ctrl-i',
+      mac: 'Mod-i',
       run: (editor) => {
         modifySelection(editor.state, editor.dispatch, toggleItalic)
         return true
@@ -22,6 +23,7 @@ export default Prec.highest(
     },
     {
       key: 'Ctrl-b',
+      mac: 'Mod-b',
       run: (editor) => {
         modifySelection(editor.state, editor.dispatch, toggleBold)
         return true
@@ -29,6 +31,7 @@ export default Prec.highest(
     },
     {
       key: 'Ctrl-u',
+      mac: 'Mod-u',
       run: (editor) => {
         modifySelection(editor.state, editor.dispatch, toggleStrikeThrough)
         return true
@@ -36,6 +39,7 @@ export default Prec.highest(
     },
     {
       key: 'Ctrl-Enter',
+      mac: 'Mod-Enter',
       run: (editor) => {
         modifyLines(editor.state, editor.dispatch, toggleCheckList)
         return true
@@ -43,6 +47,7 @@ export default Prec.highest(
     },
     {
       key: 'Ctrl-Shift-Enter',
+      mac: 'Mod-Shift-Enter',
       run: (editor) => {
         modifyLines(editor.state, editor.dispatch, toggleCheckListAll)
         return true

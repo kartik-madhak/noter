@@ -32,3 +32,10 @@ jobs:
 
       - name: Run e2e
         run: pnpm run e2e
+
+      - name: Upload e2e artifacts
+        uses: actions/upload-artifact@v3
+        if: ${{ failure() || success() }}
+        with:
+          name: playwright-report
+          path: test-results

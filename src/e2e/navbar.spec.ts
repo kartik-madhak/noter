@@ -2,14 +2,14 @@ import { test, expect } from '@playwright/test'
 
 test.describe('navbar tests', () => {
   test('main menu item is clickable', async ({ page }) => {
-    await page.goto('http://localhost:1420')
+    await page.goto('/')
 
     await page.getByRole('button', { name: /menu/i }).click()
     await page.getByRole('menuitemradio', { name: 'New File' }).click()
   })
 
   test('theme changer works correctly', async ({ page }) => {
-    await page.goto('http://localhost:1420')
+    await page.goto('/')
 
     expect(await page.getAttribute('html', 'data-theme')).toBe('dark')
 
@@ -20,7 +20,7 @@ test.describe('navbar tests', () => {
   })
 
   test('color changer works correctly', async ({ page }) => {
-    await page.goto('http://localhost:1420')
+    await page.goto('/')
 
     await page.getByRole('button', { name: /Green/i }).click()
     await page.getByRole('menuitemradio', { name: 'Blue' }).click()

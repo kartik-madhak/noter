@@ -4,7 +4,7 @@ import { getCtrlOrMetaKey } from '~/e2e/utils/keymap'
 
 test.describe('editor tests', () => {
   test('editor can type correctly', async ({ page }) => {
-    await page.goto('http://localhost:1420')
+    await page.goto('/')
 
     await page.click('.cm-editor')
     await page.keyboard.press(`${getCtrlOrMetaKey()}+A`)
@@ -22,7 +22,7 @@ test.describe('editor tests', () => {
   })
 
   test('can create headings', async ({ page }) => {
-    await page.goto('http://localhost:1420')
+    await page.goto('/')
 
     await page.click('.cm-editor')
     await page.keyboard.press(`${getCtrlOrMetaKey()}+A`)
@@ -41,7 +41,7 @@ test.describe('editor tests', () => {
   })
 
   test('can create bold text', async ({ page }) => {
-    await page.goto('http://localhost:1420')
+    await page.goto('/')
 
     await page.click('.cm-editor')
     await page.keyboard.press(`${getCtrlOrMetaKey()}+A`)
@@ -70,7 +70,7 @@ test.describe('editor tests', () => {
   })
 
   test('can create italic text', async ({ page }) => {
-    await page.goto('http://localhost:1420')
+    await page.goto('/')
 
     await page.click('.cm-editor')
     await page.keyboard.press(`${getCtrlOrMetaKey()}+A`)
@@ -98,7 +98,7 @@ test.describe('editor tests', () => {
   })
 
   test('can create strikethrough text', async ({ page }) => {
-    await page.goto('http://localhost:1420')
+    await page.goto('/')
 
     await page.click('.cm-editor')
     await page.keyboard.press(`${getCtrlOrMetaKey()}+A`)
@@ -137,7 +137,7 @@ test.describe('editor tests', () => {
   })
 
   test('can create and check a checklist', async ({ page }) => {
-    await page.goto('http://localhost:1420')
+    await page.goto('/')
 
     await page.click('.cm-editor')
     await page.keyboard.press(`${getCtrlOrMetaKey()}+A`)
@@ -168,7 +168,7 @@ test.describe('editor tests', () => {
   test('can create and check multiple checklists at the same time', async ({
     page,
   }) => {
-    await page.goto('http://localhost:1420')
+    await page.goto('/')
 
     await page.click('.cm-editor')
     await page.keyboard.press(`${getCtrlOrMetaKey()}+A`)

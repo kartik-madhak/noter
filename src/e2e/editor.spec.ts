@@ -1,12 +1,13 @@
 import { test, expect } from '@playwright/test'
 import { getStyle } from '~/e2e/utils/styles'
+import { getCtrlOrMetaKey } from '~/e2e/utils/keymap'
 
 test.describe('editor tests', () => {
   test('editor can type correctly', async ({ page }) => {
     await page.goto('http://localhost:1420')
 
     await page.click('.cm-editor')
-    await page.keyboard.press('Control+A')
+    await page.keyboard.press(`${getCtrlOrMetaKey()}+A`)
     await page.keyboard.press('Backspace')
 
     const text = 'Hello World, this is an e2e test'
@@ -24,7 +25,7 @@ test.describe('editor tests', () => {
     await page.goto('http://localhost:1420')
 
     await page.click('.cm-editor')
-    await page.keyboard.press('Control+A')
+    await page.keyboard.press(`${getCtrlOrMetaKey()}+A`)
     await page.keyboard.press('Backspace')
 
     await page.keyboard.type('# This should be a heading')
@@ -43,7 +44,7 @@ test.describe('editor tests', () => {
     await page.goto('http://localhost:1420')
 
     await page.click('.cm-editor')
-    await page.keyboard.press('Control+A')
+    await page.keyboard.press(`${getCtrlOrMetaKey()}+A`)
     await page.keyboard.press('Backspace')
 
     await page.keyboard.type('**This should be bold**')
@@ -62,7 +63,7 @@ test.describe('editor tests', () => {
     expect(fontWeight2).toBe('400')
 
     await page.keyboard.press('Shift+Home')
-    await page.keyboard.press('Control+b')
+    await page.keyboard.press(`${getCtrlOrMetaKey()}+b`)
 
     const fontWeight3 = await getStyle(boldSelector2, 'font-weight')
     expect(fontWeight3).toBe('700')
@@ -72,7 +73,7 @@ test.describe('editor tests', () => {
     await page.goto('http://localhost:1420')
 
     await page.click('.cm-editor')
-    await page.keyboard.press('Control+A')
+    await page.keyboard.press(`${getCtrlOrMetaKey()}+A`)
     await page.keyboard.press('Backspace')
 
     await page.keyboard.type('*This should be italic*')
@@ -90,7 +91,7 @@ test.describe('editor tests', () => {
     expect(fontStyle2).toBe('normal')
 
     await page.keyboard.press('Shift+Home')
-    await page.keyboard.press('Control+i')
+    await page.keyboard.press(`${getCtrlOrMetaKey()}+i`)
 
     const fontStyle3 = await getStyle(italicSelector2, 'font-style')
     expect(fontStyle3).toBe('italic')
@@ -100,7 +101,7 @@ test.describe('editor tests', () => {
     await page.goto('http://localhost:1420')
 
     await page.click('.cm-editor')
-    await page.keyboard.press('Control+A')
+    await page.keyboard.press(`${getCtrlOrMetaKey()}+A`)
     await page.keyboard.press('Backspace')
 
     await page.keyboard.type('~~This should be strikethrough~~')
@@ -126,7 +127,7 @@ test.describe('editor tests', () => {
     expect(textDecoration2).not.toContain('line-through')
 
     await page.keyboard.press('Shift+Home')
-    await page.keyboard.press('Control+u')
+    await page.keyboard.press(`${getCtrlOrMetaKey()}+u`)
 
     const textDecoration3 = await getStyle(
       strikethroughSelector2,
@@ -139,7 +140,7 @@ test.describe('editor tests', () => {
     await page.goto('http://localhost:1420')
 
     await page.click('.cm-editor')
-    await page.keyboard.press('Control+A')
+    await page.keyboard.press(`${getCtrlOrMetaKey()}+A`)
     await page.keyboard.press('Backspace')
 
     await page.keyboard.type('- [ ] This should be a checklist')
@@ -149,7 +150,7 @@ test.describe('editor tests', () => {
 
     await page.keyboard.type('This must be checked')
 
-    await page.keyboard.press('Control+Enter')
+    await page.keyboard.press(`${getCtrlOrMetaKey()}+Enter`)
 
     await expect(page.getByText('- [ ]')).toHaveCount(1)
     await expect(page.getByText('- [x]')).toHaveCount(1)
@@ -159,7 +160,7 @@ test.describe('editor tests', () => {
 
     await expect(page.getByText('- [ ]')).toHaveCount(1)
 
-    await page.keyboard.press('Control+Enter')
+    await page.keyboard.press(`${getCtrlOrMetaKey()}+Enter`)
 
     await expect(page.getByText('- [ ]')).toHaveCount(2)
   })
@@ -170,7 +171,7 @@ test.describe('editor tests', () => {
     await page.goto('http://localhost:1420')
 
     await page.click('.cm-editor')
-    await page.keyboard.press('Control+A')
+    await page.keyboard.press(`${getCtrlOrMetaKey()}+A`)
     await page.keyboard.press('Backspace')
 
     await page.keyboard.type('This is check item 1')
@@ -185,11 +186,11 @@ test.describe('editor tests', () => {
     await page.keyboard.press('Shift+ArrowUp')
     await page.keyboard.press('Shift+ArrowUp')
 
-    await page.keyboard.press('Control+Enter')
+    await page.keyboard.press(`${getCtrlOrMetaKey()}+Enter`)
 
     await expect(page.getByText('- [ ]')).toHaveCount(3)
 
-    await page.keyboard.press('Control+Enter')
+    await page.keyboard.press(`${getCtrlOrMetaKey()}+Enter`)
 
     await expect(page.getByText('- [x]')).toHaveCount(3)
   })

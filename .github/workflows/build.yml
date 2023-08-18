@@ -27,5 +27,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set OS env var
+        run: echo "OS=$RUNNER_OS" >> $GITHUB_ENV
+
       - name: Run e2e
         run: pnpm run e2e

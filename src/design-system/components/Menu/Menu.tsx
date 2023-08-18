@@ -7,7 +7,7 @@ import {
   MenuOptionGroup,
 } from '@chakra-ui/react'
 import { ChevronDownIcon } from '@chakra-ui/icons'
-import React from 'react'
+import React, { type ReactElement } from 'react'
 
 interface Option {
   id?: string
@@ -25,7 +25,7 @@ const Menu = ({
   buttonText,
   options,
   defaultSelectedId,
-}: MenuProps): JSX.Element => {
+}: MenuProps): ReactElement => {
   return (
     <ChakraMenu closeOnSelect={false} isLazy={true}>
       <MenuButton as={Button} size="sm">

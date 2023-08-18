@@ -1,11 +1,11 @@
 import { PrimarySwatch, themes } from '~/config/theme'
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import App from '~/App'
-import React from 'react'
+import React, { type ReactElement } from 'react'
 import { ColorSchemeContext } from '~/context/ColorSchemeContext'
 import useLocalStorageState from 'use-local-storage-state'
 
-const Root = (): JSX.Element => {
+const Root = (): ReactElement => {
   const [colorScheme, setColorScheme] = useLocalStorageState<PrimarySwatch>(
     'colorScheme',
     {

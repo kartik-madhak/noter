@@ -3,7 +3,7 @@ import { markdown, markdownLanguage } from '@codemirror/lang-markdown'
 import { languages } from '@codemirror/language-data'
 
 import { defaultHighlightStyle, syntaxHighlighting } from '@codemirror/language'
-import React, { useEffect, useRef } from 'react'
+import React, { type ReactElement, useEffect, useRef } from 'react'
 import customKeymap from '~/components/Editor/customKeymap'
 import customStyling from '~/components/Editor/customStyling'
 
@@ -19,7 +19,7 @@ interface EditorProps {
 const Editor = ({
   _onInit = (_: EditorView) => {},
   _onUpdate = () => {},
-}: EditorProps): JSX.Element => {
+}: EditorProps): ReactElement => {
   const editorRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {

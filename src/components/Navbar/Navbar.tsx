@@ -2,8 +2,9 @@ import { Box, chakra, Flex, HStack, Spacer } from '@chakra-ui/react'
 import { useCustomTheme } from '~/hooks/useCustomTheme/useCustomTheme'
 import ThemeChanger from '~/components/Navbar/ThemeChanger'
 import MainMenu from '~/components/MainMenu/MainMenu'
+import { type ReactElement } from 'react'
 
-const Navbar = (): JSX.Element => {
+const Navbar = (): ReactElement => {
   const {
     theme: { navbarColor },
   } = useCustomTheme()

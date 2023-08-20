@@ -1,6 +1,6 @@
 import { type ReactElement, useContext } from 'react'
 import { ThemeName } from '~/config/allThemes'
-import { useCustomTheme } from '~/hooks/useCustomTheme/useCustomTheme'
+import { useCustomTheme } from '~/hooks/useCustomTheme'
 import Menu from '~/design-system/components/Menu/Menu'
 import { PrimarySwatch } from '~/config/theme'
 import { ColorSchemeContext } from '~/context/ColorSchemeContext'

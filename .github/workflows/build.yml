@@ -2,7 +2,7 @@ name: "Testing the Build"
 on: [pull_request]
 
 jobs:
-  test-tauri:
+  build_and_e2e:
     strategy:
       fail-fast: false
       matrix:
@@ -26,3 +26,16 @@ jobs:
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set OS env var
+        run: echo "OS=$RUNNER_OS" >> $GITHUB_ENV
+
+      - name: Run e2e
+        run: pnpm run e2e
+
+      - name: Upload e2e artifacts
+        uses: actions/upload-artifact@v3
+        if: ${{ failure() }}
+        with:
+          name: playwright-report
+          path: test-results

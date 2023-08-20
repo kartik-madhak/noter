@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import * as path from 'path'
+import { configDefaults } from 'vitest/config'
 
 const mobile =
   process.env.TAURI_PLATFORM === 'android' ||
@@ -32,5 +33,9 @@ export default defineConfig(async () => ({
     minify: !process.env.TAURI_DEBUG ? 'esbuild' : false,
     // produce sourcemaps for debug builds
     sourcemap: !!process.env.TAURI_DEBUG,
+  },
+  test: {
+    environment: 'jsdom',
+    exclude: [...configDefaults.exclude, 'src/e2e/*'],
   },
 }))

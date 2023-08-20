@@ -1,9 +1,10 @@
 import { Box, chakra, Flex, HStack, Spacer } from '@chakra-ui/react'
-import FileMenu from './FileMenu'
+import { type ReactElement } from 'react'
 import { useCustomTheme } from '~/hooks/useCustomTheme/useCustomTheme'
 import ThemeChanger from '~/components/Navbar/ThemeChanger'
+import MainMenu from '~/components/MainMenu/MainMenu'
 
-const Navbar = (): JSX.Element => {
+const Navbar = (): ReactElement => {
   const {
     theme: { navbarColor },
   } = useCustomTheme()
@@ -13,7 +14,7 @@ const Navbar = (): JSX.Element => {
       <Box position="relative" backdropFilter="auto" backdropBlur="100px">
         <Flex px="6" py="2" align="center">
           <HStack as="nav" spacing="5" width="100vw">
-            <FileMenu />
+            <MainMenu />
             <Spacer />
             <ThemeChanger />
           </HStack>

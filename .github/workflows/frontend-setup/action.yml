@@ -14,7 +14,7 @@ runs:
       uses: pnpm/action-setup@v2
       id: pnpm-install
       with:
-        version: 7
+        version: 8
         run_install: false
 
     - name: Get pnpm store directory
@@ -34,3 +34,7 @@ runs:
     - name: Install frontend dependencies
       shell: bash
       run: pnpm install
+
+    - name: Install playwright
+      shell: bash
+      run: npx playwright install --with-deps

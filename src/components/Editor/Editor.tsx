@@ -10,7 +10,7 @@ import { syntaxHighlighting } from '@codemirror/language'
 import customKeymap from '~/components/Editor/customKeymap'
 import { sampleNote } from '~/components/Editor/sampleNote'
 
-import { useCustomTheme } from '~/hooks/useCustomTheme/useCustomTheme'
+import { useCustomTheme } from '~/hooks/useCustomTheme'
 
 import { ThemeType } from '~/config/allThemes'
 import { customSyntaxHighlighting } from '~/components/Editor/customSyntaxHighlighting'

@@ -3,7 +3,7 @@ import { fireEvent } from '@testing-library/react'
 import { render, screen } from '~/utils/test-utils'
 import Navbar from '~/components/Navbar/Navbar'
 
-vi.mock('~/hooks/useCustomTheme/useCustomTheme', () => ({
+vi.mock('~/hooks/useCustomTheme', () => ({
   useCustomTheme: () => ({
     theme: {
       name: 'any_theme',

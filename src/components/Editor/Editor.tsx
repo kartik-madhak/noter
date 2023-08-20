@@ -15,15 +15,7 @@ import { useCustomTheme } from '~/hooks/useCustomTheme/useCustomTheme'
 import { ThemeType } from '~/config/allThemes'
 import { customSyntaxHighlighting } from '~/components/Editor/customSyntaxHighlighting'
 
-interface EditorProps {
-  _onInit?: (_: EditorView) => void
-  _onUpdate?: () => void
-}
-
-const Editor = ({
-  _onInit = (_: EditorView) => {},
-  _onUpdate = () => {},
-}: EditorProps): ReactElement => {
+const Editor = (): ReactElement => {
   const editorRef = useRef<HTMLDivElement>(null)
   const {
     theme: { type: themeType },
@@ -54,9 +46,6 @@ const Editor = ({
       }),
       parent: editorRef.current as HTMLDivElement,
     })
-    if (editorRef.current !== null) {
-      _onInit(view)
-    }
     return () => {
       view.destroy()
     }

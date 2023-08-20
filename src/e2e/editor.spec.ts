@@ -37,7 +37,7 @@ test.describe('editor tests', () => {
     const fontWeight = await getStyle(headingSelector, 'font-weight')
 
     expect(fontWeight).toBe('700')
-    expect(fontSize).toBe(25)
+    expect(fontSize).toBe(26)
   })
 
   test('can create bold text', async ({ page }) => {

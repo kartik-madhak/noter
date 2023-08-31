@@ -17,7 +17,7 @@ test.describe('editor tests', () => {
     const fontSize = await getStyle(textSelector, 'font-size')
     const fontWeight = await getStyle(textSelector, 'font-weight')
 
-    expect(fontSize).toBe('16px')
+    expect(fontSize).toBe('14px')
     expect(fontWeight).toBe('400')
   })
 
@@ -37,7 +37,7 @@ test.describe('editor tests', () => {
     const fontWeight = await getStyle(headingSelector, 'font-weight')
 
     expect(fontWeight).toBe('700')
-    expect(fontSize).toBe(26)
+    expect(fontSize).toBe(22)
   })
 
   test('can create bold text', async ({ page }) => {
@@ -193,5 +193,50 @@ test.describe('editor tests', () => {
     await page.keyboard.press(`${getCtrlOrMetaKey()}+Enter`)
 
     await expect(page.getByText('- [x]')).toHaveCount(3)
+  })
+
+  test('can zoom using ctrl + scroll which persists on app reload', async ({
+    page,
+  }) => {
+    await page.goto('/')
+
+    await page.click('.cm-editor')
+    await page.keyboard.press(`${getCtrlOrMetaKey()}+A`)
+    await page.keyboard.press('Backspace')
+
+    const text = 'This is text at normal font size'
+    await page.keyboard.type(text)
+    const textSelector = page.getByText(text)
+
+    const fontSize = await getStyle(textSelector, 'font-size').then((size) =>
+      Math.round(parseFloat(size))
+    )
+    expect(fontSize).toBe(14)
+
+    await page.keyboard.down(getCtrlOrMetaKey())
+    await page.mouse.wheel(0, -1)
+    await page.mouse.wheel(0, -1)
+    await page.mouse.wheel(0, -1)
+    await page.keyboard.up(getCtrlOrMetaKey())
+
+    const fontSize2 = await getStyle(textSelector, 'font-size').then((size) =>
+      Math.round(parseFloat(size))
+    )
+    expect(fontSize2).toBe(17)
+
+    await page.goto('/')
+
+    await page.click('.cm-editor')
+    await page.keyboard.press(`${getCtrlOrMetaKey()}+A`)
+    await page.keyboard.press('Backspace')
+
+    const text2 = 'This text should be in the new font size'
+    await page.keyboard.type(text2)
+    const textSelector2 = page.getByText(text2)
+
+    const fontSize3 = await getStyle(textSelector2, 'font-size').then((size) =>
+      Math.round(parseFloat(size))
+    )
+    expect(fontSize3).toBe(17)
   })
 })

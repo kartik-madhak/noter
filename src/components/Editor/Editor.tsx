@@ -14,6 +14,7 @@ import { useCustomTheme } from '~/hooks/useCustomTheme'
 
 import { ThemeType } from '~/config/allThemes'
 import { customSyntaxHighlighting } from '~/components/Editor/customSyntaxHighlighting'
+import { setZoomEvent } from '~/components/Editor/helpers/setZoomEvent'
 
 const Editor = (): ReactElement => {
   const editorRef = useRef<HTMLDivElement>(null)
@@ -22,6 +23,8 @@ const Editor = (): ReactElement => {
   } = useCustomTheme()
 
   useEffect(() => {
+    if (editorRef.current === null) return
+
     const view = new EditorView({
       state: EditorState.create({
         doc: sampleNote,
@@ -44,8 +47,11 @@ const Editor = (): ReactElement => {
           }),
         ],
       }),
-      parent: editorRef.current as HTMLDivElement,
+      parent: editorRef.current,
     })
+
+    setZoomEvent(localStorage, view)
+
     return () => {
       view.destroy()
     }

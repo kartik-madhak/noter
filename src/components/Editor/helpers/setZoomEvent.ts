@@ -16,7 +16,7 @@ export const setZoomEvent = (
 
   element.addEventListener('wheel', (e) => {
     const event = e as unknown as WheelEvent
-    if (!event.ctrlKey) return
+    if (!(event.ctrlKey || event.metaKey)) return
 
     event.preventDefault()
 

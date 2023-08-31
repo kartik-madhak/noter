@@ -14,7 +14,7 @@ import { useCustomTheme } from '~/hooks/useCustomTheme'
 
 import { ThemeType } from '~/config/allThemes'
 import { customSyntaxHighlighting } from '~/components/Editor/customSyntaxHighlighting'
-import { setZoomEvent } from '~/components/Editor/extensions/zoomExtension'
+import { setZoomEvent } from '~/components/Editor/helpers/setZoomEvent'
 
 const Editor = (): ReactElement => {
   const editorRef = useRef<HTMLDivElement>(null)

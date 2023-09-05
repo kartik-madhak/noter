@@ -73,9 +73,6 @@ export const toggleStrikeThrough = (text: string): string => {
 }
 
 const toggleCheckbox = (text: string): string => {
-  if (text === '') {
-    return text
-  }
   if (text.startsWith('- [x] ')) {
     return text.replace('- [x] ', '- [ ] ')
   }

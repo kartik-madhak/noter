@@ -6,10 +6,11 @@ import {
   AccordionPanel,
   Box,
 } from '@chakra-ui/react'
-import { type ReactElement, useEffect, useState } from 'react'
+import { type ReactElement, useContext, useEffect, useState } from 'react'
 import { invoke } from '@tauri-apps/api/tauri'
 import { useCustomTheme } from '~/hooks/useCustomTheme'
 import SidebarItem from '~/components/Sidebar/SidebarItem'
+import { FileContext } from '~/context/FileContext'
 
 const Sidebar = (): ReactElement => {
   const {
@@ -17,6 +18,7 @@ const Sidebar = (): ReactElement => {
   } = useCustomTheme()
 
   const [files, setFiles] = useState<string[]>([])
+  const { currentOpenedFile, setCurrentOpenedFile } = useContext(FileContext)
 
   useEffect(() => {
     const getAllFiles = async (): Promise<void> => {
@@ -55,13 +57,23 @@ const Sidebar = (): ReactElement => {
                 </Box>
               </AccordionButton>
               <AccordionPanel p={0}>
-                {files.map((fileName, index) => (
-                  <SidebarItem
-                    backgroundColor={backgroundColor}
-                    key={index}
-                    fileName={fileName}
-                  />
-                ))}
+                {files.map((fileDetailTuple, index) => {
+                  return (
+                    <SidebarItem
+                      hoverBackgroundColor={backgroundColor}
+                      backgroundColor={
+                        currentOpenedFile === fileDetailTuple[1]
+                          ? backgroundColor
+                          : ''
+                      }
+                      key={index}
+                      fileName={fileDetailTuple[0]}
+                      onClick={(): void => {
+                        setCurrentOpenedFile(fileDetailTuple[1])
+                      }}
+                    />
+                  )
+                })}
               </AccordionPanel>
             </>
           )}

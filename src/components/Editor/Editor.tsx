@@ -50,7 +50,7 @@ const Editor = (): ReactElement => {
         },
       })
     })
-  }, [view, currentOpenedFile])
+  }, [view])
 
   useEffect(() => {
     if (view === null) return
@@ -64,6 +64,7 @@ const Editor = (): ReactElement => {
 
   useEffect(() => {
     if (editorRef.current === null) return
+    if (currentOpenedFile === '') return
 
     const view = new EditorView({
       state: EditorState.create({
@@ -98,7 +99,7 @@ const Editor = (): ReactElement => {
     return () => {
       view.destroy()
     }
-  }, [])
+  }, [currentOpenedFile])
 
   return <Box w="100%" h="100%" ref={editorRef}></Box>
 }

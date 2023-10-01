@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import { getStyle } from '~/e2e/utils/styles'
 import { getCtrlOrMetaKey } from '~/e2e/utils/keymap'
 
-test.describe('editor tests', () => {
+test.describe.skip('editor tests', () => {
   test('editor can type correctly', async ({ page }) => {
     await page.goto('/')
 

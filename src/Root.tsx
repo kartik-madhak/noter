@@ -4,6 +4,7 @@ import useLocalStorageState from 'use-local-storage-state'
 import { PrimarySwatch, themes } from '~/config/theme'
 import App from '~/App'
 import { ColorSchemeContext } from '~/context/ColorSchemeContext'
+import { FileContext } from '~/context/FileContext'
 
 const Root = (): ReactElement => {
   const [colorScheme, setColorScheme] = useLocalStorageState<PrimarySwatch>(
@@ -13,13 +14,25 @@ const Root = (): ReactElement => {
     }
   )
 
+  const [currentOpenedFile, setCurrentOpenedFile] =
+    useLocalStorageState<string>('currentOpenedFile', {
+      defaultValue: '',
+    })
+
   return (
     <ChakraProvider theme={themes[colorScheme]}>
       <ColorModeScript
         initialColorMode={themes[colorScheme].config.initialColorMode}
       />
       <ColorSchemeContext.Provider value={{ colorScheme, setColorScheme }}>
-        <App />
+        <FileContext.Provider
+          value={{
+            currentOpenedFile,
+            setCurrentOpenedFile,
+          }}
+        >
+          <App />
+        </FileContext.Provider>
       </ColorSchemeContext.Provider>
     </ChakraProvider>
   )

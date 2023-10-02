@@ -10,7 +10,7 @@ import { type ReactElement, useContext, useEffect, useState } from 'react'
 import { invoke } from '@tauri-apps/api/tauri'
 import { useCustomTheme } from '~/hooks/useCustomTheme'
 import SidebarItem from '~/components/Sidebar/SidebarItem'
-import { FileContext } from '~/context/FileContext'
+import { CurrentFileContext } from '~/context/CurrentFileContext'
 
 const Sidebar = (): ReactElement => {
   const {
@@ -18,7 +18,7 @@ const Sidebar = (): ReactElement => {
   } = useCustomTheme()
 
   const [files, setFiles] = useState<string[]>([])
-  const { currentOpenedFile, setCurrentOpenedFile } = useContext(FileContext)
+  const { openedFile, setOpenedFile } = useContext(CurrentFileContext)
 
   useEffect(() => {
     const getAllFiles = async (): Promise<void> => {
@@ -62,14 +62,12 @@ const Sidebar = (): ReactElement => {
                     <SidebarItem
                       hoverBackgroundColor={backgroundColor}
                       backgroundColor={
-                        currentOpenedFile === fileDetailTuple[1]
-                          ? backgroundColor
-                          : ''
+                        openedFile === fileDetailTuple[1] ? backgroundColor : ''
                       }
                       key={index}
                       fileName={fileDetailTuple[0]}
                       onClick={(): void => {
-                        setCurrentOpenedFile(fileDetailTuple[1])
+                        setOpenedFile(fileDetailTuple[1])
                       }}
                     />
                   )

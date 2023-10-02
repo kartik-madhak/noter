@@ -10,7 +10,7 @@ import React, {
   useState,
 } from 'react'
 import { basicSetup, EditorView } from 'codemirror'
-import { Compartment, EditorState } from '@codemirror/state'
+import { Compartment, EditorState, type Transaction } from '@codemirror/state'
 import { barf, noctisLilac } from 'thememirror'
 import { syntaxHighlighting } from '@codemirror/language'
 import { invoke } from '@tauri-apps/api/tauri'
@@ -21,7 +21,7 @@ import { useCustomTheme } from '~/hooks/useCustomTheme'
 import { ThemeType } from '~/config/allThemes'
 import { customSyntaxHighlighting } from '~/components/Editor/customSyntaxHighlighting'
 import { setZoomEvent } from '~/components/Editor/helpers/setZoomEvent'
-import { FileContext } from '~/context/FileContext'
+import { CurrentFileContext } from '~/context/CurrentFileContext'
 
 const readFile = async (path: string): Promise<string> => {
   return await invoke('read_file', { path })
@@ -37,11 +37,19 @@ const Editor = (): ReactElement => {
 
   const [view, setView] = useState<EditorView | null>(null)
 
-  const { currentOpenedFile } = useContext(FileContext)
+  const { openedFile } = useContext(CurrentFileContext)
+
+  const autoSave = EditorState.transactionExtender.of((tr: Transaction) => {
+    if (tr.docChanged) {
+      const content = tr.newDoc.toString()
+      void invoke('save_file', { path: openedFile, content })
+    }
+    return null
+  })
 
   useEffect(() => {
     if (view === null) return
-    void readFile(currentOpenedFile).then((file) => {
+    void readFile(openedFile).then((file) => {
       view.dispatch({
         changes: {
           from: 0,
@@ -64,7 +72,7 @@ const Editor = (): ReactElement => {
 
   useEffect(() => {
     if (editorRef.current === null) return
-    if (currentOpenedFile === '') return
+    if (openedFile === '') return
 
     const view = new EditorView({
       state: EditorState.create({
@@ -88,6 +96,7 @@ const Editor = (): ReactElement => {
               backgroundColor: 'transparent !important',
             },
           }),
+          autoSave,
         ],
       }),
       parent: editorRef.current,
@@ -99,7 +108,7 @@ const Editor = (): ReactElement => {
     return () => {
       view.destroy()
     }
-  }, [currentOpenedFile])
+  }, [openedFile])
 
   return <Box w="100%" h="100%" ref={editorRef}></Box>
 }

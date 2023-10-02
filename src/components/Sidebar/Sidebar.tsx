@@ -26,7 +26,7 @@ const Sidebar = (): ReactElement => {
       setFiles(files)
     }
     void getAllFiles()
-  }, [])
+  }, [openedFile])
 
   // TODO: Move this to theme
   const backgroundColor = themeType === 'light' ? '#CCC' : '#333'

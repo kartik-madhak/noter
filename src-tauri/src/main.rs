@@ -51,6 +51,15 @@ fn read_main_directory() -> Result<Vec<(String, String)>, String> {
     read_directory(path.to_str().unwrap().to_string())
 }
 
+#[tauri::command]
+fn save_file(path: String, content: String) -> Result<(), String> {
+    println!("Saving file: {}", path);
+    match std::fs::write(path, content) {
+        Ok(_) => Ok(()),
+        Err(e) => Err(format!("Error saving file: {}", e)),
+    }
+}
+
 fn init() {
     let path = home_dir().unwrap().join(MAIN_DIR_NAME);
     if !path.exists() {
@@ -64,7 +73,7 @@ fn main() {
             init();
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![read_main_directory, read_file])
+        .invoke_handler(tauri::generate_handler![read_main_directory, read_file, save_file])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

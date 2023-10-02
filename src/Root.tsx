@@ -1,10 +1,10 @@
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
-import React, { type ReactElement } from 'react'
+import React, { type ReactElement, useState } from 'react'
 import useLocalStorageState from 'use-local-storage-state'
 import { PrimarySwatch, themes } from '~/config/theme'
 import App from '~/App'
 import { ColorSchemeContext } from '~/context/ColorSchemeContext'
-import { FileContext } from '~/context/FileContext'
+import { CurrentFileContext } from '~/context/CurrentFileContext'
 
 const Root = (): ReactElement => {
   const [colorScheme, setColorScheme] = useLocalStorageState<PrimarySwatch>(
@@ -19,20 +19,24 @@ const Root = (): ReactElement => {
       defaultValue: '',
     })
 
+  const [isCurrentFileSaved, setIsCurrentFileSaved] = useState<boolean>(true)
+
   return (
     <ChakraProvider theme={themes[colorScheme]}>
       <ColorModeScript
         initialColorMode={themes[colorScheme].config.initialColorMode}
       />
       <ColorSchemeContext.Provider value={{ colorScheme, setColorScheme }}>
-        <FileContext.Provider
+        <CurrentFileContext.Provider
           value={{
-            currentOpenedFile,
-            setCurrentOpenedFile,
+            openedFile: currentOpenedFile,
+            setOpenedFile: setCurrentOpenedFile,
+            isSaved: isCurrentFileSaved,
+            setIsSaved: setIsCurrentFileSaved,
           }}
         >
           <App />
-        </FileContext.Provider>
+        </CurrentFileContext.Provider>
       </ColorSchemeContext.Provider>
     </ChakraProvider>
   )

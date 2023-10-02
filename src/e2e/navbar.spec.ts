@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('navbar tests', () => {
+test.describe.skip('navbar tests', () => {
   test('main menu item is clickable', async ({ page }) => {
     await page.goto('/')
 

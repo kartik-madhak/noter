@@ -1,4 +1,5 @@
 import { invoke } from '@tauri-apps/api/tauri'
+import { exit } from '@tauri-apps/api/process'
 
 interface Option {
   name: string
@@ -22,6 +23,8 @@ export const mainMenuOptions = ({
   },
   {
     name: 'Exit',
-    callback: () => {},
+    callback: () => {
+      void exit()
+    },
   },
 ]

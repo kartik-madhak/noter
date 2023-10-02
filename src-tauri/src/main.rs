@@ -60,6 +60,21 @@ fn save_file(path: String, content: String) -> Result<(), String> {
     }
 }
 
+#[tauri::command]
+fn new_file(name: String) -> Result<String, String> {
+    let mut sanitized_name = name.replace(":", "-").replace(".", "-");
+    if !sanitized_name.ends_with(".md") {
+        sanitized_name.push_str(".md");
+    }
+
+    let path = home_dir().unwrap().join(MAIN_DIR_NAME).join(sanitized_name);
+    let result = Ok(path.to_str().unwrap().to_string());
+    match std::fs::write(path, "") {
+        Ok(_) => result,
+        Err(e) => Err(format!("Error creating file: {}", e)),
+    }
+}
+
 fn init() {
     let path = home_dir().unwrap().join(MAIN_DIR_NAME);
     if !path.exists() {
@@ -73,7 +88,7 @@ fn main() {
             init();
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![read_main_directory, read_file, save_file])
+        .invoke_handler(tauri::generate_handler![read_main_directory, read_file, save_file, new_file])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

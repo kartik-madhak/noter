@@ -4,12 +4,10 @@ import { Box, Text } from '@chakra-ui/react'
 const SidebarItem = ({
   fileName,
   backgroundColor,
-  hoverBackgroundColor,
   onClick,
 }: {
   fileName: string
   backgroundColor: string
-  hoverBackgroundColor: string
   onClick: () => void
 }): ReactElement => {
   const extension = fileName.split('.').pop()
@@ -19,10 +17,9 @@ const SidebarItem = ({
   return (
     <Box
       ms={6}
-      mb={2}
-      height={5}
+      py={1}
       backgroundColor={backgroundColor}
-      _hover={{ background: hoverBackgroundColor, cursor: 'pointer' }}
+      _hover={{ cursor: 'default' }}
       onClick={onClick}
     >
       <Text display="flex" whiteSpace="nowrap">

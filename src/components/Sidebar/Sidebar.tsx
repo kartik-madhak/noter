@@ -60,7 +60,6 @@ const Sidebar = (): ReactElement => {
                 {files.map((fileDetailTuple, index) => {
                   return (
                     <SidebarItem
-                      hoverBackgroundColor={backgroundColor}
                       backgroundColor={
                         openedFile === fileDetailTuple[1] ? backgroundColor : ''
                       }

@@ -2,11 +2,13 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use tauri::api::path::home_dir;
+use std::collections::HashMap;
 
 const MAIN_DIR_NAME: &str = "noter";
 
-fn read_directory(path: String) -> Result<Vec<(String, String)>, String> {
-    let mut files: Vec<(String, String)> = Vec::new();
+
+fn read_directory(path: String) -> Result<Vec<HashMap<String, String>>, String> {
+    let mut files: Vec<HashMap<String, String>> = Vec::new();
     match std::fs::read_dir(path) {
         Ok(entries) => {
             for entry in entries {
@@ -18,7 +20,12 @@ fn read_directory(path: String) -> Result<Vec<(String, String)>, String> {
                         }
                         let path_str = entry.path().to_str().unwrap().to_string();
                         let name_str = file_name.to_str().unwrap().to_string();
-                        files.push((name_str, path_str));
+
+                        let mut file_info: HashMap<String, String> = HashMap::new();
+                        file_info.insert("name".to_string(), name_str);
+                        file_info.insert("path".to_string(), path_str);
+
+                        files.push(file_info);
                     }
                     Err(e) => {
                         return Err(format!("Error reading directory: {}", e));
@@ -46,7 +53,7 @@ fn read_file(path: String) -> Result<String, String> {
 }
 
 #[tauri::command]
-fn read_main_directory() -> Result<Vec<(String, String)>, String> {
+fn read_main_directory() -> Result<Vec<HashMap<String, String>>, String> {
     let path = home_dir().unwrap().join(MAIN_DIR_NAME);
     read_directory(path.to_str().unwrap().to_string())
 }

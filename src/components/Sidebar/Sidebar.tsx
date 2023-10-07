@@ -11,25 +11,43 @@ import { invoke } from '@tauri-apps/api/tauri'
 import { useCustomTheme } from '~/hooks/useCustomTheme'
 import SidebarItem from '~/components/Sidebar/SidebarItem'
 import { CurrentFileContext } from '~/context/CurrentFileContext'
+import RightClickMenu from '~/components/Sidebar/RightClickMenu'
+
+export interface File {
+  name: string
+  path: string
+}
+
+export interface RightClickedItem {
+  file: File
+  x: number
+  y: number
+}
 
 const Sidebar = (): ReactElement => {
   const {
-    theme: { sidebarColor, type: themeType },
+    theme: { sidebarColor },
   } = useCustomTheme()
 
-  const [files, setFiles] = useState<string[]>([])
+  const [files, setFiles] = useState<File[]>([])
   const { openedFile, setOpenedFile } = useContext(CurrentFileContext)
+  const [rightClickedItem, setRightClickedItem] =
+    useState<RightClickedItem | null>(null)
+
+  const {
+    theme: { type: themeType },
+  } = useCustomTheme()
+
+  // TODO: Move this to theme
+  const backgroundColor = themeType === 'light' ? '#CCC' : '#333'
 
   useEffect(() => {
     const getAllFiles = async (): Promise<void> => {
-      const files: [string] = await invoke('read_main_directory')
+      const files: [File] = await invoke('read_main_directory')
       setFiles(files)
     }
     void getAllFiles()
   }, [openedFile])
-
-  // TODO: Move this to theme
-  const backgroundColor = themeType === 'light' ? '#CCC' : '#333'
 
   return (
     <Box w="100%" h="100%" background={sidebarColor}>
@@ -57,17 +75,20 @@ const Sidebar = (): ReactElement => {
                 </Box>
               </AccordionButton>
               <AccordionPanel p={0}>
-                {files.map((fileDetailTuple, index) => {
+                {files.map((file, index) => {
                   return (
                     <SidebarItem
-                      backgroundColor={
-                        openedFile === fileDetailTuple[1] ? backgroundColor : ''
-                      }
                       key={index}
-                      fileName={fileDetailTuple[0]}
+                      isSelected={openedFile === file.path}
+                      fileInfo={file}
                       onClick={(): void => {
-                        setOpenedFile(fileDetailTuple[1])
+                        setOpenedFile(file.path)
                       }}
+                      isRightClicked={
+                        rightClickedItem?.file?.name === file.name
+                      }
+                      setRightClickedItem={setRightClickedItem}
+                      onSelectBackgroundColor={backgroundColor}
                     />
                   )
                 })}
@@ -76,6 +97,7 @@ const Sidebar = (): ReactElement => {
           )}
         </AccordionItem>
       </Accordion>
+      <RightClickMenu rightClickedItem={rightClickedItem} />
     </Box>
   )
 }

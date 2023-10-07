@@ -1,26 +1,43 @@
 import React, { type ReactElement } from 'react'
 import { Box, Text } from '@chakra-ui/react'
+import { type File, type RightClickedItem } from '~/components/Sidebar/Sidebar'
 
 const SidebarItem = ({
-  fileName,
-  backgroundColor,
+  fileInfo,
+  isSelected,
   onClick,
+  setRightClickedItem,
+  isRightClicked,
+  onSelectBackgroundColor,
 }: {
-  fileName: string
-  backgroundColor: string
+  fileInfo: File
+  isSelected: boolean
   onClick: () => void
+  setRightClickedItem: (_: RightClickedItem) => void
+  isRightClicked: boolean
+  onSelectBackgroundColor: string
 }): ReactElement => {
+  const fileName = fileInfo.name
   const extension = fileName.split('.').pop()
-
   const icon = extension === 'md' ? '📝' : '📄'
 
   return (
     <Box
       ms={6}
       py={1}
-      backgroundColor={backgroundColor}
+      backgroundColor={
+        isSelected || isRightClicked ? onSelectBackgroundColor : 'transparent'
+      }
       _hover={{ cursor: 'default' }}
       onClick={onClick}
+      onContextMenu={(e) => {
+        e.preventDefault()
+        setRightClickedItem({
+          file: fileInfo,
+          x: e.clientX,
+          y: e.clientY,
+        })
+      }}
     >
       <Text display="flex" whiteSpace="nowrap">
         {icon}

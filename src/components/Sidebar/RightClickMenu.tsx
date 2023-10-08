@@ -4,8 +4,12 @@ import { type RightClickedItem } from '~/components/Sidebar/Sidebar'
 
 const RightClickMenu = ({
   rightClickedItem,
+  onRenameModalOpened,
+  onDeleteModalOpened,
 }: {
   rightClickedItem: RightClickedItem | null
+  onRenameModalOpened: () => void
+  onDeleteModalOpened: () => void
 }): ReactElement => {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -51,11 +55,22 @@ const RightClickMenu = ({
   return (
     <Menu isOpen={isOpen && rightClickedItem != null}>
       <MenuList ref={ref}>
-        <MenuItem>Download</MenuItem>
-        <MenuItem>Create a Copy</MenuItem>
-        <MenuItem>Mark as Draft</MenuItem>
-        <MenuItem>Delete</MenuItem>
-        <MenuItem>Attend a Workshop</MenuItem>
+        <MenuItem
+          onClick={() => {
+            setIsOpen(false)
+            onRenameModalOpened()
+          }}
+        >
+          Rename
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setIsOpen(false)
+            onDeleteModalOpened()
+          }}
+        >
+          Delete
+        </MenuItem>
       </MenuList>
     </Menu>
   )

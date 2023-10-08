@@ -5,6 +5,7 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
+  useDisclosure,
 } from '@chakra-ui/react'
 import { type ReactElement, useContext, useEffect, useState } from 'react'
 import { invoke } from '@tauri-apps/api/tauri'
@@ -12,6 +13,8 @@ import { useCustomTheme } from '~/hooks/useCustomTheme'
 import SidebarItem from '~/components/Sidebar/SidebarItem'
 import { CurrentFileContext } from '~/context/CurrentFileContext'
 import RightClickMenu from '~/components/Sidebar/RightClickMenu'
+import RenameModal from '~/components/Sidebar/RenameModal'
+import DeleteModal from '~/components/Sidebar/DeleteModal'
 
 export interface File {
   name: string
@@ -33,6 +36,16 @@ const Sidebar = (): ReactElement => {
   const { openedFile, setOpenedFile } = useContext(CurrentFileContext)
   const [rightClickedItem, setRightClickedItem] =
     useState<RightClickedItem | null>(null)
+  const {
+    isOpen: isRenameModalOpened,
+    onOpen: onRenameModalOpen,
+    onClose: onRenameModalClose,
+  } = useDisclosure()
+  const {
+    isOpen: isDeleteModalOpened,
+    onOpen: onDeleteModalOpen,
+    onClose: onDeleteModalClose,
+  } = useDisclosure()
 
   const {
     theme: { type: themeType },
@@ -97,7 +110,21 @@ const Sidebar = (): ReactElement => {
           )}
         </AccordionItem>
       </Accordion>
-      <RightClickMenu rightClickedItem={rightClickedItem} />
+      <RightClickMenu
+        rightClickedItem={rightClickedItem}
+        onRenameModalOpened={onRenameModalOpen}
+        onDeleteModalOpened={onDeleteModalOpen}
+      />
+      <RenameModal
+        rightClickedItem={rightClickedItem}
+        isOpen={isRenameModalOpened}
+        onClose={onRenameModalClose}
+      />
+      <DeleteModal
+        rightClickedItem={rightClickedItem}
+        isOpen={isDeleteModalOpened}
+        onClose={onDeleteModalClose}
+      />
     </Box>
   )
 }

@@ -1,4 +1,5 @@
 import React, {
+  type MouseEventHandler,
   type ReactElement,
   useContext,
   useEffect,
@@ -78,7 +79,12 @@ const RenameModal = ({
         </ModalBody>
 
         <ModalFooter>
-          <Button tabIndex={2} colorScheme="red" me={2} onClick={onRename}>
+          <Button
+            tabIndex={2}
+            colorScheme="red"
+            me={2}
+            onClick={onRename as MouseEventHandler}
+          >
             Rename
           </Button>
           <Button tabIndex={3} colorScheme="blue" mr={3} onClick={onClose}>

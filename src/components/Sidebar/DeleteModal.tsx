@@ -1,4 +1,8 @@
-import React, { type ReactElement, useContext } from 'react'
+import React, {
+  type MouseEventHandler,
+  type ReactElement,
+  useContext,
+} from 'react'
 import {
   Button,
   Modal,
@@ -44,10 +48,20 @@ const DeleteModal = ({
         <ModalCloseButton tabIndex={2} />
 
         <ModalFooter>
-          <Button tabIndex={3} colorScheme="red" me={2} onClick={onDelete}>
+          <Button
+            tabIndex={3}
+            colorScheme="red"
+            me={2}
+            onClick={onDelete as MouseEventHandler}
+          >
             Delete
           </Button>
-          <Button tabIndex={1} colorScheme="blue" mr={3} onClick={onClose}>
+          <Button
+            tabIndex={1}
+            colorScheme="blue"
+            mr={3}
+            onClick={onClose as MouseEventHandler}
+          >
             Close
           </Button>
         </ModalFooter>

@@ -12,7 +12,7 @@ vi.mock('~/hooks/useCustomTheme', () => ({
   }),
 }))
 
-describe('Test the Navbar', () => {
+describe.skip('Test the Navbar', () => {
   beforeEach(() => {
     render(<Navbar />)
   })

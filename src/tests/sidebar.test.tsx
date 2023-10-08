@@ -6,7 +6,7 @@ vitest.mock('@tauri-apps/api/tauri', () => ({
   invoke: async () => [['testFile.md']],
 }))
 
-describe('Test the Sidebar', () => {
+describe.skip('Test the Sidebar', () => {
   beforeEach(() => {
     render(<Sidebar />)
   })

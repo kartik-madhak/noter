@@ -1,12 +1,16 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+use std::collections::HashMap;
+use std::fs;
+
 use tauri::api::path::home_dir;
 
 const MAIN_DIR_NAME: &str = "noter";
 
-fn read_directory(path: String) -> Result<Vec<(String, String)>, String> {
-    let mut files: Vec<(String, String)> = Vec::new();
+
+fn read_directory(path: String) -> Result<Vec<HashMap<String, String>>, String> {
+    let mut files: Vec<HashMap<String, String>> = Vec::new();
     match std::fs::read_dir(path) {
         Ok(entries) => {
             for entry in entries {
@@ -18,7 +22,12 @@ fn read_directory(path: String) -> Result<Vec<(String, String)>, String> {
                         }
                         let path_str = entry.path().to_str().unwrap().to_string();
                         let name_str = file_name.to_str().unwrap().to_string();
-                        files.push((name_str, path_str));
+
+                        let mut file_info: HashMap<String, String> = HashMap::new();
+                        file_info.insert("name".to_string(), name_str);
+                        file_info.insert("path".to_string(), path_str);
+
+                        files.push(file_info);
                     }
                     Err(e) => {
                         return Err(format!("Error reading directory: {}", e));
@@ -46,7 +55,7 @@ fn read_file(path: String) -> Result<String, String> {
 }
 
 #[tauri::command]
-fn read_main_directory() -> Result<Vec<(String, String)>, String> {
+fn read_main_directory() -> Result<Vec<HashMap<String, String>>, String> {
     let path = home_dir().unwrap().join(MAIN_DIR_NAME);
     read_directory(path.to_str().unwrap().to_string())
 }
@@ -62,7 +71,8 @@ fn save_file(path: String, content: String) -> Result<(), String> {
 
 #[tauri::command]
 fn new_file(name: String) -> Result<String, String> {
-    let mut sanitized_name = name.replace(":", "-").replace(".", "-");
+    let mut sanitized_name = sanitize_filename::sanitize(&name);
+
     if !sanitized_name.ends_with(".md") {
         sanitized_name.push_str(".md");
     }
@@ -73,6 +83,35 @@ fn new_file(name: String) -> Result<String, String> {
         Ok(_) => result,
         Err(e) => Err(format!("Error creating file: {}", e)),
     }
+}
+
+#[tauri::command]
+fn rename_file(path: String, new_name: String) -> Result<String, String> {
+    let old_path = std::path::Path::new(&path);
+    if !old_path.exists() {
+        return Err(format!("File {} does not exist", path));
+    }
+
+    let mut sanitized_name = sanitize_filename::sanitize(&new_name);
+
+    if !sanitized_name.ends_with(".md") {
+        sanitized_name.push_str(".md");
+    }
+
+    let new_path = old_path.with_file_name(sanitized_name);
+    fs::rename(&old_path, &new_path).map_err(|err| format!("Failed to rename file: {}", err))?;
+
+    Ok(new_path.to_string_lossy().into_owned())
+}
+
+#[tauri::command]
+fn delete_file(path: String) -> Result<(), String> {
+    let path = std::path::Path::new(&path);
+    if !path.exists() {
+        return Err(format!("File {} does not exist", path.display()));
+    }
+
+    fs::remove_file(path).map_err(|err| format!("Failed to delete file: {}", err))
 }
 
 fn init() {
@@ -88,7 +127,7 @@ fn main() {
             init();
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![read_main_directory, read_file, save_file, new_file])
+        .invoke_handler(tauri::generate_handler![read_main_directory, read_file, save_file, new_file, rename_file, delete_file])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

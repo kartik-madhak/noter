@@ -36,6 +36,9 @@ const Sidebar = (): ReactElement => {
   const { openedFile, setOpenedFile } = useContext(CurrentFileContext)
   const [rightClickedItem, setRightClickedItem] =
     useState<RightClickedItem | null>(null)
+  const [disableRightClickHighlight, setDisableRightClickHighlight] =
+    useState(false)
+
   const {
     isOpen: isRenameModalOpened,
     onOpen: onRenameModalOpen,
@@ -98,10 +101,14 @@ const Sidebar = (): ReactElement => {
                         setOpenedFile(file.path)
                       }}
                       isRightClicked={
-                        rightClickedItem?.file?.name === file.name
+                        rightClickedItem?.file?.name === file.name &&
+                        !disableRightClickHighlight
                       }
                       setRightClickedItem={setRightClickedItem}
                       onSelectBackgroundColor={backgroundColor}
+                      setDisableRightClickHighlight={
+                        setDisableRightClickHighlight
+                      }
                     />
                   )
                 })}
@@ -114,6 +121,7 @@ const Sidebar = (): ReactElement => {
         rightClickedItem={rightClickedItem}
         onRenameModalOpened={onRenameModalOpen}
         onDeleteModalOpened={onDeleteModalOpen}
+        setDisableRightClickHighlight={setDisableRightClickHighlight}
       />
       <RenameModal
         rightClickedItem={rightClickedItem}

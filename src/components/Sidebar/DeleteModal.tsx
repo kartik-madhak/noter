@@ -30,8 +30,7 @@ const DeleteModal = ({
   const onDelete = async (): Promise<void> => {
     await invoke('delete_file', {
       path: rightClickedItem?.file?.path ?? '',
-    }).then((res) => {
-      console.log(res)
+    }).then(() => {
       setOpenedFile('')
       onClose()
     })

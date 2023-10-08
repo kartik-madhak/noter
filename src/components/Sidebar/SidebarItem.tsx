@@ -9,6 +9,7 @@ const SidebarItem = ({
   setRightClickedItem,
   isRightClicked,
   onSelectBackgroundColor,
+  setDisableRightClickHighlight,
 }: {
   fileInfo: File
   isSelected: boolean
@@ -16,6 +17,7 @@ const SidebarItem = ({
   setRightClickedItem: (_: RightClickedItem) => void
   isRightClicked: boolean
   onSelectBackgroundColor: string
+  setDisableRightClickHighlight: (_: boolean) => void
 }): ReactElement => {
   const fileName = fileInfo.name
   const extension = fileName.split('.').pop()
@@ -37,6 +39,7 @@ const SidebarItem = ({
           x: e.clientX,
           y: e.clientY,
         })
+        setDisableRightClickHighlight(false)
       }}
     >
       <Text display="flex" whiteSpace="nowrap">

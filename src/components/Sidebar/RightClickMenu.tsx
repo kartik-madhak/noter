@@ -6,10 +6,12 @@ const RightClickMenu = ({
   rightClickedItem,
   onRenameModalOpened,
   onDeleteModalOpened,
+  setDisableRightClickHighlight,
 }: {
   rightClickedItem: RightClickedItem | null
   onRenameModalOpened: () => void
   onDeleteModalOpened: () => void
+  setDisableRightClickHighlight: (_: boolean) => void
 }): ReactElement => {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -41,6 +43,7 @@ const RightClickMenu = ({
         return
       }
       if (!current.contains(event.target as Node)) {
+        setDisableRightClickHighlight(true)
         setIsOpen(false)
       }
     }

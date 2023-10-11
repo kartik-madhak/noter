@@ -7,7 +7,13 @@ import {
   Box,
   useDisclosure,
 } from '@chakra-ui/react'
-import { type ReactElement, useContext, useEffect, useState } from 'react'
+import {
+  type ReactElement,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import { invoke } from '@tauri-apps/api/tauri'
 import { useCustomTheme } from '~/hooks/useCustomTheme'
 import SidebarItem from '~/components/Sidebar/SidebarItem'
@@ -15,6 +21,7 @@ import { CurrentFileContext } from '~/context/CurrentFileContext'
 import RightClickMenu from '~/components/Sidebar/RightClickMenu'
 import RenameModal from '~/components/Sidebar/RenameModal'
 import DeleteModal from '~/components/Sidebar/DeleteModal'
+import NewFileModal from '~/components/Sidebar/NewFileModal'
 
 export interface File {
   name: string
@@ -22,7 +29,7 @@ export interface File {
 }
 
 export interface RightClickedItem {
-  file: File
+  file: File | null
   x: number
   y: number
 }
@@ -49,10 +56,17 @@ const Sidebar = (): ReactElement => {
     onOpen: onDeleteModalOpen,
     onClose: onDeleteModalClose,
   } = useDisclosure()
+  const {
+    isOpen: isNewFileModalOpened,
+    onOpen: onNewFileModalOpen,
+    onClose: onNewFileModalClose,
+  } = useDisclosure()
 
   const {
     theme: { type: themeType },
   } = useCustomTheme()
+
+  const filesAreaRef = useRef<HTMLDivElement>(null)
 
   // TODO: Move this to theme
   const backgroundColor = themeType === 'light' ? '#CCC' : '#333'
@@ -66,7 +80,25 @@ const Sidebar = (): ReactElement => {
   }, [openedFile])
 
   return (
-    <Box w="100%" h="100%" background={sidebarColor}>
+    <Box
+      w="100%"
+      h="100%"
+      background={sidebarColor}
+      onContextMenu={(event) => {
+        event.preventDefault()
+        if (
+          filesAreaRef.current == null ||
+          filesAreaRef.current.contains(event.target as Node)
+        ) {
+          return
+        }
+        setRightClickedItem({
+          file: null,
+          x: event.clientX,
+          y: event.clientY,
+        })
+      }}
+    >
       <Accordion
         allowToggle
         defaultIndex={[0]}
@@ -90,7 +122,7 @@ const Sidebar = (): ReactElement => {
                   noter
                 </Box>
               </AccordionButton>
-              <AccordionPanel p={0}>
+              <AccordionPanel p={0} ref={filesAreaRef}>
                 {files.map((file, index) => {
                   return (
                     <SidebarItem
@@ -121,6 +153,7 @@ const Sidebar = (): ReactElement => {
         rightClickedItem={rightClickedItem}
         onRenameModalOpened={onRenameModalOpen}
         onDeleteModalOpened={onDeleteModalOpen}
+        onNewFileModalOpened={onNewFileModalOpen}
         setDisableRightClickHighlight={setDisableRightClickHighlight}
       />
       <RenameModal
@@ -132,6 +165,10 @@ const Sidebar = (): ReactElement => {
         rightClickedItem={rightClickedItem}
         isOpen={isDeleteModalOpened}
         onClose={onDeleteModalClose}
+      />
+      <NewFileModal
+        isOpen={isNewFileModalOpened}
+        onClose={onNewFileModalClose}
       />
     </Box>
   )

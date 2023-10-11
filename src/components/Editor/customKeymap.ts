@@ -1,5 +1,6 @@
 import { Prec } from '@codemirror/state'
 import { keymap } from '@codemirror/view'
+import { redo } from '@codemirror/commands'
 import {
   modifyLines,
   modifySelection,
@@ -45,6 +46,16 @@ export default Prec.highest(
       key: 'Mod-Shift-Enter',
       run: (editor) => {
         modifyLines(editor.state, editor.dispatch, toggleCheckListAll)
+        return true
+      },
+    },
+    {
+      key: 'Mod-Shift-z',
+      run: (editor) => {
+        redo({
+          state: editor.state,
+          dispatch: editor.dispatch,
+        })
         return true
       },
     },

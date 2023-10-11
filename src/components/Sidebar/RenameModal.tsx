@@ -38,9 +38,8 @@ const RenameModal = ({
 
   useEffect(() => {
     setNewFileName(rightClickedItem?.file?.name.split('.')[0] ?? '')
+    setCustomError('')
   }, [rightClickedItem])
-
-  const isFileNameInvalid = newFileName === ''
 
   const clearEverything = (): void => {
     setNewFileName('')
@@ -48,9 +47,6 @@ const RenameModal = ({
   }
 
   const onRename = async (): Promise<void> => {
-    if (isFileNameInvalid) {
-      return
-    }
     await invoke('rename_file', {
       path: rightClickedItem?.file?.path ?? '',
       newName: newFileName,
@@ -74,10 +70,7 @@ const RenameModal = ({
         </ModalHeader>
         <ModalCloseButton tabIndex={4} />
         <ModalBody>
-          <FormControl
-            isInvalid={isFileNameInvalid || customError !== ''}
-            isRequired
-          >
+          <FormControl isInvalid={customError !== ''} isRequired>
             <FormLabel>Rename file</FormLabel>
             <Input
               tabIndex={1}
@@ -86,9 +79,6 @@ const RenameModal = ({
                 setNewFileName(e.target.value)
               }}
             />
-            {isFileNameInvalid && (
-              <FormErrorMessage>File name cannot be empty</FormErrorMessage>
-            )}
             {customError !== '' && (
               <FormErrorMessage>{customError}</FormErrorMessage>
             )}

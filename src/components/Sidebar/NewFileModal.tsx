@@ -1,6 +1,7 @@
 import React, {
   type MouseEventHandler,
   type ReactElement,
+  useCallback,
   useContext,
   useState,
 } from 'react'
@@ -32,17 +33,12 @@ const NewFileModal = ({
   const [customError, setCustomError] = useState('')
   const { setOpenedFile } = useContext(CurrentFileContext)
 
-  const isFileNameInvalid = newFileName === ''
-
   const clearEverything = (): void => {
     setNewFileName('')
     setCustomError('')
   }
 
   const onNewFile = async (): Promise<void> => {
-    if (isFileNameInvalid) {
-      return
-    }
     await invoke('new_file', {
       name: newFileName,
     })
@@ -56,17 +52,19 @@ const NewFileModal = ({
       })
   }
 
+  const onCloseWithClear = useCallback(() => {
+    clearEverything()
+    onClose()
+  }, [])
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered>
+    <Modal isOpen={isOpen} onClose={onCloseWithClear} isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>New file</ModalHeader>
         <ModalCloseButton tabIndex={4} />
         <ModalBody>
-          <FormControl
-            isInvalid={isFileNameInvalid || customError !== ''}
-            isRequired
-          >
+          <FormControl isInvalid={customError !== ''} isRequired>
             <FormLabel>File name</FormLabel>
             <Input
               tabIndex={1}
@@ -75,9 +73,6 @@ const NewFileModal = ({
                 setNewFileName(e.target.value)
               }}
             />
-            {isFileNameInvalid && (
-              <FormErrorMessage>File name cannot be empty</FormErrorMessage>
-            )}
             {customError !== '' && (
               <FormErrorMessage>{customError}</FormErrorMessage>
             )}
@@ -93,7 +88,12 @@ const NewFileModal = ({
           >
             Create
           </Button>
-          <Button tabIndex={3} colorScheme="blue" mr={3} onClick={onClose}>
+          <Button
+            tabIndex={3}
+            colorScheme="blue"
+            mr={3}
+            onClick={onCloseWithClear}
+          >
             Close
           </Button>
         </ModalFooter>

@@ -2,7 +2,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use std::collections::HashMap;
-use std::fs;
+use std::{fs, path};
 
 use tauri::api::path::home_dir;
 
@@ -11,7 +11,7 @@ const MAIN_DIR_NAME: &str = "noter";
 
 fn read_directory(path: String) -> Result<Vec<HashMap<String, String>>, String> {
     let mut files: Vec<HashMap<String, String>> = Vec::new();
-    match std::fs::read_dir(path) {
+    match fs::read_dir(path) {
         Ok(entries) => {
             for entry in entries {
                 match entry {
@@ -47,7 +47,7 @@ fn read_file(path: String) -> Result<String, String> {
     if path.is_empty() {
         return Ok("".to_string());
     }
-    match std::fs::read_to_string(path) {
+    match fs::read_to_string(path) {
         Ok(content) => Ok(content),
         Err(e) => Err(format!("Error reading file: {}", e)),
     }
@@ -61,7 +61,7 @@ fn read_main_directory() -> Result<Vec<HashMap<String, String>>, String> {
 
 #[tauri::command]
 fn save_file(path: String, content: String) -> Result<(), String> {
-    match std::fs::write(path, content) {
+    match fs::write(path, content) {
         Ok(_) => Ok(()),
         Err(e) => Err(format!("Error saving file: {}", e)),
     }
@@ -77,7 +77,12 @@ fn new_file(name: String) -> Result<String, String> {
 
     let path = home_dir().unwrap().join(MAIN_DIR_NAME).join(sanitized_name);
     let result = Ok(path.to_str().unwrap().to_string());
-    match std::fs::write(path, "") {
+
+    if path.exists() {
+        return Err(format!("File {} already exists", path.display()));
+    }
+
+    match fs::write(path, "") {
         Ok(_) => result,
         Err(e) => Err(format!("Error creating file: {}", e)),
     }
@@ -85,7 +90,7 @@ fn new_file(name: String) -> Result<String, String> {
 
 #[tauri::command]
 fn rename_file(path: String, new_name: String) -> Result<String, String> {
-    let old_path = std::path::Path::new(&path);
+    let old_path = path::Path::new(&path);
     if !old_path.exists() {
         return Err(format!("File {} does not exist", path));
     }
@@ -97,6 +102,9 @@ fn rename_file(path: String, new_name: String) -> Result<String, String> {
     }
 
     let new_path = old_path.with_file_name(sanitized_name);
+    if new_path.exists() {
+        return Err(format!("File {} already exists", new_path.display()));
+    }
     fs::rename(&old_path, &new_path).map_err(|err| format!("Failed to rename file: {}", err))?;
 
     Ok(new_path.to_string_lossy().into_owned())
@@ -104,7 +112,7 @@ fn rename_file(path: String, new_name: String) -> Result<String, String> {
 
 #[tauri::command]
 fn delete_file(path: String) -> Result<(), String> {
-    let path = std::path::Path::new(&path);
+    let path = path::Path::new(&path);
     if !path.exists() {
         return Err(format!("File {} does not exist", path.display()));
     }
@@ -115,7 +123,7 @@ fn delete_file(path: String) -> Result<(), String> {
 fn init() {
     let path = home_dir().unwrap().join(MAIN_DIR_NAME);
     if !path.exists() {
-        std::fs::create_dir(path).unwrap();
+        fs::create_dir(path).unwrap();
     }
 }
 

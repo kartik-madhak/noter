@@ -23,8 +23,13 @@ export const modifyLines = (
         to: lineTo.to,
         insert: textToInsert,
       },
+      selection: {
+        anchor: lineFrom.from + textToInsert.length,
+        head: lineFrom.from + textToInsert.length,
+      },
     })
   )
+
   return {}
 }
 

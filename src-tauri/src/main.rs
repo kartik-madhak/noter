@@ -44,7 +44,6 @@ fn read_directory(path: String) -> Result<Vec<HashMap<String, String>>, String> 
 
 #[tauri::command]
 fn read_file(path: String) -> Result<String, String> {
-    println!("Reading file: {}", path);
     if path.is_empty() {
         return Ok("".to_string());
     }
@@ -62,7 +61,6 @@ fn read_main_directory() -> Result<Vec<HashMap<String, String>>, String> {
 
 #[tauri::command]
 fn save_file(path: String, content: String) -> Result<(), String> {
-    println!("Saving file: {}", path);
     match std::fs::write(path, content) {
         Ok(_) => Ok(()),
         Err(e) => Err(format!("Error saving file: {}", e)),

@@ -2,7 +2,6 @@ import React, {
   type MouseEventHandler,
   type ReactElement,
   useContext,
-  useEffect,
   useState,
 } from 'react'
 import {
@@ -20,25 +19,18 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react'
 import { invoke } from '@tauri-apps/api/tauri'
-import { type RightClickedItem } from '~/components/Sidebar/Sidebar'
 import { CurrentFileContext } from '~/context/CurrentFileContext'
 
-const RenameModal = ({
-  rightClickedItem,
+const NewFileModal = ({
   isOpen,
   onClose,
 }: {
-  rightClickedItem: RightClickedItem | null
   isOpen: boolean
   onClose: () => void
 }): ReactElement => {
   const [newFileName, setNewFileName] = useState('')
   const [customError, setCustomError] = useState('')
   const { setOpenedFile } = useContext(CurrentFileContext)
-
-  useEffect(() => {
-    setNewFileName(rightClickedItem?.file?.name.split('.')[0] ?? '')
-  }, [rightClickedItem])
 
   const isFileNameInvalid = newFileName === ''
 
@@ -47,13 +39,12 @@ const RenameModal = ({
     setCustomError('')
   }
 
-  const onRename = async (): Promise<void> => {
+  const onNewFile = async (): Promise<void> => {
     if (isFileNameInvalid) {
       return
     }
-    await invoke('rename_file', {
-      path: rightClickedItem?.file?.path ?? '',
-      newName: newFileName,
+    await invoke('new_file', {
+      name: newFileName,
     })
       .then((filePath) => {
         setOpenedFile(filePath as string)
@@ -69,16 +60,14 @@ const RenameModal = ({
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>
-          Rename {rightClickedItem?.file?.name ?? '???'}
-        </ModalHeader>
+        <ModalHeader>New file</ModalHeader>
         <ModalCloseButton tabIndex={4} />
         <ModalBody>
           <FormControl
             isInvalid={isFileNameInvalid || customError !== ''}
             isRequired
           >
-            <FormLabel>Rename file</FormLabel>
+            <FormLabel>File name</FormLabel>
             <Input
               tabIndex={1}
               defaultValue={newFileName}
@@ -100,9 +89,9 @@ const RenameModal = ({
             tabIndex={2}
             colorScheme="red"
             me={2}
-            onClick={onRename as MouseEventHandler}
+            onClick={onNewFile as MouseEventHandler}
           >
-            Rename
+            Create
           </Button>
           <Button tabIndex={3} colorScheme="blue" mr={3} onClick={onClose}>
             Close
@@ -113,4 +102,4 @@ const RenameModal = ({
   )
 }
 
-export default RenameModal
+export default NewFileModal

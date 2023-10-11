@@ -6,25 +6,27 @@ const RightClickMenu = ({
   rightClickedItem,
   onRenameModalOpened,
   onDeleteModalOpened,
+  onNewFileModalOpened,
   setDisableRightClickHighlight,
 }: {
   rightClickedItem: RightClickedItem | null
   onRenameModalOpened: () => void
   onDeleteModalOpened: () => void
+  onNewFileModalOpened: () => void
   setDisableRightClickHighlight: (_: boolean) => void
 }): ReactElement => {
   const [isOpen, setIsOpen] = useState(false)
 
-  const ref = useRef<HTMLDivElement>(null)
+  const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (rightClickedItem == null) {
       return
     }
-    if (ref.current == null) {
+    if (menuRef.current == null) {
       return
     }
-    const parent = ref.current.parentElement
+    const parent = menuRef.current.parentElement
 
     if (parent != null) {
       parent.style.left = `${rightClickedItem.x}px`
@@ -38,7 +40,7 @@ const RightClickMenu = ({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent): void => {
-      const current = ref.current
+      const current = menuRef.current
       if (current == null) {
         return
       }
@@ -57,23 +59,35 @@ const RightClickMenu = ({
 
   return (
     <Menu isOpen={isOpen && rightClickedItem != null}>
-      <MenuList ref={ref}>
+      <MenuList ref={menuRef}>
         <MenuItem
           onClick={() => {
             setIsOpen(false)
-            onRenameModalOpened()
+            onNewFileModalOpened()
           }}
         >
-          Rename
+          New File
         </MenuItem>
-        <MenuItem
-          onClick={() => {
-            setIsOpen(false)
-            onDeleteModalOpened()
-          }}
-        >
-          Delete
-        </MenuItem>
+        {rightClickedItem?.file != null && (
+          <>
+            <MenuItem
+              onClick={() => {
+                setIsOpen(false)
+                onRenameModalOpened()
+              }}
+            >
+              Rename
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                setIsOpen(false)
+                onDeleteModalOpened()
+              }}
+            >
+              Delete
+            </MenuItem>
+          </>
+        )}
       </MenuList>
     </Menu>
   )

@@ -8,7 +8,8 @@ Please note we have a code of conduct, please follow it in all your interactions
 ## Pull Request Process
 
 1. You need one approval on your PR to be able to merge it in. Feel free to request review from any collaborators.
-2. Make sure the PR is descriptive enough to justify the changes it makes.
+2. Make sure the PR title is concise and the description is descriptive enough to justify the changes it makes.
+3. Try following the best practices of the framework wherever possible.
 
 ## Code of Conduct
 

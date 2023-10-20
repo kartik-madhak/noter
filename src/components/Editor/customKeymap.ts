@@ -1,6 +1,6 @@
 import { Prec } from '@codemirror/state'
 import { keymap } from '@codemirror/view'
-import { redo } from '@codemirror/commands'
+import { redo, indentWithTab } from '@codemirror/commands'
 import {
   modifyLines,
   modifySelection,
@@ -13,6 +13,7 @@ import {
 
 export default Prec.highest(
   keymap.of([
+    indentWithTab,
     {
       key: 'Mod-i',
       run: (editor) => {

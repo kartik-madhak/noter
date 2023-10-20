@@ -18,20 +18,37 @@ export const setZoomEvent = (
     const event = e as unknown as WheelEvent
     if (!(event.ctrlKey || event.metaKey)) return
 
-    event.preventDefault()
-
-    let fontSize = parseFloat(editorElement.dom.style.fontSize)
-    if (isNaN(fontSize)) {
-      fontSize = storedFontSize
-    }
-
-    if (event.deltaY < 0) {
-      fontSize = Math.min(fontSize + 1, maxFontSize)
-    } else {
-      fontSize = Math.max(fontSize - 1, minFontSize)
-    }
-
-    editorElement.dom.style.fontSize = `${fontSize}px`
-    localStorage.setItem('fontSize', `${fontSize}`)
+    changeFontSize(event, editorElement, storedFontSize, event.deltaY < 0)
   })
+
+  element.addEventListener('keypress', (e) => {
+    const event = e as unknown as KeyboardEvent
+    if (!(event.ctrlKey || event.metaKey)) return
+    if (event.key !== '+' && event.key !== '-') return
+
+    changeFontSize(event, editorElement, storedFontSize, event.key === '+')
+  })
+}
+
+function changeFontSize(
+  event: { preventDefault: () => void },
+  editorElement: EditorView,
+  storedFontSize: number,
+  increment: boolean
+): void {
+  event.preventDefault()
+
+  let fontSize = parseFloat(editorElement.dom.style.fontSize)
+  if (isNaN(fontSize)) {
+    fontSize = storedFontSize
+  }
+
+  if (increment) {
+    fontSize = Math.min(fontSize + 1, maxFontSize)
+  } else {
+    fontSize = Math.max(fontSize - 1, minFontSize)
+  }
+
+  editorElement.dom.style.fontSize = `${fontSize}px`
+  localStorage.setItem('fontSize', `${fontSize}`)
 }

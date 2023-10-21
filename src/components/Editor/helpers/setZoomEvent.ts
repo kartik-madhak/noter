@@ -21,7 +21,7 @@ export const setZoomEvent = (
     changeFontSize(event, editorElement, storedFontSize, event.deltaY < 0)
   })
 
-  element.addEventListener('keypress', (e) => {
+  element.addEventListener('keydown', (e) => {
     const event = e as unknown as KeyboardEvent
     if (!(event.ctrlKey || event.metaKey)) return
     if (event.key !== '+' && event.key !== '-' && event.key !== '=') return

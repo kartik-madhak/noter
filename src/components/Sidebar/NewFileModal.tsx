@@ -4,6 +4,7 @@ import React, {
   useCallback,
   useContext,
   useState,
+  useEffect,
 } from 'react'
 import {
   Button,
@@ -56,6 +57,20 @@ const NewFileModal = ({
     clearEverything()
     onClose()
   }, [])
+
+  useEffect(() => {
+    const handleKeyDownEvent = (event: KeyboardEvent) => {
+      if (event.key == 'Enter') {
+        onNewFile()
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDownEvent)
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDownEvent)
+    }
+  }, [newFileName])
 
   return (
     <Modal isOpen={isOpen} onClose={onCloseWithClear} isCentered>

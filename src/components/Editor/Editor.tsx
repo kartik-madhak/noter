@@ -1,8 +1,7 @@
 import { Box } from '@chakra-ui/react'
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown'
 import { languages } from '@codemirror/language-data'
-
-import React, {
+import {
   type ReactElement,
   useContext,
   useEffect,
@@ -11,14 +10,12 @@ import React, {
 } from 'react'
 import { basicSetup, EditorView } from 'codemirror'
 import { Compartment, EditorState, type Transaction } from '@codemirror/state'
-import { barf, noctisLilac } from 'thememirror'
 import { syntaxHighlighting } from '@codemirror/language'
 import { invoke } from '@tauri-apps/api/tauri'
 import customKeymap from '~/components/Editor/customKeymap'
 
 import { useCustomTheme } from '~/hooks/useCustomTheme'
 
-import { ThemeType } from '~/config/allThemes'
 import { customSyntaxHighlighting } from '~/components/Editor/customSyntaxHighlighting'
 import { setZoomEvent } from '~/components/Editor/helpers/setZoomEvent'
 import { CurrentFileContext } from '~/context/CurrentFileContext'
@@ -31,9 +28,7 @@ const themeCompartment = new Compartment()
 
 const Editor = (): ReactElement => {
   const editorRef = useRef<HTMLDivElement>(null)
-  const {
-    theme: { type: themeType },
-  } = useCustomTheme()
+  const { editorTheme } = useCustomTheme()
 
   const [view, setView] = useState<EditorView | null>(null)
 
@@ -64,11 +59,9 @@ const Editor = (): ReactElement => {
     if (view === null) return
 
     view.dispatch({
-      effects: themeCompartment.reconfigure(
-        themeType === ThemeType.Dark ? barf : noctisLilac
-      ),
+      effects: themeCompartment.reconfigure(editorTheme),
     })
-  }, [themeType])
+  }, [editorTheme])
 
   useEffect(() => {
     if (editorRef.current === null) return
@@ -85,15 +78,10 @@ const Editor = (): ReactElement => {
           }),
           syntaxHighlighting(customSyntaxHighlighting()),
           customKeymap,
-          themeCompartment.of(
-            themeType === ThemeType.Dark ? barf : noctisLilac
-          ),
+          themeCompartment.of(editorTheme),
           EditorView.theme({
             '&': {
               height: '100%',
-            },
-            '&.cm-focused .cm-activeLine': {
-              backgroundColor: 'transparent !important',
             },
           }),
           autoSave,

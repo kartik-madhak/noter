@@ -83,6 +83,7 @@ const Sidebar = (): ReactElement => {
     <Box
       w="100%"
       h="100%"
+      overflowY="auto"
       background={sidebarColor}
       onContextMenu={(event) => {
         event.preventDefault()

@@ -17,7 +17,11 @@ import customKeymap from '~/components/Editor/customKeymap'
 import { useCustomTheme } from '~/hooks/useCustomTheme'
 
 import { customSyntaxHighlighting } from '~/components/Editor/customSyntaxHighlighting'
-import { setZoomEvent } from '~/components/Editor/helpers/setZoomEvent'
+import {
+  onEditorKeyDown,
+  onEditorWheel,
+  setFontSize,
+} from '~/components/Editor/helpers/setFontSize'
 import { CurrentFileContext } from '~/context/CurrentFileContext'
 
 const readFile = async (path: string): Promise<string> => {
@@ -90,7 +94,7 @@ const Editor = (): ReactElement => {
       parent: editorRef.current,
     })
 
-    setZoomEvent(localStorage, view)
+    setFontSize(view)
     setView(view)
 
     return () => {
@@ -98,7 +102,21 @@ const Editor = (): ReactElement => {
     }
   }, [openedFile])
 
-  return <Box w="100%" h="100%" ref={editorRef}></Box>
+  return (
+    <Box
+      w="100%"
+      h="100%"
+      ref={editorRef}
+      onWheel={(event) => {
+        if (view == null) return
+        onEditorWheel(event, view)
+      }}
+      onKeyDown={(event) => {
+        if (view == null) return
+        onEditorKeyDown(event, view)
+      }}
+    ></Box>
+  )
 }
 
 export default Editor

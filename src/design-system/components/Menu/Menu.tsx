@@ -41,7 +41,7 @@ const Menu = ({
       <MenuButton as={Button} size="sm">
         {buttonText} <ChevronDownIcon />
       </MenuButton>
-      <MenuList>
+      <MenuList maxHeight="90vh" overflowY="auto">
         <MenuOptionGroup defaultValue={defaultSelectedId} type="radio">
           {options.map((option, index) => (
             <MenuItemComponent

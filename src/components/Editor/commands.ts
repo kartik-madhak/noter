@@ -16,6 +16,9 @@ export const modifyLines = (
 
   const textToInsert = textModifier(text)
 
+  const shouldCaretGoToEnd = to === from && lineFrom.to === to
+  const caretEndPosition = state.selection.main.head
+
   dispatch(
     state.update({
       changes: {
@@ -24,8 +27,12 @@ export const modifyLines = (
         insert: textToInsert,
       },
       selection: {
-        anchor: lineFrom.from + textToInsert.length,
-        head: lineFrom.from + textToInsert.length,
+        anchor: shouldCaretGoToEnd
+          ? lineFrom.from + textToInsert.length
+          : caretEndPosition,
+        head: shouldCaretGoToEnd
+          ? lineFrom.from + textToInsert.length
+          : caretEndPosition,
       },
     })
   )
@@ -78,10 +85,10 @@ export const toggleStrikeThrough = (text: string): string => {
 }
 
 const toggleCheckbox = (text: string): string => {
-  if (text.startsWith('- [x] ')) {
+  if (text.trimStart().startsWith('- [x] ')) {
     return text.replace('- [x] ', '- [ ] ')
   }
-  if (text.startsWith('- [ ] ')) {
+  if (text.trimStart().startsWith('- [ ] ')) {
     return text.replace('- [ ] ', '- [x] ')
   }
   return `- [ ] ${text}`
@@ -89,8 +96,4 @@ const toggleCheckbox = (text: string): string => {
 
 export const toggleCheckList = (text: string): string => {
   return text.split('\n').map(toggleCheckbox).join('\n')
-}
-
-export const toggleCheckListAll = (text: string): string => {
-  return toggleCheckbox(text)
 }

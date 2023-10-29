@@ -8,10 +8,9 @@ const maxFontSize = 60
 const _changeFontSize = (
   event: { preventDefault: () => void },
   editorElement: EditorView,
-  storedFontSize: number,
   isIncrement: boolean
 ): void => {
-  event.preventDefault()
+  const storedFontSize = _getFontSize()
 
   let fontSize = parseFloat(editorElement.dom.style.fontSize)
   if (isNaN(fontSize)) {
@@ -38,9 +37,7 @@ export const onEditorWheel = (
 ): void => {
   if (!(event.ctrlKey || event.metaKey)) return
 
-  const storedFontSize = _getFontSize()
-
-  _changeFontSize(event, editorElement, storedFontSize, event.deltaY < 0)
+  _changeFontSize(event, editorElement, event.deltaY < 0)
 }
 
 export const onEditorKeyDown = (
@@ -50,13 +47,11 @@ export const onEditorKeyDown = (
   if (!(event.ctrlKey || event.metaKey)) return
   if (event.key !== '+' && event.key !== '-' && event.key !== '=') return
 
-  const storedFontSize = _getFontSize()
-
   const isIncrement = event.key === '+' || event.key === '='
-  _changeFontSize(event, editorElement, storedFontSize, isIncrement)
+  _changeFontSize(event, editorElement, isIncrement)
 }
 
-export const setFontSize = (editorElement: EditorView): void => {
+export const initialize = (editorElement: EditorView): void => {
   const storedFontSize = _getFontSize()
   editorElement.dom.style.fontSize = `${storedFontSize}px`
 }

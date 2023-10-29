@@ -18,19 +18,19 @@ import { useCustomTheme } from '~/hooks/useCustomTheme'
 
 import { customSyntaxHighlighting } from '~/components/Editor/customSyntaxHighlighting'
 import {
+  initialize,
   onEditorKeyDown,
   onEditorWheel,
-  setFontSize,
-} from '~/components/Editor/helpers/setFontSize'
+} from '~/components/Editor/helpers/initialize'
 import { CurrentFileContext } from '~/context/CurrentFileContext'
-
-const readFile = async (path: string): Promise<string> => {
-  return await invoke('read_file', { path })
-}
 
 const themeCompartment = new Compartment()
 
-const Editor = (): ReactElement => {
+const Editor = ({
+  setOnFileClose,
+}: {
+  setOnFileClose: (_: () => void) => void
+}): ReactElement => {
   const editorRef = useRef<HTMLDivElement>(null)
   const { editorTheme } = useCustomTheme()
 
@@ -46,16 +46,45 @@ const Editor = (): ReactElement => {
     return null
   })
 
-  useEffect(() => {
+  const init = async (): Promise<void> => {
     if (view === null) return
-    void readFile(openedFile).then((file) => {
-      view.dispatch({
-        changes: {
-          from: 0,
-          to: view.state.doc.length,
-          insert: file,
-        },
-      })
+    initialize(view)
+
+    const metaData: any = await invoke('read_metadata', {
+      path: openedFile,
+    }).catch(() => {})
+
+    const file: string = await invoke('read_file', { path: openedFile })
+
+    view.dispatch({
+      changes: {
+        from: 0,
+        to: view.state.doc.length,
+        insert: file,
+      },
+      selection: {
+        anchor: metaData?.cursor ?? 0,
+        head: metaData?.cursor ?? 0,
+      },
+    })
+
+    // scroll to cursor
+    const { top } = view.coordsAtPos(metaData?.cursor ?? 0) ?? { top: 0 }
+    view.focus()
+    view.scrollDOM.scrollTop = top - view?.scrollDOM.clientHeight / 2
+  }
+
+  useEffect(() => {
+    void init().then()
+    setOnFileClose(() => {
+      return () => {
+        if (view === null) return
+
+        void invoke('save_metadata', {
+          path: openedFile,
+          cursor: view.state.selection.main.head,
+        })
+      }
     })
   }, [view])
 
@@ -94,7 +123,6 @@ const Editor = (): ReactElement => {
       parent: editorRef.current,
     })
 
-    setFontSize(view)
     setView(view)
 
     return () => {

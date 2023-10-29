@@ -1,6 +1,6 @@
 import { ResizableBox } from 'react-resizable'
 import { Box, Container, Flex } from '@chakra-ui/react'
-import { type ReactElement } from 'react'
+import { type ReactElement, useState } from 'react'
 import useLocalStorageState from 'use-local-storage-state'
 import Editor from '~/components/Editor/Editor'
 import Sidebar from '~/components/Sidebar/Sidebar'
@@ -12,6 +12,11 @@ const EditorLayout = (): ReactElement => {
   const [sidebarWidth, setSidebarWidth] = useLocalStorageState('sidebarWidth', {
     defaultValue: 200,
   })
+
+  const [onFileClose, setOnFileClose] = useState(() => {
+    return () => {}
+  })
+
   const { width } = useWindowResize()
 
   const minWidth = 200
@@ -32,10 +37,10 @@ const EditorLayout = (): ReactElement => {
             setSidebarWidth(size.width)
           }}
         >
-          <Sidebar />
+          <Sidebar onFileClose={onFileClose} />
         </ResizableBox>
         <Box w={window.innerWidth - restrainedSidebarWidth}>
-          <Editor />
+          <Editor setOnFileClose={setOnFileClose} />
         </Box>
       </Flex>
     </Container>

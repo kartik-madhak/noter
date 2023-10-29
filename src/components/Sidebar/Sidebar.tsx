@@ -34,7 +34,11 @@ export interface RightClickedItem {
   y: number
 }
 
-const Sidebar = (): ReactElement => {
+const Sidebar = ({
+  onFileClose,
+}: {
+  onFileClose: () => void
+}): ReactElement => {
   const {
     theme: { sidebarColor },
   } = useCustomTheme()
@@ -131,6 +135,7 @@ const Sidebar = (): ReactElement => {
                       isSelected={openedFile === file.path}
                       fileInfo={file}
                       onClick={(): void => {
+                        onFileClose()
                         setOpenedFile(file.path)
                       }}
                       isRightClicked={

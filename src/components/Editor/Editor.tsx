@@ -1,8 +1,7 @@
 import { Box } from '@chakra-ui/react'
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown'
 import { languages } from '@codemirror/language-data'
-
-import React, {
+import {
   type ReactElement,
   useContext,
   useEffect,
@@ -11,29 +10,29 @@ import React, {
 } from 'react'
 import { basicSetup, EditorView } from 'codemirror'
 import { Compartment, EditorState, type Transaction } from '@codemirror/state'
-import { barf, noctisLilac } from 'thememirror'
 import { syntaxHighlighting } from '@codemirror/language'
 import { invoke } from '@tauri-apps/api/tauri'
 import customKeymap from '~/components/Editor/customKeymap'
 
 import { useCustomTheme } from '~/hooks/useCustomTheme'
 
-import { ThemeType } from '~/config/allThemes'
 import { customSyntaxHighlighting } from '~/components/Editor/customSyntaxHighlighting'
-import { setZoomEvent } from '~/components/Editor/helpers/setZoomEvent'
+import {
+  initialize,
+  onEditorKeyDown,
+  onEditorWheel,
+} from '~/components/Editor/helpers/initialize'
 import { CurrentFileContext } from '~/context/CurrentFileContext'
-
-const readFile = async (path: string): Promise<string> => {
-  return await invoke('read_file', { path })
-}
 
 const themeCompartment = new Compartment()
 
-const Editor = (): ReactElement => {
+const Editor = ({
+  setOnFileClose,
+}: {
+  setOnFileClose: (_: () => void) => void
+}): ReactElement => {
   const editorRef = useRef<HTMLDivElement>(null)
-  const {
-    theme: { type: themeType },
-  } = useCustomTheme()
+  const { editorTheme } = useCustomTheme()
 
   const [view, setView] = useState<EditorView | null>(null)
 
@@ -47,16 +46,45 @@ const Editor = (): ReactElement => {
     return null
   })
 
-  useEffect(() => {
+  const init = async (): Promise<void> => {
     if (view === null) return
-    void readFile(openedFile).then((file) => {
-      view.dispatch({
-        changes: {
-          from: 0,
-          to: view.state.doc.length,
-          insert: file,
-        },
-      })
+    initialize(view)
+
+    const metaData: any = await invoke('read_metadata', {
+      path: openedFile,
+    }).catch(() => {})
+
+    const file: string = await invoke('read_file', { path: openedFile })
+
+    view.dispatch({
+      changes: {
+        from: 0,
+        to: view.state.doc.length,
+        insert: file,
+      },
+      selection: {
+        anchor: metaData?.cursor ?? 0,
+        head: metaData?.cursor ?? 0,
+      },
+    })
+
+    // scroll to cursor
+    const { top } = view.coordsAtPos(metaData?.cursor ?? 0) ?? { top: 0 }
+    view.focus()
+    view.scrollDOM.scrollTop = top - view?.scrollDOM.clientHeight / 2
+  }
+
+  useEffect(() => {
+    void init().then()
+    setOnFileClose(() => {
+      return () => {
+        if (view === null) return
+
+        void invoke('save_metadata', {
+          path: openedFile,
+          cursor: view.state.selection.main.head,
+        })
+      }
     })
   }, [view])
 
@@ -64,11 +92,9 @@ const Editor = (): ReactElement => {
     if (view === null) return
 
     view.dispatch({
-      effects: themeCompartment.reconfigure(
-        themeType === ThemeType.Dark ? barf : noctisLilac
-      ),
+      effects: themeCompartment.reconfigure(editorTheme),
     })
-  }, [themeType])
+  }, [editorTheme])
 
   useEffect(() => {
     if (editorRef.current === null) return
@@ -85,15 +111,10 @@ const Editor = (): ReactElement => {
           }),
           syntaxHighlighting(customSyntaxHighlighting()),
           customKeymap,
-          themeCompartment.of(
-            themeType === ThemeType.Dark ? barf : noctisLilac
-          ),
+          themeCompartment.of(editorTheme),
           EditorView.theme({
             '&': {
               height: '100%',
-            },
-            '&.cm-focused .cm-activeLine': {
-              backgroundColor: 'transparent !important',
             },
           }),
           autoSave,
@@ -102,7 +123,6 @@ const Editor = (): ReactElement => {
       parent: editorRef.current,
     })
 
-    setZoomEvent(localStorage, view)
     setView(view)
 
     return () => {
@@ -110,7 +130,21 @@ const Editor = (): ReactElement => {
     }
   }, [openedFile])
 
-  return <Box w="100%" h="100%" ref={editorRef}></Box>
+  return (
+    <Box
+      w="100%"
+      h="100%"
+      ref={editorRef}
+      onWheel={(event) => {
+        if (view == null) return
+        onEditorWheel(event, view)
+      }}
+      onKeyDown={(event) => {
+        if (view == null) return
+        onEditorKeyDown(event, view)
+      }}
+    ></Box>
+  )
 }
 
 export default Editor

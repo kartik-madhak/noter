@@ -6,7 +6,6 @@ import {
   modifySelection,
   toggleBold,
   toggleCheckList,
-  toggleCheckListAll,
   toggleItalic,
   toggleStrikeThrough,
   toggleTagBlocks,
@@ -51,13 +50,6 @@ export default Prec.highest(
       key: 'Mod-Enter',
       run: (editor) => {
         modifyLines(editor.state, editor.dispatch, toggleCheckList)
-        return true
-      },
-    },
-    {
-      key: 'Mod-Shift-Enter',
-      run: (editor) => {
-        modifyLines(editor.state, editor.dispatch, toggleCheckListAll)
         return true
       },
     },

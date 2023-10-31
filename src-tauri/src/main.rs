@@ -1,9 +1,13 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use std::collections::HashMap;
 use std::{fs, path};
+use std::collections::HashMap;
+use std::fs::{File, OpenOptions};
+use std::io::{Read, Write};
+use std::io::{Seek, SeekFrom};
 
+use serde_json::{json, Value};
 use tauri::api::path::home_dir;
 
 const MAIN_DIR_NAME: &str = "noter";
@@ -120,6 +124,78 @@ fn delete_file(path: String) -> Result<(), String> {
     fs::remove_file(path).map_err(|err| format!("Failed to delete file: {}", err))
 }
 
+#[tauri::command]
+fn save_metadata(path: &str, cursor: i32) -> Result<(), String> {
+    let metadata_path = home_dir().unwrap().join(MAIN_DIR_NAME).join("metadata.json");
+
+    let mut file = match OpenOptions::new()
+        .read(true)
+        .write(true)
+        .create(true)
+        .open(metadata_path) {
+        Ok(file) => file,
+        Err(e) => return Err(format!("Error opening metadata file: {}", e)),
+    };
+
+    let mut contents = String::new();
+    match file.read_to_string(&mut contents) {
+        Ok(_) => (),
+        Err(e) => return Err(format!("Error reading metadata file: {}", e)),
+    }
+
+    let mut data: HashMap<String, Value> = match serde_json::from_str(&contents) {
+        Ok(data) => data,
+        Err(_) => HashMap::new(),
+    };
+
+    data.insert(path.to_string(), json!({"cursor": cursor}));
+
+    match file.seek(SeekFrom::Start(0)) {
+        Ok(_) => (),
+        Err(e) => return Err(format!("Error seeking in metadata file: {}", e)),
+    }
+    match file.set_len(0) {
+        Ok(_) => (),
+        Err(e) => return Err(format!("Error truncating metadata file: {}", e)),
+    }
+    let result = match serde_json::to_string(&data) {
+        Ok(result) => result,
+        Err(e) => return Err(format!("Error serializing metadata: {}", e)),
+    };
+    match file.write_all(result.as_bytes()) {
+        Ok(_) => (),
+        Err(e) => return Err(format!("Error writing metadata file: {}", e)),
+    }
+
+    Ok(())
+}
+
+#[tauri::command]
+fn read_metadata(path: &str) -> Result<Value, String> {
+    let metadata_path = home_dir().unwrap().join(MAIN_DIR_NAME).join("metadata.json");
+
+    let mut file = match File::open(metadata_path) {
+        Ok(file) => file,
+        Err(e) => return Err(format!("Error opening metadata file: {}", e)),
+    };
+
+    let mut contents = String::new();
+    match file.read_to_string(&mut contents) {
+        Ok(_) => (),
+        Err(e) => return Err(format!("Error reading metadata file: {}", e)),
+    }
+
+    let data: HashMap<String, Value> = match serde_json::from_str(&contents) {
+        Ok(data) => data,
+        Err(_) => return Err("Error parsing metadata file".to_string()),
+    };
+
+    match data.get(path) {
+        Some(value) => Ok(value.clone()),
+        None => Err(format!("No metadata found for path: {}", path)),
+    }
+}
+
 fn init() {
     let path = home_dir().unwrap().join(MAIN_DIR_NAME);
     if !path.exists() {
@@ -133,7 +209,7 @@ fn main() {
             init();
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![read_main_directory, read_file, save_file, new_file, rename_file, delete_file])
+        .invoke_handler(tauri::generate_handler![read_main_directory, read_file, save_file, new_file, rename_file, delete_file, save_metadata, read_metadata])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

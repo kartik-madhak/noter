@@ -27,7 +27,7 @@ const EditorLayout = (): ReactElement => {
   )
 
   return (
-    <Container h="100%" px={0} maxW="100%">
+    <Container h="calc(100% - 50px)" px={0} maxW="100%">
       <Flex h="100%">
         <ResizableBox
           width={restrainedSidebarWidth}

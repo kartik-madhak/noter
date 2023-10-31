@@ -1,5 +1,6 @@
 import { type ReactElement, useContext } from 'react'
 import * as theMirrorThemes from 'thememirror'
+import { HStack } from '@chakra-ui/react'
 import { ThemeName } from '~/config/allThemes'
 import { useCustomTheme } from '~/hooks/useCustomTheme'
 import Menu from '~/design-system/components/Menu/Menu'
@@ -48,7 +49,7 @@ const ThemeChanger = (): ReactElement => {
     }))
 
   return (
-    <>
+    <HStack spacing={5}>
       <Menu
         options={baseThemes}
         buttonText={themeName}
@@ -64,7 +65,7 @@ const ThemeChanger = (): ReactElement => {
         buttonText={camelCaseToWords(editorThemeName)}
         defaultSelectedId={editorThemeName}
       />
-    </>
+    </HStack>
   )
 }
 

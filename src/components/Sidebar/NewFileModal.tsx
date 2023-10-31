@@ -58,19 +58,12 @@ const NewFileModal = ({
     onClose()
   }, [])
 
-  useEffect(() => {
-    const handleKeyDownEvent = (event: KeyboardEvent) => {
-      if (event.key == 'Enter') {
-        onNewFile()
-      }
+  // use the synthetic react keyboard event
+  const handleKeyDownEvent = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key == 'Enter') {
+      onNewFile()
     }
-
-    document.addEventListener('keydown', handleKeyDownEvent)
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDownEvent)
-    }
-  }, [newFileName])
+  }
 
   return (
     <Modal isOpen={isOpen} onClose={onCloseWithClear} isCentered>
@@ -87,6 +80,7 @@ const NewFileModal = ({
               onChange={(e) => {
                 setNewFileName(e.target.value)
               }}
+              onKeyDown={(e) => handleKeyDownEvent(e)}
             />
             {customError !== '' && (
               <FormErrorMessage>{customError}</FormErrorMessage>

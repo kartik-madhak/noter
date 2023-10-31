@@ -60,7 +60,7 @@ const NewFileModal = ({
 
   // use the synthetic react keyboard event
   const handleKeyDownEvent = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key == 'Enter') {
+    if (event.key === 'Enter') {
       onNewFile()
     }
   }

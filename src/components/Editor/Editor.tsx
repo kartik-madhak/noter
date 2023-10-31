@@ -9,7 +9,7 @@ import {
   useState,
 } from 'react'
 import { basicSetup, EditorView } from 'codemirror'
-import { Compartment, EditorState, type Transaction } from '@codemirror/state'
+import { Compartment, EditorState, Transaction } from '@codemirror/state'
 import { syntaxHighlighting } from '@codemirror/language'
 import { invoke } from '@tauri-apps/api/tauri'
 import customKeymap from '~/components/Editor/customKeymap'
@@ -66,6 +66,7 @@ const Editor = ({
         anchor: metaData?.cursor ?? 0,
         head: metaData?.cursor ?? 0,
       },
+      annotations: Transaction.addToHistory.of(false),
     })
 
     // scroll to cursor

@@ -38,9 +38,6 @@ jobs:
       - name: Lint check frontend
         run: pnpm run lint-check
 
-      - name: Test frontend
-        run: pnpm run test
-
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
 

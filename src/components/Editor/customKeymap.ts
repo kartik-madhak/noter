@@ -9,6 +9,7 @@ import {
   toggleCheckListAll,
   toggleItalic,
   toggleStrikeThrough,
+  toggleTagBlocks,
 } from '~/components/Editor/commands'
 
 export default Prec.highest(
@@ -33,6 +34,16 @@ export default Prec.highest(
       key: 'Mod-u',
       run: (editor) => {
         modifySelection(editor.state, editor.dispatch, toggleStrikeThrough)
+        return true
+      },
+    },
+    {
+      key: 'Mod-p',
+      run: (editor) => {
+        modifySelection(editor.state, editor.dispatch, (text: string) => {
+          const result = toggleTagBlocks(text)
+          return typeof result === 'string' ? result : ''
+        })
         return true
       },
     },

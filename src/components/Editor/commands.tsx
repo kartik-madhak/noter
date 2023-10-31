@@ -4,6 +4,10 @@ import {
   type TransactionSpec,
 } from '@codemirror/state'
 
+import React, { type ReactElement } from 'react'
+
+import { Code } from '@chakra-ui/react'
+
 export const modifyLines = (
   state: EditorState,
   dispatch: (tr: Transaction) => void,
@@ -93,4 +97,23 @@ export const toggleCheckList = (text: string): string => {
 
 export const toggleCheckListAll = (text: string): string => {
   return toggleCheckbox(text)
+}
+
+export const toggleTagBlocks = (text: string): ReactElement | string => {
+  if (text.startsWith('`') && text.endsWith('`')) {
+    console.log('in condition')
+    return (
+      <Code
+        style={{
+          backgroundColor: '#DC143C',
+          padding: '2px 4px',
+          border: '1px solid #e1e1e1',
+          borderRadius: '3px',
+        }}
+      >
+        {text.slice(1, -1)}
+      </Code>
+    )
+  }
+  return `\`${text}\``
 }

@@ -92,11 +92,6 @@ const RenameModal = ({
               defaultValue={newFileName}
               onChange={(e) => {
                 setNewFileName(e.target.value)
-                if (event.key === 'Enter') {
-                  onRename().catch((error) => {
-                    console.error(error)
-                  })
-                }
               }}
             />
             {customError !== '' && (

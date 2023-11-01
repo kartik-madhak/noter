@@ -47,18 +47,20 @@ const RenameModal = ({
   }
 
   const onRename = async (): Promise<void> => {
-    await invoke('rename_file', {
-      path: rightClickedItem?.file?.path ?? '',
-      newName: newFileName,
-    })
-      .then((filePath) => {
-        setOpenedFile(filePath as string)
-        clearEverything()
-        onClose()
+    if (newFileName !== '') {
+      await invoke('rename_file', {
+        path: rightClickedItem?.file?.path ?? '',
+        newName: newFileName,
       })
-      .catch((err) => {
-        setCustomError(err)
-      })
+        .then((filePath) => {
+          setOpenedFile(filePath as string)
+          clearEverything()
+          onClose()
+        })
+        .catch((err) => {
+          setCustomError(err)
+        })
+    }
   }
 
   return (
@@ -79,6 +81,11 @@ const RenameModal = ({
                 setNewFileName(e.target.value)
               }}
             />
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  onRename()
+                }
+              }}
             {customError !== '' && (
               <FormErrorMessage>{customError}</FormErrorMessage>
             )}

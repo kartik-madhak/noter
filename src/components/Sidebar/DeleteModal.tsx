@@ -28,7 +28,7 @@ const DeleteModal = ({
   const { setOpenedFile } = useContext(CurrentFileContext)
 
   const onDelete = async (): Promise<void> => {
-    await invoke('delete_file', {
+    void invoke('delete_file', {
       path: rightClickedItem?.file?.path ?? '',
     })
     .then(() => {

@@ -58,7 +58,7 @@ const RenameModal = ({
           onClose()
         })
         .catch((err) => {
-          setCustomError(err)
+          setCustomError(err.message)
         })
     }
   }

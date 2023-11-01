@@ -27,25 +27,23 @@ const DeleteModal = ({
 }): ReactElement => {
   const { setOpenedFile } = useContext(CurrentFileContext)
 
-  const onDelete = async (): Promise<void> => {
-    void invoke('delete_file', {
-      path: rightClickedItem?.file?.path ?? '',
-    })
-    .then(() => {
-      setOpenedFile('')
-      onClose()
-    })
-    .catch((err) => {
-      console.error(err)
-    })
+  const onDelete = async (e: React.KeyboardEvent<HTMLButtonElement>): Promise<void> => {
+    if (e.key === 'Enter') {
+      void invoke('delete_file', {
+        path: rightClickedItem?.file?.path ?? '',
+      })
+      .then(() => {
+        setOpenedFile('')
+        onClose()
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+    }
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered onKeyPress={(e) => {
-      if (e.key === 'Enter') {
-        onDelete()
-      }
-    }}>
+    <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
@@ -60,6 +58,7 @@ const DeleteModal = ({
             colorScheme="red"
             me={2}
             onClick={onDelete as MouseEventHandler}
+            onKeyPress={onDelete}
           >
             Delete
           </Button>

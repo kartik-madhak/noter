@@ -67,10 +67,7 @@ const DeleteModal = ({
             colorScheme="blue"
             mr={3}
             onClick={onClose as MouseEventHandler}
-          >
-            Close
-          </Button>
-            onKeyPress={onDelete}
+            onKeyPress={onClose}
           >
             Close
           </Button>

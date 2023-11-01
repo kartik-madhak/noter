@@ -4,7 +4,6 @@ import React, {
   useCallback,
   useContext,
   useState,
-  useEffect,
 } from 'react'
 import {
   Button,
@@ -59,9 +58,11 @@ const NewFileModal = ({
   }, [])
 
   // use the synthetic react keyboard event
-  const handleKeyDownEvent = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDownEvent = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ): void => {
     if (event.key === 'Enter') {
-      onNewFile()
+      void onNewFile().then()
     }
   }
 
@@ -80,7 +81,7 @@ const NewFileModal = ({
               onChange={(e) => {
                 setNewFileName(e.target.value)
               }}
-              onKeyDown={(e) => handleKeyDownEvent(e)}
+              onKeyDown={handleKeyDownEvent}
             />
             {customError !== '' && (
               <FormErrorMessage>{customError}</FormErrorMessage>

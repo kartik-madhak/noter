@@ -60,6 +60,19 @@ const RenameModal = ({
         setCustomError(err)
       })
   }
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Enter') {
+        onRename()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [onRename])
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>

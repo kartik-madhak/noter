@@ -63,7 +63,7 @@ const RenameModal = ({
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent): void => {
       if (event.key === 'Enter') {
-        onRename()
+        onRename().catch((error) => console.error(error))
       }
     }
 

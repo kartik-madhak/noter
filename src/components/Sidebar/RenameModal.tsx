@@ -61,7 +61,7 @@ const RenameModal = ({
       })
   }
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
+    const handleKeyDown = (event: KeyboardEvent): void => {
       if (event.key === 'Enter') {
         onRename()
       }
@@ -90,6 +90,9 @@ const RenameModal = ({
               defaultValue={newFileName}
               onChange={(e) => {
                 setNewFileName(e.target.value)
+      if (event.key === 'Enter') {
+        onRename().catch((error) => console.error(error))
+      }
               }}
             />
             {customError !== '' && (

@@ -27,7 +27,7 @@ const DeleteModal = ({
 }): ReactElement => {
   const { setOpenedFile } = useContext(CurrentFileContext)
 
-  const onDelete = async (e: React.KeyboardEvent<HTMLButtonElement>): Promise<void> => {
+  const onDelete = async (e: React.KeyboardEvent<HTMLDivElement>): Promise<void> => {
     if (e.key === 'Enter') {
       void invoke('delete_file', {
         path: rightClickedItem?.file?.path ?? '',
@@ -57,7 +57,7 @@ const DeleteModal = ({
             tabIndex={3}
             colorScheme="red"
             me={2}
-            onClick={onDelete as MouseEventHandler}
+            onClick={onDelete as MouseEventHandler<HTMLDivElement>}
             onKeyPress={onDelete}
           >
             Delete

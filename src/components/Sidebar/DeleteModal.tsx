@@ -37,7 +37,11 @@ const DeleteModal = ({
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered>
+    <Modal isOpen={isOpen} onClose={onClose} isCentered onKeyPress={(e) => {
+      if (e.key === 'Enter') {
+        onDelete()
+      }
+    }}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>

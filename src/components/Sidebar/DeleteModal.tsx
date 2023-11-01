@@ -66,7 +66,7 @@ const DeleteModal = ({
 
         <ModalFooter>
           <Button
-            tabIndex={3}
+            tabIndex={2}
             colorScheme="red"
             me={2}
             onClick={onDelete as MouseEventHandler<HTMLButtonElement>}

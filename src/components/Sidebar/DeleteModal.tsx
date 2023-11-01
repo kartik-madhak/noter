@@ -28,26 +28,34 @@ const DeleteModal = ({
   const { setOpenedFile } = useContext(CurrentFileContext)
 
   const onDelete = (e: React.KeyboardEvent): void => {
-    if (e instanceof MouseEvent || (e instanceof KeyboardEvent && e.key === 'Enter')) {
+    if (
+      e instanceof MouseEvent ||
+      (e instanceof KeyboardEvent && e.key === 'Enter')
+    ) {
       invoke('delete_file', {
         path: rightClickedItem?.file?.path ?? '',
       })
-      .then(() => {
-        setOpenedFile('')
-        onClose()
-      })
-      .catch((err) => {
-        console.error(err)
-      })
+        .then(() => {
+          setOpenedFile('')
+          onClose()
+        })
+        .catch((err) => {
+          console.error(err)
+        })
     }
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered onKeyDown={(e) => {
-      if (e.key === 'Enter') {
-        onDelete()
-      }
-    }}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      isCentered
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          onDelete()
+        }
+      }}
+    >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>

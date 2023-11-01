@@ -48,7 +48,7 @@ const RenameModal = ({
 
   const onRename = async (): Promise<void> => {
     if (newFileName !== '') {
-      void invoke('rename_file', {
+      invoke('rename_file', {
         path: rightClickedItem?.file?.path ?? '',
         newName: newFileName,
       })

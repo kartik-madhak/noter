@@ -78,6 +78,11 @@ const RenameModal = ({
               onChange={(e) => {
                 setNewFileName(e.target.value)
               }}
+              onKeyDown={(event): void => {
+                if (event.key === 'Enter') {
+                  void onRename().then()
+                }
+              }}
             />
             {customError !== '' && (
               <FormErrorMessage>{customError}</FormErrorMessage>

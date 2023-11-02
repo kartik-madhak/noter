@@ -57,15 +57,6 @@ const NewFileModal = ({
     onClose()
   }, [])
 
-  // use the synthetic react keyboard event
-  const handleKeyDownEvent = (
-    event: React.KeyboardEvent<HTMLInputElement>
-  ): void => {
-    if (event.key === 'Enter') {
-      void onNewFile().then()
-    }
-  }
-
   return (
     <Modal isOpen={isOpen} onClose={onCloseWithClear} isCentered>
       <ModalOverlay />
@@ -81,7 +72,11 @@ const NewFileModal = ({
               onChange={(e) => {
                 setNewFileName(e.target.value)
               }}
-              onKeyDown={handleKeyDownEvent}
+              onKeyDown={(event): void => {
+                if (event.key === 'Enter') {
+                  void onNewFile().then()
+                }
+              }}
             />
             {customError !== '' && (
               <FormErrorMessage>{customError}</FormErrorMessage>

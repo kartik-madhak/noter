@@ -35,6 +35,7 @@ const Editor = ({
   const { editorTheme } = useCustomTheme()
 
   const [view, setView] = useState<EditorView | null>(null)
+  const [states, setStates] = useState<Record<string, any>>({})
 
   const { openedFile } = useContext(CurrentFileContext)
 
@@ -56,6 +57,8 @@ const Editor = ({
 
     const file: string = await invoke('read_file', { path: openedFile })
 
+    const cursorPosition = metaData?.cursor < file.length ? metaData?.cursor : 0
+
     view.dispatch({
       changes: {
         from: 0,
@@ -63,14 +66,19 @@ const Editor = ({
         insert: file,
       },
       selection: {
-        anchor: metaData?.cursor ?? 0,
-        head: metaData?.cursor ?? 0,
+        anchor: cursorPosition ?? 0,
+        head: cursorPosition ?? 0,
       },
       annotations: Transaction.addToHistory.of(false),
     })
 
-    // scroll to cursor
-    const { top } = view.coordsAtPos(metaData?.cursor ?? 0) ?? { top: 0 }
+    const currFileState = states[openedFile] ?? null
+
+    if (currFileState != null) {
+      view.setState(currFileState)
+    }
+
+    const { top } = view.coordsAtPos(cursorPosition ?? 0) ?? { top: 0 }
     view.focus()
     view.scrollDOM.scrollTop = top - view?.scrollDOM.clientHeight / 2
   }
@@ -80,6 +88,11 @@ const Editor = ({
     setOnFileClose(() => {
       return () => {
         if (view === null) return
+
+        setStates({
+          ...states,
+          [openedFile]: view.state,
+        })
 
         void invoke('save_metadata', {
           path: openedFile,

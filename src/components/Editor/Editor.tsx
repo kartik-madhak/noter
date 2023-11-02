@@ -44,6 +44,14 @@ const Editor = ({
       const content = tr.newDoc.toString()
       void invoke('save_file', { path: openedFile, content })
     }
+
+    const cursorPosition = tr?.state?.selection?.main?.head
+    if (cursorPosition != null) {
+      void invoke('save_metadata', {
+        path: openedFile,
+        cursor: cursorPosition,
+      })
+    }
     return null
   })
 
@@ -92,11 +100,6 @@ const Editor = ({
         setStates({
           ...states,
           [openedFile]: view.state,
-        })
-
-        void invoke('save_metadata', {
-          path: openedFile,
-          cursor: view.state.selection.main.head,
         })
       }
     })

@@ -8,6 +8,8 @@ export enum ThemeName {
   Lofi = 'Lofi',
   PastelLight = 'PastelLight',
   MidnightDark = 'MidnightDark',
+  SunsetGradient = 'SunsetGradient',
+  OceanGradient = 'OceanGradient',
 }
 
 export interface Theme {
@@ -41,17 +43,31 @@ const allThemes: {
   [ThemeName.PastelLight]: {
     name: ThemeName.PastelLight,
     type: ThemeType.Light,
-    sidebarColor: '#f0f0f0',
-    navbarColor: '#e0e0e0',
+    sidebarColor: '#f8f0f5',
+    navbarColor: '#f0e0f5',
     editorColor: '#ffffff',
   },
   [ThemeName.MidnightDark]: {
     name: ThemeName.MidnightDark,
     type: ThemeType.Dark,
-    sidebarColor: '#303030',
-    navbarColor: '#202020',
-    editorColor: '#101010',
+    sidebarColor: '#1a1a2e',
+    navbarColor: '#16213e',
+    editorColor: '#0f3460',
   },
 }
 
 export default allThemes
+  [ThemeName.SunsetGradient]: {
+    name: ThemeName.SunsetGradient,
+    type: ThemeType.Light,
+    sidebarColor: 'linear-gradient(to right, #ff9966, #ff5e62)',
+    navbarColor: 'linear-gradient(to right, #ff5e62, #ff9966)',
+    editorColor: '#ffffff',
+  },
+  [ThemeName.OceanGradient]: {
+    name: ThemeName.OceanGradient,
+    type: ThemeType.Dark,
+    sidebarColor: 'linear-gradient(to right, #373b44, #4286f4)',
+    navbarColor: 'linear-gradient(to right, #4286f4, #373b44)',
+    editorColor: '#0f3460',
+  },

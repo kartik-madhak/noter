@@ -38,8 +38,6 @@ const allThemes: {
     editorColor:
       'linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), linear-gradient(179.52deg, rgb(164, 192, 247) 7.08%, rgb(169, 228, 232) 34.94%, rgb(176, 226, 184) 65.12%, rgb(207, 223, 162) 96.23%)',
   },
-}
-
   [ThemeName.PastelLight]: {
     name: ThemeName.PastelLight,
     type: ThemeType.Light,
@@ -54,4 +52,6 @@ const allThemes: {
     navbarColor: '#202020',
     editorColor: '#101010',
   },
-  export default allThemes
+}
+
+export default allThemes

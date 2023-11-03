@@ -30,6 +30,21 @@ const allThemes: {
     navbarColor: '#303030',
     editorColor: '#292929',
   },
+},
+  [ThemeName.SunsetGradient]: {
+    name: ThemeName.SunsetGradient,
+    type: ThemeType.Light,
+    sidebarColor: 'linear-gradient(to right, #ff9966, #ff5e62)',
+    navbarColor: 'linear-gradient(to right, #ff5e62, #ff9966)',
+    editorColor: '#ffffff',
+  },
+  [ThemeName.OceanGradient]: {
+    name: ThemeName.OceanGradient,
+    type: ThemeType.Dark,
+    sidebarColor: 'linear-gradient(to right, #373b44, #4286f4)',
+    navbarColor: 'linear-gradient(to right, #4286f4, #373b44)',
+    editorColor: '#0f3460',
+  },
   [ThemeName.Lofi]: {
     name: ThemeName.Lofi,
     type: ThemeType.Light,

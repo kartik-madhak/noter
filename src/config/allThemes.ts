@@ -40,7 +40,6 @@ const allThemes: {
   },
 }
 
-export default allThemes
   [ThemeName.PastelLight]: {
     name: ThemeName.PastelLight,
     type: ThemeType.Light,
@@ -55,3 +54,4 @@ export default allThemes
     navbarColor: '#202020',
     editorColor: '#101010',
   },
+  export default allThemes

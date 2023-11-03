@@ -35,7 +35,7 @@ const allThemes: {
     sidebarColor: '#1a1a2e',
     navbarColor: '#16213e',
     editorColor: '#0f3460',
-  },
+  }
   [ThemeName.SunsetGradient]: {
     name: ThemeName.SunsetGradient,
     type: ThemeType.Light,
@@ -49,7 +49,7 @@ const allThemes: {
     sidebarColor: 'linear-gradient(to right, #373b44, #4286f4)',
     navbarColor: 'linear-gradient(to right, #4286f4, #373b44)',
     editorColor: '#0f3460',
-  },
+  }
   [ThemeName.Lofi]: {
     name: ThemeName.Lofi,
     type: ThemeType.Light,

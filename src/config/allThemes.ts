@@ -56,7 +56,6 @@ const allThemes: {
   },
 }
 
-export default allThemes
   [ThemeName.SunsetGradient]: {
     name: ThemeName.SunsetGradient,
     type: ThemeType.Light,
@@ -71,3 +70,4 @@ export default allThemes
     navbarColor: 'linear-gradient(to right, #4286f4, #373b44)',
     editorColor: '#0f3460',
   },
+  export default allThemes

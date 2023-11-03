@@ -6,6 +6,8 @@ export enum ThemeType {
 export enum ThemeName {
   Default = 'Default',
   Lofi = 'Lofi',
+  PastelLight = 'PastelLight',
+  MidnightDark = 'MidnightDark',
 }
 
 export interface Theme {
@@ -39,3 +41,17 @@ const allThemes: {
 }
 
 export default allThemes
+  [ThemeName.PastelLight]: {
+    name: ThemeName.PastelLight,
+    type: ThemeType.Light,
+    sidebarColor: '#f0f0f0',
+    navbarColor: '#e0e0e0',
+    editorColor: '#ffffff',
+  },
+  [ThemeName.MidnightDark]: {
+    name: ThemeName.MidnightDark,
+    type: ThemeType.Dark,
+    sidebarColor: '#303030',
+    navbarColor: '#202020',
+    editorColor: '#101010',
+  },

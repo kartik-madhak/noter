@@ -54,7 +54,7 @@ const allThemes: {
     navbarColor: '#16213e',
     editorColor: '#0f3460',
   },
-}
+},
 
   [ThemeName.SunsetGradient]: {
     name: ThemeName.SunsetGradient,

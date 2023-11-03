@@ -70,4 +70,4 @@ const allThemes: {
     navbarColor: 'linear-gradient(to right, #4286f4, #373b44)',
     editorColor: '#0f3460',
   },
-  export default allThemes
+export default allThemes

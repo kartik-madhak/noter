@@ -35,7 +35,7 @@ const allThemes: {
     sidebarColor: '#1a1a2e',
     navbarColor: '#16213e',
     editorColor: '#0f3460',
-  },
+  }
   [ThemeName.SunsetGradient]: {
     name: ThemeName.SunsetGradient,
     type: ThemeType.Light,
@@ -73,5 +73,5 @@ const allThemes: {
     sidebarColor: '#1a1a2e',
     navbarColor: '#16213e',
     editorColor: '#0f3460',
-  },
+  }
 export default allThemes

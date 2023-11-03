@@ -30,7 +30,6 @@ const allThemes: {
     navbarColor: '#303030',
     editorColor: '#292929',
   },
-},
   [ThemeName.SunsetGradient]: {
     name: ThemeName.SunsetGradient,
     type: ThemeType.Light,

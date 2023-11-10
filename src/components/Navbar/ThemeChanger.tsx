@@ -23,8 +23,8 @@ const ThemeChanger = (): ReactElement => {
   } = useCustomTheme()
 
   const baseThemes = Object.keys(ThemeName).map((themeName: string) => ({
-    id: themeName,
-    content: themeName,
+    id: ThemeName[themeName as keyof typeof ThemeName],
+    content: ThemeName[themeName as keyof typeof ThemeName],
     onClick: () => {
       setThemeName(themeName as ThemeName)
     },

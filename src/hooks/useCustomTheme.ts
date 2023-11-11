@@ -21,7 +21,13 @@ export const useCustomTheme = (): {
     }
   )
   const { colorMode, toggleColorMode } = useColorMode()
-  const theme = allThemes[themeName]
+
+  let themeKey = ThemeName[themeName as keyof typeof ThemeName]
+  if (!(themeKey in allThemes)) {
+    themeKey = ThemeName.Default
+  }
+
+  const theme = allThemes[themeKey]
   const editorTheme =
     theMirrorThemes[editorThemeName as keyof typeof theMirrorThemes]
 

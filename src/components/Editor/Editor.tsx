@@ -23,6 +23,7 @@ import {
   onEditorWheel,
 } from '~/components/Editor/helpers/initialize'
 import { CurrentFileContext } from '~/context/CurrentFileContext'
+import { autoSave } from '~/components/Editor/extensions'
 
 const themeCompartment = new Compartment()
 
@@ -38,22 +39,6 @@ const Editor = ({
   const [states, setStates] = useState<Record<string, any>>({})
 
   const { openedFile } = useContext(CurrentFileContext)
-
-  const autoSave = EditorState.transactionExtender.of((tr: Transaction) => {
-    if (tr.docChanged) {
-      const content = tr.newDoc.toString()
-      void invoke('save_file', { path: openedFile, content })
-    }
-
-    const cursorPosition = tr?.state?.selection?.main?.head
-    if (cursorPosition != null) {
-      void invoke('save_metadata', {
-        path: openedFile,
-        cursor: cursorPosition,
-      })
-    }
-    return null
-  })
 
   const init = async (): Promise<void> => {
     if (view === null) return
@@ -134,7 +119,7 @@ const Editor = ({
               height: '100%',
             },
           }),
-          autoSave,
+          autoSave(openedFile),
         ],
       }),
       parent: editorRef.current,

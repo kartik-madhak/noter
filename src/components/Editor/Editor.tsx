@@ -9,7 +9,7 @@ import {
   useState,
 } from 'react'
 import { basicSetup, EditorView } from 'codemirror'
-import { Compartment, EditorState } from '@codemirror/state'
+import { EditorState } from '@codemirror/state'
 import { syntaxHighlighting } from '@codemirror/language'
 import customKeymap from '~/components/Editor/customKeymap'
 
@@ -23,8 +23,7 @@ import {
   onEditorKeyDown,
   onEditorWheel,
 } from '~/components/Editor/helpers/zoomLogic'
-
-const themeCompartment = new Compartment()
+import { useInitTheme } from '~/components/Editor/helpers/useInitTheme'
 
 const Editor = ({
   setOnFileClose,
@@ -36,17 +35,11 @@ const Editor = ({
 
   const [view, setView] = useState<EditorView | null>(null)
 
+  useEditorInitFile(view, setOnFileClose)
+
+  const themeCompartment = useInitTheme(view, editorTheme)
+
   const { openedFile } = useContext(CurrentFileContext)
-
-  useEditorInitFile(view, openedFile, setOnFileClose)
-
-  useEffect(() => {
-    if (view === null) return
-
-    view.dispatch({
-      effects: themeCompartment.reconfigure(editorTheme),
-    })
-  }, [editorTheme])
 
   useEffect(() => {
     if (editorRef.current === null) return

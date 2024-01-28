@@ -1,8 +1,9 @@
 import { type EditorView } from 'codemirror'
 import { invoke } from '@tauri-apps/api/tauri'
 import { Transaction } from '@codemirror/state'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { getFontSize } from '~/components/Editor/helpers/zoomLogic'
+import { CurrentFileContext } from '~/context/CurrentFileContext'
 
 const _setInitialFontSize = (editorElement: EditorView): void => {
   const storedFontSize = getFontSize()
@@ -50,9 +51,10 @@ const _initFile = async (
 
 export const useEditorInitFile = (
   view: EditorView | null,
-  openedFile: string,
   setOnFileClose: (callback: () => void) => void
 ): void => {
+  const { openedFile } = useContext(CurrentFileContext)
+
   const [states, setStates] = useState<Record<string, any>>({})
 
   useEffect(() => {

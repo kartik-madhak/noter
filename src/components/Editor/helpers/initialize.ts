@@ -1,57 +1,72 @@
 import { type EditorView } from 'codemirror'
-import { type WheelEvent } from 'react'
-import type React from 'react'
+import { invoke } from '@tauri-apps/api/tauri'
+import { Transaction } from '@codemirror/state'
+import { useEffect, useState } from 'react'
+import { getFontSize } from '~/components/Editor/helpers/zoomLogic'
 
-const minFontSize = 8
-const maxFontSize = 60
-
-const _changeFontSize = (
-  event: { preventDefault: () => void },
-  editorElement: EditorView,
-  isIncrement: boolean
-): void => {
-  const storedFontSize = _getFontSize()
-
-  let fontSize = parseFloat(editorElement.dom.style.fontSize)
-  if (isNaN(fontSize)) {
-    fontSize = storedFontSize
-  }
-
-  if (isIncrement) {
-    fontSize = Math.min(fontSize + 1, maxFontSize)
-  } else {
-    fontSize = Math.max(fontSize - 1, minFontSize)
-  }
-
-  editorElement.dom.style.fontSize = `${fontSize}px`
-  localStorage.setItem('fontSize', `${fontSize}`)
-}
-
-const _getFontSize = (): number => {
-  return parseInt(localStorage.getItem('fontSize') ?? '14')
-}
-
-export const onEditorWheel = (
-  event: WheelEvent,
-  editorElement: EditorView
-): void => {
-  if (!(event.ctrlKey || event.metaKey)) return
-
-  _changeFontSize(event, editorElement, event.deltaY < 0)
-}
-
-export const onEditorKeyDown = (
-  event: React.KeyboardEvent<HTMLDivElement>,
-  editorElement: EditorView
-): void => {
-  if (!(event.ctrlKey || event.metaKey)) return
-  if (event.key !== '+' && event.key !== '-' && event.key !== '=') return
-
-  const isIncrement = event.key === '+' || event.key === '='
-  _changeFontSize(event, editorElement, isIncrement)
-}
-
-export const initialize = (editorElement: EditorView): void => {
-  const storedFontSize = _getFontSize()
+const _setInitialFontSize = (editorElement: EditorView): void => {
+  const storedFontSize = getFontSize()
   editorElement.dom.style.fontSize = `${storedFontSize}px`
+}
+
+const _initFile = async (
+  view: EditorView | null,
+  openedFile: string,
+  states: Record<string, any>
+): Promise<void> => {
+  if (view === null) return
+  _setInitialFontSize(view)
+
+  const metaData: any = await invoke('read_metadata', {
+    path: openedFile,
+  }).catch(() => {})
+
+  const file: string = await invoke('read_file', { path: openedFile })
+
+  const cursorPosition = metaData?.cursor < file.length ? metaData?.cursor : 0
+  view.dispatch({
+    changes: {
+      from: 0,
+      to: view.state.doc.length,
+      insert: file,
+    },
+    selection: {
+      anchor: cursorPosition ?? 0,
+      head: cursorPosition ?? 0,
+    },
+    annotations: Transaction.addToHistory.of(false),
+  })
+
+  const currFileState = states[openedFile] ?? null
+
+  if (currFileState != null) {
+    view.setState(currFileState)
+  }
+
+  const { top } = view.coordsAtPos(cursorPosition ?? 0) ?? { top: 0 }
+  view.focus()
+  view.scrollDOM.scrollTop = top - view?.scrollDOM.clientHeight / 2
+}
+
+export const useEditorInitFile = (
+  view: EditorView | null,
+  openedFile: string,
+  setOnFileClose: (callback: () => void) => void
+): void => {
+  const [states, setStates] = useState<Record<string, any>>({})
+
+  useEffect(() => {
+    void _initFile(view, openedFile, states).then()
+
+    setOnFileClose(() => {
+      return () => {
+        if (view === null) return
+
+        setStates({
+          ...states,
+          [openedFile]: view.state,
+        })
+      }
+    })
+  }, [view])
 }

@@ -49,7 +49,7 @@ const _initFile = async (
   view.scrollDOM.scrollTop = top - view?.scrollDOM.clientHeight / 2
 }
 
-export const useEditorInitFile = (
+export const useEditorFileInit = (
   view: EditorView | null,
   setOnFileClose: (callback: () => void) => void
 ): void => {

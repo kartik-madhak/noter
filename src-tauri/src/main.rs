@@ -143,13 +143,14 @@ fn save_metadata(path: &str, cursor: i32) -> Result<(), String> {
         Err(e) => return Err(format!("Error reading metadata file: {}", e)),
     }
 
-    let mut data: HashMap<String, Value> = match serde_json::from_str(&contents) {
-        Ok(data) => data,
-        Err(_) => HashMap::new(),
-    };
+    let mut data: HashMap<String, Value> = serde_json::from_str(&contents).unwrap_or(HashMap::new());
 
     data.insert(path.to_string(), json!({"cursor": cursor}));
 
+    let result = match serde_json::to_string(&data) {
+        Ok(result) => result,
+        Err(e) => return Err(format!("Error serializing metadata: {}", e)),
+    };
     match file.seek(SeekFrom::Start(0)) {
         Ok(_) => (),
         Err(e) => return Err(format!("Error seeking in metadata file: {}", e)),
@@ -158,10 +159,6 @@ fn save_metadata(path: &str, cursor: i32) -> Result<(), String> {
         Ok(_) => (),
         Err(e) => return Err(format!("Error truncating metadata file: {}", e)),
     }
-    let result = match serde_json::to_string(&data) {
-        Ok(result) => result,
-        Err(e) => return Err(format!("Error serializing metadata: {}", e)),
-    };
     match file.write_all(result.as_bytes()) {
         Ok(_) => (),
         Err(e) => return Err(format!("Error writing metadata file: {}", e)),

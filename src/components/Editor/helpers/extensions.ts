@@ -14,6 +14,7 @@ export const autoSave = (openedFile: string): Extension => {
 
     const cursorPosition = tr?.state?.selection?.main?.head
     if (cursorPosition != null) {
+      console.log('saving metadata')
       void invoke('save_metadata', {
         path: openedFile,
         cursor: cursorPosition,

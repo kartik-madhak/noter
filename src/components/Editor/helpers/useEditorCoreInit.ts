@@ -6,7 +6,7 @@ import { languages } from '@codemirror/language-data'
 import { syntaxHighlighting } from '@codemirror/language'
 import { customSyntaxHighlighting } from '~/components/Editor/customSyntaxHighlighting'
 import customKeymap from '~/components/Editor/customKeymap'
-import { autoSave } from '~/components/Editor/extensions'
+import { autoSave } from '~/components/Editor/helpers/extensions'
 import { CurrentFileContext } from '~/context/CurrentFileContext'
 import { themeCompartment } from '~/components/Editor/helpers/useInitTheme'
 

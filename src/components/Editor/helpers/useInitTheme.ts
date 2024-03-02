@@ -14,5 +14,5 @@ export const useInitTheme = (
     view.dispatch({
       effects: themeCompartment.reconfigure(editorTheme),
     })
-  }, [editorTheme])
+  }, [editorTheme, view])
 }

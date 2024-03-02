@@ -1,9 +1,6 @@
-import {
-  EditorState,
-  type Extension,
-  type Transaction,
-} from '@codemirror/state'
+import { type Extension, type Transaction } from '@codemirror/state'
 import { invoke } from '@tauri-apps/api/tauri'
+import { EditorView } from 'codemirror'
 
 const saveMetadata = (tr: Transaction, openedFile: string): void => {
   const cursorPosition = tr?.state?.selection?.main?.head
@@ -23,9 +20,12 @@ const saveFile = (tr: Transaction, openedFile: string): void => {
 }
 
 export const autoSave = (openedFile: string): Extension => {
-  return EditorState.transactionExtender.of((tr: Transaction) => {
-    saveFile(tr, openedFile)
-    saveMetadata(tr, openedFile)
-    return null
-  })
+  return EditorView.updateListener.of(
+    ({ transactions, state, selectionSet, startState, view }) => {
+      if (transactions.length === 0) return
+      const tr = transactions[0]
+      saveFile(tr, openedFile)
+      saveMetadata(tr, openedFile)
+    }
+  )
 }

@@ -70,5 +70,5 @@ export const useEditorFileInit = (
         })
       }
     })
-  }, [openedFile])
+  }, [openedFile, view])
 }

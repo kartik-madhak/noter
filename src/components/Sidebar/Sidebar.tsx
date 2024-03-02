@@ -44,7 +44,8 @@ const Sidebar = ({
   } = useCustomTheme()
 
   const [files, setFiles] = useState<File[]>([])
-  const { openedFile, setOpenedFile } = useContext(CurrentFileContext)
+  const { openedFile, setOpenedFile, isNewFile } =
+    useContext(CurrentFileContext)
   const [rightClickedItem, setRightClickedItem] =
     useState<RightClickedItem | null>(null)
   const [disableRightClickHighlight, setDisableRightClickHighlight] =
@@ -79,9 +80,20 @@ const Sidebar = ({
     const getAllFiles = async (): Promise<void> => {
       const files: [File] = await invoke('read_main_directory')
       setFiles(files)
+      if (isNewFile) {
+        const toRenameFile = files.find((file) => file.path === openedFile)
+        if (toRenameFile != null) {
+          setRightClickedItem({
+            file: toRenameFile,
+            x: -1,
+            y: -1,
+          })
+          onRenameModalOpen()
+        }
+      }
     }
     void getAllFiles()
-  }, [openedFile])
+  }, [openedFile, isNewFile])
 
   return (
     <Box

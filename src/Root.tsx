@@ -1,5 +1,5 @@
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
-import React, { type ReactElement } from 'react'
+import React, { type ReactElement, useState } from 'react'
 import useLocalStorageState from 'use-local-storage-state'
 import { PrimarySwatch, themes } from '~/config/theme'
 import App from '~/App'
@@ -19,6 +19,17 @@ const Root = (): ReactElement => {
       defaultValue: '',
     })
 
+  const [isNewFile, setIsNewFile] = useState(false)
+
+  const setOpenedFileHandler = (
+    fileName: string,
+    isNewFile?: boolean
+  ): void => {
+    setIsNewFile(isNewFile ?? false)
+    if (fileName === '') return
+    setCurrentOpenedFile(fileName)
+  }
+
   return (
     <ChakraProvider theme={themes[colorScheme]}>
       <ColorModeScript
@@ -28,7 +39,8 @@ const Root = (): ReactElement => {
         <CurrentFileContext.Provider
           value={{
             openedFile: currentOpenedFile,
-            setOpenedFile: setCurrentOpenedFile,
+            setOpenedFile: setOpenedFileHandler,
+            isNewFile,
           }}
         >
           <App />

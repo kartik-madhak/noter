@@ -1,6 +1,6 @@
 import { type RefObject, useContext, useEffect, useState } from 'react'
 import { basicSetup, EditorView } from 'codemirror'
-import { EditorState } from '@codemirror/state'
+import { Compartment, EditorState } from '@codemirror/state'
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown'
 import { languages } from '@codemirror/language-data'
 import { syntaxHighlighting } from '@codemirror/language'
@@ -9,6 +9,8 @@ import customKeymap from '~/components/Editor/customKeymap'
 import { autoSave } from '~/components/Editor/helpers/extensions'
 import { CurrentFileContext } from '~/context/CurrentFileContext'
 import { themeCompartment } from '~/components/Editor/helpers/useInitTheme'
+
+const autoSaveCompartment = new Compartment()
 
 export const useEditorCoreInit = (
   editorRef: RefObject<HTMLDivElement>,
@@ -38,7 +40,7 @@ export const useEditorCoreInit = (
               height: '100%',
             },
           }),
-          autoSave(openedFile),
+          autoSaveCompartment.of(autoSave(openedFile)),
         ],
       }),
       parent: editorRef.current,
@@ -49,6 +51,13 @@ export const useEditorCoreInit = (
     return () => {
       view.destroy()
     }
+  }, [])
+
+  useEffect(() => {
+    if (view === null) return
+    view.dispatch({
+      effects: autoSaveCompartment.reconfigure(autoSave(openedFile)),
+    })
   }, [openedFile])
 
   return view

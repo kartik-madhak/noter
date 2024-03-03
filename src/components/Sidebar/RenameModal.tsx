@@ -38,7 +38,7 @@ const RenameModal = ({
 
   useEffect(() => {
     const initName = rightClickedItem?.file?.name.split('.')[0] ?? ''
-    setNewFileName(isNewFile ? '' : initName)
+    setNewFileName(initName)
     setCustomError('')
   }, [rightClickedItem])
 
@@ -76,6 +76,11 @@ const RenameModal = ({
           <FormControl isInvalid={customError !== ''} isRequired>
             <FormLabel>Rename file</FormLabel>
             <Input
+              onFocus={(e) => {
+                if (isNewFile) {
+                  setTimeout(e.target.select.bind(e.target), 20)
+                }
+              }}
               tabIndex={1}
               defaultValue={newFileName}
               onChange={(e) => {

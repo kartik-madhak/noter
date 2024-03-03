@@ -43,7 +43,7 @@ const NewFileModal = ({
       name: newFileName,
     })
       .then((filePath) => {
-        setOpenedFile(filePath as string)
+        setOpenedFile(filePath as string, true)
         clearEverything()
         onClose()
       })

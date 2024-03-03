@@ -58,7 +58,14 @@ const RightClickMenu = ({
   }, [])
 
   return (
-    <Menu isOpen={isOpen && rightClickedItem != null}>
+    <Menu
+      isOpen={
+        isOpen &&
+        rightClickedItem != null &&
+        rightClickedItem.x >= 0 &&
+        rightClickedItem.y >= 0
+      }
+    >
       <MenuList ref={menuRef}>
         <MenuItem
           onClick={() => {

@@ -34,10 +34,11 @@ const RenameModal = ({
 }): ReactElement => {
   const [newFileName, setNewFileName] = useState('')
   const [customError, setCustomError] = useState('')
-  const { setOpenedFile } = useContext(CurrentFileContext)
+  const { setOpenedFile, isNewFile } = useContext(CurrentFileContext)
 
   useEffect(() => {
-    setNewFileName(rightClickedItem?.file?.name.split('.')[0] ?? '')
+    const initName = rightClickedItem?.file?.name.split('.')[0] ?? ''
+    setNewFileName(isNewFile ? '' : initName)
     setCustomError('')
   }, [rightClickedItem])
 
@@ -47,6 +48,8 @@ const RenameModal = ({
   }
 
   const onRename = async (): Promise<void> => {
+    setOpenedFile('', false)
+
     await invoke('rename_file', {
       path: rightClickedItem?.file?.path ?? '',
       newName: newFileName,

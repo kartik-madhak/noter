@@ -7,7 +7,7 @@ const MainMenu = (): ReactElement => {
   const { setOpenedFile } = useContext(CurrentFileContext)
 
   const newFileAction = (fileName: string): void => {
-    setOpenedFile(fileName)
+    setOpenedFile(fileName, true)
   }
 
   const options = mainMenuOptions({ newFileCallback: newFileAction }).map(

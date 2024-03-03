@@ -1,16 +1,20 @@
-import { type EditorView } from 'codemirror'
 import { type WheelEvent } from 'react'
+import { type EditorView } from 'codemirror'
 import type React from 'react'
 
 const minFontSize = 8
 const maxFontSize = 60
+
+export const getFontSize = (): number => {
+  return parseInt(localStorage.getItem('fontSize') ?? '14')
+}
 
 const _changeFontSize = (
   event: { preventDefault: () => void },
   editorElement: EditorView,
   isIncrement: boolean
 ): void => {
-  const storedFontSize = _getFontSize()
+  const storedFontSize = getFontSize()
 
   let fontSize = parseFloat(editorElement.dom.style.fontSize)
   if (isNaN(fontSize)) {
@@ -25,10 +29,6 @@ const _changeFontSize = (
 
   editorElement.dom.style.fontSize = `${fontSize}px`
   localStorage.setItem('fontSize', `${fontSize}`)
-}
-
-const _getFontSize = (): number => {
-  return parseInt(localStorage.getItem('fontSize') ?? '14')
 }
 
 export const onEditorWheel = (
@@ -49,9 +49,4 @@ export const onEditorKeyDown = (
 
   const isIncrement = event.key === '+' || event.key === '='
   _changeFontSize(event, editorElement, isIncrement)
-}
-
-export const initialize = (editorElement: EditorView): void => {
-  const storedFontSize = _getFontSize()
-  editorElement.dom.style.fontSize = `${storedFontSize}px`
 }

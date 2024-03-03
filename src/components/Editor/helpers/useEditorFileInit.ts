@@ -20,11 +20,13 @@ const _initFile = async (
 
   const metaData: any = await invoke('read_metadata', {
     path: openedFile,
-  }).catch(() => {})
+  }).catch((err) => {
+    console.error('ERROR: ', err)
+  })
 
   const file: string = await invoke('read_file', { path: openedFile })
 
-  const cursorPosition = metaData?.cursor < file.length ? metaData?.cursor : 0
+  const cursorPosition = metaData?.cursor <= file.length ? metaData?.cursor : 0
   view.dispatch({
     changes: {
       from: 0,

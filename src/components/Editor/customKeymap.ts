@@ -1,6 +1,7 @@
 import { Prec } from '@codemirror/state'
 import { keymap } from '@codemirror/view'
-import { redo, indentWithTab } from '@codemirror/commands'
+import { indentWithTab, redo } from '@codemirror/commands'
+import { openSearchPanel } from '@codemirror/search'
 import {
   modifyLines,
   modifySelection,
@@ -49,6 +50,17 @@ export default Prec.highest(
           state: editor.state,
           dispatch: editor.dispatch,
         })
+        return true
+      },
+    },
+    {
+      key: 'Mod-r',
+      run: (editor) => {
+        openSearchPanel(editor)
+        const replaceInput = document
+          .querySelector('.cm-search')
+          ?.querySelector('input[name="replace"]') as HTMLInputElement
+        replaceInput?.focus()
         return true
       },
     },

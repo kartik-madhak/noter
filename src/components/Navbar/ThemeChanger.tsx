@@ -1,7 +1,7 @@
-import { type ReactElement, useContext } from 'react'
+import { type ReactElement, useContext, useState } from 'react'
 import * as theMirrorThemes from 'thememirror'
-import { HStack } from '@chakra-ui/react'
-import { ThemeName } from '~/config/allThemes'
+import { Checkbox, HStack } from '@chakra-ui/react'
+import { ThemeName, ThemeType } from '~/config/allThemes'
 import { useCustomTheme } from '~/hooks/useCustomTheme'
 import Menu from '~/design-system/components/Menu/Menu'
 import { PrimarySwatch } from '~/config/theme'
@@ -12,11 +12,28 @@ const camelCaseToWords = (s: string): string => {
   return result.charAt(0).toUpperCase() + result.slice(1)
 }
 
+const darkThemes = [
+  'amy',
+  'barf',
+  'bespin',
+  'birdsOfParadise',
+  'boysAndGirls',
+  'cobalt',
+  'clouds',
+  'coolGlow',
+  'dracula',
+]
+
+const lightThemes = Object.keys(theMirrorThemes).filter((themeName) => {
+  return !darkThemes.includes(themeName)
+})
+
 const ThemeChanger = (): ReactElement => {
   const { colorScheme, setColorScheme } = useContext(ColorSchemeContext)
+  const [isIncompatibleSelected, setIsIncompatibleSelected] = useState(false)
 
   const {
-    theme: { name: themeName },
+    theme: { name: themeName, type },
     setThemeName,
     editorThemeName,
     setEditorThemeName,
@@ -38,7 +55,13 @@ const ThemeChanger = (): ReactElement => {
     },
   }))
 
-  const editorThemes = Object.keys(theMirrorThemes)
+  const themes = isIncompatibleSelected
+    ? Object.keys(theMirrorThemes)
+    : type === ThemeType.Dark
+    ? darkThemes
+    : lightThemes
+
+  const editorThemes = themes
     .filter((themeName: string) => themeName !== 'createTheme')
     .map((themeName: string) => ({
       id: themeName,
@@ -65,6 +88,14 @@ const ThemeChanger = (): ReactElement => {
         buttonText={camelCaseToWords(editorThemeName)}
         defaultSelectedId={editorThemeName}
       />
+      <Checkbox
+        isChecked={isIncompatibleSelected}
+        onChange={() => {
+          setIsIncompatibleSelected(!isIncompatibleSelected)
+        }}
+      >
+        Show Incompatible Themes
+      </Checkbox>
     </HStack>
   )
 }

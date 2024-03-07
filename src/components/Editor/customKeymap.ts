@@ -16,6 +16,7 @@ export default (
   setCtrlTabPressed: (
     value: ((prevState: boolean) => boolean) | boolean
   ) => void,
+  openedFile: string,
   setOpenedFile: (fileName: string, value: boolean) => void
 ): Extension =>
   Prec.highest(
@@ -86,6 +87,14 @@ export default (
               setOpenedFile(file as string, true)
             }
           )
+
+          return true
+        },
+      },
+      {
+        key: 'Mod-m',
+        run: () => {
+          setOpenedFile(openedFile, true)
 
           return true
         },

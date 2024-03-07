@@ -42,7 +42,7 @@ export const useEditorCoreInit = (
           syntaxHighlighting(customSyntaxHighlighting()),
           themeCompartment.of(editorTheme),
           customKeymapCompartment.of(
-            customKeymap(setCtrlTabPressed, setOpenedFile)
+            customKeymap(setCtrlTabPressed, openedFile, setOpenedFile)
           ),
           EditorView.theme({
             '&': {
@@ -73,7 +73,12 @@ export const useEditorCoreInit = (
     })
 
     view.dispatch({
-      effects: autoSaveCompartment.reconfigure(autoSave(openedFile)),
+      effects: [
+        autoSaveCompartment.reconfigure(autoSave(openedFile)),
+        customKeymapCompartment.reconfigure(
+          customKeymap(setCtrlTabPressed, openedFile, setOpenedFile)
+        ),
+      ],
     })
   }, [openedFile])
 

@@ -41,7 +41,9 @@ export const useEditorCoreInit = (
           }),
           syntaxHighlighting(customSyntaxHighlighting()),
           themeCompartment.of(editorTheme),
-          customKeymapCompartment.of(customKeymap(setCtrlTabPressed)),
+          customKeymapCompartment.of(
+            customKeymap(setCtrlTabPressed, setOpenedFile)
+          ),
           EditorView.theme({
             '&': {
               height: '100%',

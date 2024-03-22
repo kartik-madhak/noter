@@ -18,7 +18,7 @@
     "e2e:debug": "pnpm exec playwright test --debug"
   },
   "dependencies": {
-    "@chakra-ui/icons": "^2.0.17",
+    "@chakra-ui/icons": "^2.0.19",
     "@chakra-ui/react": "^2.8.1",
     "@codemirror/commands": "^6.3.0",
     "@codemirror/lang-markdown": "^6.1.1",

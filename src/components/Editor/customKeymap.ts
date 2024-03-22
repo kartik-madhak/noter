@@ -11,13 +11,15 @@ import {
   toggleItalic,
   toggleStrikeThrough,
 } from '~/components/Editor/commands'
+import { AbsoluteElements } from '~/context/AbsolutesController'
 
 export default (
   setCtrlTabPressed: (
     value: ((prevState: boolean) => boolean) | boolean
   ) => void,
   openedFile: string,
-  setOpenedFile: (fileName: string, value: boolean) => void
+  setOpenedFile: (fileName: string, value: boolean) => void,
+  setActiveAbsoluteElement: (element: AbsoluteElements) => void
 ): Extension =>
   Prec.highest(
     keymap.of([
@@ -96,6 +98,13 @@ export default (
         run: () => {
           setOpenedFile(openedFile, true)
 
+          return true
+        },
+      },
+      {
+        key: 'Mod-e',
+        run: () => {
+          setActiveAbsoluteElement(AbsoluteElements.RecentFiles)
           return true
         },
       },

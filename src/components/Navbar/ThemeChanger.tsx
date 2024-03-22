@@ -1,6 +1,6 @@
 import { type ReactElement, useContext, useState } from 'react'
 import * as theMirrorThemes from 'thememirror'
-import { Checkbox, HStack } from '@chakra-ui/react'
+import { Checkbox, FormControl, FormLabel, VStack } from '@chakra-ui/react'
 import { ThemeName, ThemeType } from '~/config/allThemes'
 import { useCustomTheme } from '~/hooks/useCustomTheme'
 import Menu from '~/design-system/components/Menu/Menu'
@@ -72,23 +72,33 @@ const ThemeChanger = (): ReactElement => {
     }))
 
   return (
-    <HStack spacing={5}>
-      <Menu
-        options={baseThemes}
-        buttonText={themeName}
-        defaultSelectedId={themeName}
-      />
-      <Menu
-        options={colorSchemes}
-        buttonText={colorScheme[0].toUpperCase() + colorScheme.slice(1)}
-        defaultSelectedId={colorScheme}
-      />
-      <Menu
-        options={editorThemes}
-        buttonText={camelCaseToWords(editorThemeName)}
-        defaultSelectedId={editorThemeName}
-      />
+    <VStack spacing={3} alignItems="flex-start">
+      <FormControl>
+        <FormLabel>Base Theme</FormLabel>
+        <Menu
+          options={baseThemes}
+          buttonText={themeName}
+          defaultSelectedId={themeName}
+        />
+      </FormControl>
+      <FormControl>
+        <FormLabel>Color Scheme</FormLabel>
+        <Menu
+          options={colorSchemes}
+          buttonText={colorScheme[0].toUpperCase() + colorScheme.slice(1)}
+          defaultSelectedId={colorScheme}
+        />
+      </FormControl>
+      <FormControl>
+        <FormLabel>Editor Theme</FormLabel>
+        <Menu
+          options={editorThemes}
+          buttonText={camelCaseToWords(editorThemeName)}
+          defaultSelectedId={editorThemeName}
+        />
+      </FormControl>
       <Checkbox
+        mt={2}
         isChecked={isIncompatibleSelected}
         onChange={() => {
           setIsIncompatibleSelected(!isIncompatibleSelected)
@@ -96,7 +106,7 @@ const ThemeChanger = (): ReactElement => {
       >
         Show Incompatible Themes
       </Checkbox>
-    </HStack>
+    </VStack>
   )
 }
 

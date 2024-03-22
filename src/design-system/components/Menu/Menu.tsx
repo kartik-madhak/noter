@@ -22,6 +22,7 @@ interface MenuProps {
   defaultSelectedId?: string
   closeOnSelect?: boolean
   showCheckboxOnClick?: boolean
+  fullWidth?: boolean
 }
 
 const Menu = ({
@@ -30,6 +31,7 @@ const Menu = ({
   defaultSelectedId,
   closeOnSelect = false,
   showCheckboxOnClick = true,
+  fullWidth = false,
 }: MenuProps): ReactElement => {
   let MenuItemComponent: React.ElementType = MenuItem
   if (showCheckboxOnClick) {
@@ -38,7 +40,7 @@ const Menu = ({
 
   return (
     <ChakraMenu closeOnSelect={closeOnSelect} isLazy={true}>
-      <MenuButton as={Button} size="sm">
+      <MenuButton as={Button} size="sm" w={fullWidth ? '100%' : 'auto'}>
         {buttonText} <ChevronDownIcon />
       </MenuButton>
       <MenuList maxHeight="90vh" overflowY="auto">

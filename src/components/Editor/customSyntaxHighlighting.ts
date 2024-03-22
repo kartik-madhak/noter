@@ -151,4 +151,12 @@ export const customSyntaxHighlighting = (): HighlightStyle =>
       tag: tags.strikethrough,
       textDecoration: 'line-through',
     },
+    // adds badge style for single backticks
+    {
+      tag: tags.monospace,
+      color: 'var(--hybrid-mde-monospace, #abb2bf)',
+      backgroundColor: 'var(--hybrid-mde-monospace-background, #282c34)',
+      borderRadius: '8px',
+      padding: '0 4px',
+    },
   ])

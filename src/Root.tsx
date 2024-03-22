@@ -5,6 +5,10 @@ import { PrimarySwatch, themes } from '~/config/theme'
 import App from '~/App'
 import { ColorSchemeContext } from '~/context/ColorSchemeContext'
 import { CurrentFileContext } from '~/context/CurrentFileContext'
+import {
+  AbsoluteElements,
+  AbsolutesContext,
+} from '~/context/AbsolutesController'
 
 const Root = (): ReactElement => {
   const [colorScheme, setColorScheme] = useLocalStorageState<PrimarySwatch>(
@@ -20,6 +24,8 @@ const Root = (): ReactElement => {
     })
 
   const [isNewFile, setIsNewFile] = useState(false)
+  const [activeAbsoluteElement, setActiveAbsoluteElement] =
+    useState<AbsoluteElements>(AbsoluteElements.None)
 
   const setOpenedFileHandler = (
     fileName: string,
@@ -43,7 +49,11 @@ const Root = (): ReactElement => {
             isNewFile,
           }}
         >
-          <App />
+          <AbsolutesContext.Provider
+            value={{ activeAbsoluteElement, setActiveAbsoluteElement }}
+          >
+            <App />
+          </AbsolutesContext.Provider>
         </CurrentFileContext.Provider>
       </ColorSchemeContext.Provider>
     </ChakraProvider>

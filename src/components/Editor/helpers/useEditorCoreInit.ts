@@ -9,6 +9,7 @@ import customKeymap from '~/components/Editor/customKeymap'
 import { autoSave } from '~/components/Editor/helpers/extensions'
 import { CurrentFileContext } from '~/context/CurrentFileContext'
 import { themeCompartment } from '~/components/Editor/helpers/useInitTheme'
+import { AbsolutesContext } from '~/context/AbsolutesController'
 
 const autoSaveCompartment = new Compartment()
 const customKeymapCompartment = new Compartment()
@@ -19,6 +20,7 @@ export const useEditorCoreInit = (
 ): EditorView | null => {
   const [view, setView] = useState<EditorView | null>(null)
   const { openedFile, setOpenedFile } = useContext(CurrentFileContext)
+  const { setActiveAbsoluteElement } = useContext(AbsolutesContext)
 
   const [openedFilesHistory, setOpenedFilesHistory] = useState<string[]>([
     openedFile,
@@ -41,7 +43,14 @@ export const useEditorCoreInit = (
           }),
           syntaxHighlighting(customSyntaxHighlighting()),
           themeCompartment.of(editorTheme),
-          customKeymapCompartment.of(customKeymap(setCtrlTabPressed)),
+          customKeymapCompartment.of(
+            customKeymap(
+              setCtrlTabPressed,
+              openedFile,
+              setOpenedFile,
+              setActiveAbsoluteElement
+            )
+          ),
           EditorView.theme({
             '&': {
               height: '100%',
@@ -71,7 +80,17 @@ export const useEditorCoreInit = (
     })
 
     view.dispatch({
-      effects: autoSaveCompartment.reconfigure(autoSave(openedFile)),
+      effects: [
+        autoSaveCompartment.reconfigure(autoSave(openedFile)),
+        customKeymapCompartment.reconfigure(
+          customKeymap(
+            setCtrlTabPressed,
+            openedFile,
+            setOpenedFile,
+            setActiveAbsoluteElement
+          )
+        ),
+      ],
     })
   }, [openedFile])
 

@@ -200,13 +200,26 @@ fn init() {
     }
 }
 
+#[tauri::command]
+fn get_all_files_sorted_by_date_modified() -> Result<Vec<HashMap<String, String>>, String> {
+    let mut files = read_directory(home_dir().unwrap().join(MAIN_DIR_NAME).to_str().unwrap().to_string()).unwrap();
+    files.sort_by(|a, b| {
+        let a_path = path::Path::new(&a["path"]);
+        let b_path = path::Path::new(&b["path"]);
+        let a_metadata = a_path.metadata().unwrap();
+        let b_metadata = b_path.metadata().unwrap();
+        b_metadata.modified().unwrap().cmp(&a_metadata.modified().unwrap())
+    });
+    Ok(files)
+}
+
 fn main() {
     tauri::Builder::default()
         .setup(|_app| {
             init();
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![read_main_directory, read_file, save_file, new_file, rename_file, delete_file, save_metadata, read_metadata])
+        .invoke_handler(tauri::generate_handler![read_main_directory, read_file, save_file, new_file, rename_file, delete_file, save_metadata, read_metadata, get_all_files_sorted_by_date_modified])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

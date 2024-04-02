@@ -19,7 +19,7 @@ const EditorLayout = (): ReactElement => {
 
   const { width } = useWindowResize()
 
-  const minWidth = 200
+  const minWidth = 50
 
   const restrainedSidebarWidth = Math.max(
     minWidth,

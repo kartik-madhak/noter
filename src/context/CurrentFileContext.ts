@@ -2,7 +2,7 @@ import { createContext } from 'react'
 
 interface CurrentFileContextType {
   openedFile: string
-  setOpenedFile: (file: string, isNewFile?: boolean) => void
+  setOpenedFile: (file: string | null, isNewFile?: boolean) => void
   isNewFile: boolean
 }
 

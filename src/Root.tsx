@@ -34,11 +34,11 @@ const Root = (): ReactElement => {
     useState<AbsoluteElements>(AbsoluteElements.None)
 
   const setOpenedFileHandler = (
-    fileName: string,
+    fileName: string | null,
     isNewFile?: boolean
   ): void => {
     setIsNewFile(isNewFile ?? false)
-    if (fileName === '') return
+    if (fileName == null) return
     setCurrentOpenedFile(fileName)
   }
 

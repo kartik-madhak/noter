@@ -29,6 +29,8 @@
     "@codemirror/view": "^6.12.0",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@fontsource-variable/fira-code": "^5.0.18",
+    "@fontsource-variable/noto-sans-jp": "^5.0.19",
     "@lezer/highlight": "^1.1.5",
     "@tauri-apps/api": "^1.2.0",
     "@types/react-resizable": "^3.0.4",

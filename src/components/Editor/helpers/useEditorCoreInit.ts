@@ -55,6 +55,9 @@ export const useEditorCoreInit = (
             '&': {
               height: '100%',
             },
+            '.cm-content': {
+              fontFamily: "'Fira Code Variable', monospace",
+            },
           }),
           autoSaveCompartment.of(autoSave(openedFile)),
         ],

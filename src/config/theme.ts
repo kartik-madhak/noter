@@ -1,4 +1,6 @@
 import { extendTheme, withDefaultColorScheme } from '@chakra-ui/react'
+import '@fontsource-variable/noto-sans-jp'
+import '@fontsource-variable/fira-code'
 
 export enum PrimarySwatch {
   Red = 'red',
@@ -16,7 +18,15 @@ const themes: Record<any, any> = {}
 
 for (const primarySwatch of Object.values(PrimarySwatch)) {
   themes[primarySwatch] = extendTheme(
-    withDefaultColorScheme({ colorScheme: primarySwatch })
+    withDefaultColorScheme({
+      colorScheme: primarySwatch,
+    }),
+    {
+      fonts: {
+        heading: "'Noto Sans JP Variable', sans-serif",
+        body: "'Noto Sans JP Variable', sans-serif",
+      },
+    }
   )
 }
 

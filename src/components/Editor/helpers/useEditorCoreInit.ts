@@ -10,9 +10,11 @@ import { autoSave } from '~/components/Editor/helpers/extensions'
 import { CurrentFileContext } from '~/context/CurrentFileContext'
 import { themeCompartment } from '~/components/Editor/helpers/useInitTheme'
 import { AbsolutesContext } from '~/context/AbsolutesController'
+import { EditorSettingsContext } from '~/context/EditorSettings'
 
 const autoSaveCompartment = new Compartment()
 const customKeymapCompartment = new Compartment()
+const lineWrapCompartment = new Compartment()
 
 export const useEditorCoreInit = (
   editorRef: RefObject<HTMLDivElement>,
@@ -21,6 +23,7 @@ export const useEditorCoreInit = (
   const [view, setView] = useState<EditorView | null>(null)
   const { openedFile, setOpenedFile } = useContext(CurrentFileContext)
   const { setActiveAbsoluteElement } = useContext(AbsolutesContext)
+  const { isSoftWrapEnabled } = useContext(EditorSettingsContext)
 
   const [openedFilesHistory, setOpenedFilesHistory] = useState<string[]>([
     openedFile,
@@ -59,6 +62,9 @@ export const useEditorCoreInit = (
               fontFamily: "'Fira Code Variable', monospace",
             },
           }),
+          lineWrapCompartment.of(
+            isSoftWrapEnabled ? EditorView.lineWrapping : []
+          ),
           autoSaveCompartment.of(autoSave(openedFile)),
         ],
       }),
@@ -109,6 +115,18 @@ export const useEditorCoreInit = (
 
     setCtrlTabPressed(false)
   }, [ctrlTabPressed])
+
+  useEffect(() => {
+    if (view === null) return
+
+    view.dispatch({
+      effects: [
+        lineWrapCompartment.reconfigure(
+          isSoftWrapEnabled ? EditorView.lineWrapping : []
+        ),
+      ],
+    })
+  }, [isSoftWrapEnabled])
 
   return view
 }

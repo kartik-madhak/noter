@@ -9,6 +9,7 @@ import {
   AbsoluteElements,
   AbsolutesContext,
 } from '~/context/AbsolutesController'
+import { EditorSettingsContext } from '~/context/EditorSettings'
 
 const Root = (): ReactElement => {
   const [colorScheme, setColorScheme] = useLocalStorageState<PrimarySwatch>(
@@ -21,6 +22,11 @@ const Root = (): ReactElement => {
   const [currentOpenedFile, setCurrentOpenedFile] =
     useLocalStorageState<string>('currentOpenedFile', {
       defaultValue: '',
+    })
+
+  const [isSoftWrapEnabled, setIsSoftWrapEnabled] =
+    useLocalStorageState<boolean>('isSoftWrapEnabled', {
+      defaultValue: true,
     })
 
   const [isNewFile, setIsNewFile] = useState(false)
@@ -52,7 +58,14 @@ const Root = (): ReactElement => {
           <AbsolutesContext.Provider
             value={{ activeAbsoluteElement, setActiveAbsoluteElement }}
           >
-            <App />
+            <EditorSettingsContext.Provider
+              value={{
+                isSoftWrapEnabled,
+                setIsSoftWrapEnabled,
+              }}
+            >
+              <App />
+            </EditorSettingsContext.Provider>
           </AbsolutesContext.Provider>
         </CurrentFileContext.Provider>
       </ColorSchemeContext.Provider>

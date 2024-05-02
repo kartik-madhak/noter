@@ -1,4 +1,4 @@
-import { type RefObject, useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { basicSetup, EditorView } from 'codemirror'
 import { Compartment, EditorState } from '@codemirror/state'
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown'
@@ -16,10 +16,7 @@ const customKeymapCompartment = new Compartment()
 const lineWrapCompartment = new Compartment()
 export const themeCompartment = new Compartment()
 
-export const useEditorCoreInit = (
-  editorRef: RefObject<HTMLDivElement>,
-  editorTheme: any
-): EditorView | null => {
+export const useEditorCoreInit = (editorTheme: any): EditorView | null => {
   const [view, setView] = useState<EditorView | null>(null)
   const { openedFile, setOpenedFile } = useContext(CurrentFileContext)
   const { setActiveAbsoluteElement } = useContext(AbsolutesContext)
@@ -32,9 +29,6 @@ export const useEditorCoreInit = (
   const [ctrlTabPressed, setCtrlTabPressed] = useState<boolean>(false)
 
   useEffect(() => {
-    if (editorRef.current === null) return
-    if (openedFile === '') return
-
     const view = new EditorView({
       state: EditorState.create({
         doc: '',
@@ -68,7 +62,6 @@ export const useEditorCoreInit = (
           autoSaveCompartment.of(autoSave(openedFile)),
         ],
       }),
-      parent: editorRef.current,
     })
 
     setView(view)

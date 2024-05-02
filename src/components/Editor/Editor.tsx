@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react'
+import { Box, Spinner } from '@chakra-ui/react'
 import { type ReactElement, useRef } from 'react'
 
 import { useCustomTheme } from '~/hooks/useCustomTheme'
@@ -8,6 +8,7 @@ import {
   onEditorWheel,
 } from '~/components/Editor/helpers/zoomLogic'
 import { useEditorCoreInit } from '~/components/Editor/helpers/useEditorCoreInit'
+import { useEditorSetCurrentFile } from '~/components/Editor/helpers/useEditorSetCurrentFile'
 
 const Editor = ({
   setOnFileClose,
@@ -17,8 +18,11 @@ const Editor = ({
   const editorRef = useRef<HTMLDivElement>(null)
   const { editorTheme } = useCustomTheme()
 
-  const view = useEditorCoreInit(editorRef, editorTheme)
+  const view = useEditorCoreInit(editorTheme)
   useEditorFileInit(view, setOnFileClose)
+  useEditorSetCurrentFile(editorRef, view)
+
+  if (view?.dom == null) return <Spinner />
 
   return (
     <Box

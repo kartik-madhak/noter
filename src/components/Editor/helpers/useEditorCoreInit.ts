@@ -8,13 +8,13 @@ import { customSyntaxHighlighting } from '~/components/Editor/customSyntaxHighli
 import customKeymap from '~/components/Editor/customKeymap'
 import { autoSave } from '~/components/Editor/helpers/extensions'
 import { CurrentFileContext } from '~/context/CurrentFileContext'
-import { themeCompartment } from '~/components/Editor/helpers/useInitTheme'
 import { AbsolutesContext } from '~/context/AbsolutesController'
 import { EditorSettingsContext } from '~/context/EditorSettings'
 
 const autoSaveCompartment = new Compartment()
 const customKeymapCompartment = new Compartment()
 const lineWrapCompartment = new Compartment()
+export const themeCompartment = new Compartment()
 
 export const useEditorCoreInit = (
   editorRef: RefObject<HTMLDivElement>,
@@ -127,6 +127,14 @@ export const useEditorCoreInit = (
       ],
     })
   }, [isSoftWrapEnabled])
+
+  useEffect(() => {
+    if (view === null) return
+
+    view.dispatch({
+      effects: themeCompartment.reconfigure(editorTheme),
+    })
+  }, [editorTheme, view])
 
   return view
 }

@@ -7,7 +7,6 @@ import {
   onEditorKeyDown,
   onEditorWheel,
 } from '~/components/Editor/helpers/zoomLogic'
-import { useInitTheme } from '~/components/Editor/helpers/useInitTheme'
 import { useEditorCoreInit } from '~/components/Editor/helpers/useEditorCoreInit'
 
 const Editor = ({
@@ -19,10 +18,7 @@ const Editor = ({
   const { editorTheme } = useCustomTheme()
 
   const view = useEditorCoreInit(editorRef, editorTheme)
-
   useEditorFileInit(view, setOnFileClose)
-
-  useInitTheme(view, editorTheme)
 
   return (
     <Box

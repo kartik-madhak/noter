@@ -136,7 +136,12 @@ const Sidebar = ({
                 ) : (
                   <AccordionIcon transform="rotate(-90deg)" />
                 )}
-                <Text display="flex" whiteSpace="nowrap" alignItems="center">
+                <Text
+                  as="div"
+                  display="flex"
+                  whiteSpace="nowrap"
+                  alignItems="center"
+                >
                   <FolderIcon />
                   <Text ms={1}>noter</Text>
                 </Text>

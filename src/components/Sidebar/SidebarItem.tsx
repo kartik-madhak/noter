@@ -43,7 +43,7 @@ const SidebarItem = ({
         setDisableRightClickHighlight(false)
       }}
     >
-      <Text display="flex" whiteSpace="nowrap" alignItems="center">
+      <Text as="div" display="flex" whiteSpace="nowrap" alignItems="center">
         <FileIcon />
         <Text ms={1}>{fileName}</Text>
       </Text>

@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react'
 import ThemeChanger from '~/components/Navbar/ThemeChanger'
 import { useCustomTheme } from '~/hooks/useCustomTheme'
+import EditorSettings from '~/components/Navbar/EditorSettings'
 
 interface SettingsDrawerProps {
   isOpen: boolean
@@ -31,6 +32,7 @@ const SettingsDrawer = ({
           <DrawerHeader>Settings</DrawerHeader>
           <DrawerBody>
             <ThemeChanger />
+            <EditorSettings />
           </DrawerBody>
         </DrawerContent>
       </DrawerOverlay>

@@ -5,6 +5,7 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
+  Text,
   useDisclosure,
 } from '@chakra-ui/react'
 import {
@@ -22,6 +23,7 @@ import RightClickMenu from '~/components/Sidebar/RightClickMenu'
 import RenameModal from '~/components/Sidebar/RenameModal'
 import DeleteModal from '~/components/Sidebar/DeleteModal'
 import NewFileModal from '~/components/Sidebar/NewFileModal'
+import FolderIcon from '~/assets/icons/folderIcon'
 
 export interface File {
   name: string
@@ -134,10 +136,15 @@ const Sidebar = ({
                 ) : (
                   <AccordionIcon transform="rotate(-90deg)" />
                 )}
-                <Box as="span" flex="1" textAlign="left">
-                  {/* TODO: Maybe make this dynamic (and maybe later change-able)? */}
-                  noter
-                </Box>
+                <Text
+                  as="div"
+                  display="flex"
+                  whiteSpace="nowrap"
+                  alignItems="center"
+                >
+                  <FolderIcon />
+                  <Text ms={1}>noter</Text>
+                </Text>
               </AccordionButton>
               <AccordionPanel p={0} ref={filesAreaRef}>
                 {files.map((file, index) => {

@@ -1,4 +1,4 @@
-import { type RefObject, useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { basicSetup, EditorView } from 'codemirror'
 import { Compartment, EditorState } from '@codemirror/state'
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown'
@@ -8,19 +8,19 @@ import { customSyntaxHighlighting } from '~/components/Editor/customSyntaxHighli
 import customKeymap from '~/components/Editor/customKeymap'
 import { autoSave } from '~/components/Editor/helpers/extensions'
 import { CurrentFileContext } from '~/context/CurrentFileContext'
-import { themeCompartment } from '~/components/Editor/helpers/useInitTheme'
 import { AbsolutesContext } from '~/context/AbsolutesController'
+import { EditorSettingsContext } from '~/context/EditorSettings'
 
 const autoSaveCompartment = new Compartment()
 const customKeymapCompartment = new Compartment()
+const lineWrapCompartment = new Compartment()
+export const themeCompartment = new Compartment()
 
-export const useEditorCoreInit = (
-  editorRef: RefObject<HTMLDivElement>,
-  editorTheme: any
-): EditorView | null => {
+export const useEditorCoreInit = (editorTheme: any): EditorView | null => {
   const [view, setView] = useState<EditorView | null>(null)
   const { openedFile, setOpenedFile } = useContext(CurrentFileContext)
   const { setActiveAbsoluteElement } = useContext(AbsolutesContext)
+  const { isSoftWrapEnabled } = useContext(EditorSettingsContext)
 
   const [openedFilesHistory, setOpenedFilesHistory] = useState<string[]>([
     openedFile,
@@ -29,9 +29,6 @@ export const useEditorCoreInit = (
   const [ctrlTabPressed, setCtrlTabPressed] = useState<boolean>(false)
 
   useEffect(() => {
-    if (editorRef.current === null) return
-    if (openedFile === '') return
-
     const view = new EditorView({
       state: EditorState.create({
         doc: '',
@@ -55,11 +52,16 @@ export const useEditorCoreInit = (
             '&': {
               height: '100%',
             },
+            '.cm-content': {
+              fontFamily: "'Fira Code Variable', monospace",
+            },
           }),
+          lineWrapCompartment.of(
+            isSoftWrapEnabled ? EditorView.lineWrapping : []
+          ),
           autoSaveCompartment.of(autoSave(openedFile)),
         ],
       }),
-      parent: editorRef.current,
     })
 
     setView(view)
@@ -106,6 +108,26 @@ export const useEditorCoreInit = (
 
     setCtrlTabPressed(false)
   }, [ctrlTabPressed])
+
+  useEffect(() => {
+    if (view === null) return
+
+    view.dispatch({
+      effects: [
+        lineWrapCompartment.reconfigure(
+          isSoftWrapEnabled ? EditorView.lineWrapping : []
+        ),
+      ],
+    })
+  }, [isSoftWrapEnabled])
+
+  useEffect(() => {
+    if (view === null) return
+
+    view.dispatch({
+      effects: themeCompartment.reconfigure(editorTheme),
+    })
+  }, [editorTheme, view])
 
   return view
 }

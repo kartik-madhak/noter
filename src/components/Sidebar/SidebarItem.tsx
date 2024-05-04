@@ -1,6 +1,7 @@
 import React, { type ReactElement } from 'react'
 import { Box, Text } from '@chakra-ui/react'
 import { type File, type RightClickedItem } from '~/components/Sidebar/Sidebar'
+import FileIcon from '~/assets/icons/fileIcon'
 
 const SidebarItem = ({
   fileInfo,
@@ -20,16 +21,16 @@ const SidebarItem = ({
   setDisableRightClickHighlight: (_: boolean) => void
 }): ReactElement => {
   const fileName = fileInfo.name
-  const extension = fileName.split('.').pop()
-  const icon = extension === 'md' ? '📝' : '📄'
 
   return (
     <Box
-      ms={6}
+      ms={3}
+      px={2}
       py={1}
       backgroundColor={
         isSelected || isRightClicked ? onSelectBackgroundColor : 'transparent'
       }
+      borderRadius={4}
       _hover={{ cursor: 'default' }}
       onClick={onClick}
       onContextMenu={(e) => {
@@ -42,9 +43,9 @@ const SidebarItem = ({
         setDisableRightClickHighlight(false)
       }}
     >
-      <Text display="flex" whiteSpace="nowrap">
-        {icon}
-        {fileName}
+      <Text as="div" display="flex" whiteSpace="nowrap" alignItems="center">
+        <FileIcon />
+        <Text ms={1}>{fileName}</Text>
       </Text>
     </Box>
   )

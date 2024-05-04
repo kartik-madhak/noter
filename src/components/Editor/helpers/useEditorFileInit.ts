@@ -10,7 +10,7 @@ const _setInitialFontSize = (editorElement: EditorView): void => {
   editorElement.dom.style.fontSize = `${storedFontSize}px`
 }
 
-const _initFile = async (
+const _updateView = async (
   view: EditorView | null,
   openedFile: string,
   states: Record<string, any>
@@ -60,7 +60,7 @@ export const useEditorFileInit = (
   const [states, setStates] = useState<Record<string, any>>({})
 
   useEffect(() => {
-    void _initFile(view, openedFile, states).then()
+    void _updateView(view, openedFile, states).then()
 
     setOnFileClose(() => {
       return () => {

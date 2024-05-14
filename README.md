@@ -1,6 +1,6 @@
 # Update May 2024
 
-Moving this out of active development to create this app from scratch based on all the mistakes and learnings from the past year. Will link it here if I ever decide to make it public!
+Moving this out of active development to create this app from scratch based on all the mistakes and learnings from the past year. Will link the new project here if I ever decide to make it public!
 
 
 

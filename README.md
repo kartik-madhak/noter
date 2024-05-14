@@ -1,10 +1,17 @@
-# Noter: Under Development (Nothing is usable yet 😢)
+# Update May 2024
+
+Moving this out of active development to create this app from scratch based on all the mistakes and learnings from the past year. Will link it here if I ever decide to make it public!
+
+
+
+
+
+
+# Noter
 
 Tired of trying and testing many notes taking app so decided to make my own...
 
 Uses Tauri with Vite-React-Chakra frontend
-
-Hopefully, writing this Readme will help me commit to this repo. _(If you don't see this repo after a while, that means I gave up!)_
 
 ## Setup
 
